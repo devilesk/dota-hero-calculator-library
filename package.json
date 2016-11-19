@@ -12,7 +12,7 @@
     "url": "https://github.com/devilesk/dota-hero-calculator-library/issues"
   },
   "scripts": {
-    "build": "browserify -d -x 'knockout' -x 'jquery' --standalone HeroCalc src/herocalc/main.js > dist/herocalc.js",
+    "build": "browserify -d -x 'knockout' -x 'jquery' --standalone HeroCalc src/herocalc/main.js | exorcist dist/herocalc.js.map > dist/herocalc.js",
     "prod-build": "browserify -d -x 'knockout' -x 'jquery' -p [minifyify --map herocalc.min.js.map --output dist/herocalc.min.js.map] --standalone HeroCalc src/herocalc/main.js > dist/herocalc.min.js"
   },
   "homepage": "https://github.com/devilesk/dota-hero-calculator-library#readme",
@@ -20,6 +20,7 @@
     "brfs": "^1.4.3",
     "browserify": "^13.1.0",
     "browserify-shim": "^3.8.12",
+    "exorcist": "^0.4.0",
     "jquery": "^3.1.0",
     "knockout": "^3.4.0",
     "minifyify": "^7.3.3"
