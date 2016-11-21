@@ -12,8 +12,9 @@ my.prototype.CloneOption = function (name, displayname, levels, image, level) {
     this.levels = levels;
 };
 
-my.prototype.CloneViewModel = function (h,p) {
-    var self = new my.prototype.HeroModel(h);
+my.prototype.CloneModel = function (h,p) {
+    var self = this;
+    my.prototype.HeroModel.call(this, h);
     self.parent = p;
     /*self.selectedHero(my.prototype.findWhere(self.availableHeroes(), {heroName: 'meepo'}));
     self.hero = ko.computed(function() {
@@ -21,3 +22,5 @@ my.prototype.CloneViewModel = function (h,p) {
     });*/
     return self;
 }
+my.prototype.CloneModel.prototype = Object.create(my.prototype.HeroModel.prototype);
+my.prototype.CloneModel.prototype.constructor = my.prototype.CloneModel;
