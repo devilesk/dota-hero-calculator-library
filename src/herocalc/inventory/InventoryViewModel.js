@@ -1,205 +1,16 @@
 'use strict';
-var ko = require('./herocalc_knockout');
-var my = require("./herocalc_core");
+var ko = require('../herocalc_knockout');
 
-my.prototype.stackableItems = ['clarity','flask','dust','ward_observer','ward_sentry','tango','tpscroll','smoke_of_deceit'],
-my.prototype.levelitems = ['necronomicon','dagon','diffusal_blade','travel_boots'],
-my.prototype.validItems = ["abyssal_blade","ultimate_scepter","courier","arcane_boots","armlet","assault","boots_of_elves","bfury","belt_of_strength","black_king_bar","blade_mail","blade_of_alacrity","blades_of_attack","blink","bloodstone","boots","travel_boots","bottle","bracer","broadsword","buckler","butterfly","chainmail","circlet","clarity","claymore","cloak","lesser_crit","greater_crit","dagon","demon_edge","desolator","diffusal_blade","rapier","ancient_janggo","dust","eagle","energy_booster","ethereal_blade","cyclone","skadi","flying_courier","force_staff","gauntlets","gem","ghost","gloves","hand_of_midas","headdress","flask","heart","heavens_halberd","helm_of_iron_will","helm_of_the_dominator","hood_of_defiance","hyperstone","branches","javelin","sphere","maelstrom","magic_stick","magic_wand","manta","mantle","mask_of_madness","medallion_of_courage","mekansm","mithril_hammer","mjollnir","monkey_king_bar","lifesteal","mystic_staff","necronomicon","null_talisman","oblivion_staff","ward_observer","ogre_axe","orb_of_venom","orchid","pers","phase_boots","pipe","platemail","point_booster","poor_mans_shield","power_treads","quarterstaff","quelling_blade","radiance","reaver","refresher","ring_of_aquila","ring_of_basilius","ring_of_health","ring_of_protection","ring_of_regen","robe","rod_of_atos","relic","sobi_mask","sange","sange_and_yasha","satanic","sheepstick","ward_sentry","shadow_amulet","invis_sword","shivas_guard","basher","slippers","smoke_of_deceit","soul_booster","soul_ring","staff_of_wizardry","stout_shield","talisman_of_evasion","tango","tpscroll","tranquil_boots","ultimate_orb","urn_of_shadows","vanguard","veil_of_discord","vitality_booster","vladmir","void_stone","wraith_band","yasha","crimson_guard","enchanted_mango","lotus_orb","glimmer_cape","guardian_greaves","moon_shard","silver_edge","solar_crest","octarine_core","aether_lens","faerie_fire","iron_talon","dragon_lance","echo_sabre","infused_raindrop","blight_stone","wind_lace","tome_of_knowledge","bloodthorn","hurricane_pike"],
-my.prototype.itemsWithActive = ['solar_crest', 'heart','smoke_of_deceit','dust','ghost','tranquil_boots','phase_boots','power_treads','buckler','medallion_of_courage','ancient_janggo','mekansm','pipe','veil_of_discord','rod_of_atos','orchid','sheepstick','armlet','invis_sword','ethereal_blade','shivas_guard','manta','mask_of_madness','diffusal_blade','mjollnir','satanic','ring_of_basilius','ring_of_aquila', 'butterfly', 'moon_shard', 'silver_edge','bloodthorn','hurricane_pike'];
+var stackableItems = require("./stackableItems");
+var levelItems = require("./levelItems");
+var itemData = require("../data/itemdata.json");
+var BasicInventoryViewModel = require("./BasicInventoryViewModel");
+var itemOptionsArray = require("./itemOptionsArray");
+var itemBuffOptions = require("./itemBuffOptions");
+var itemDebuffOptions = require("./itemDebuffOptions");
 
-my.prototype.ItemInput = function (value, name, debuff) {
-    if (my.prototype.itemData['item_' + value].ItemAliases instanceof Array) {
-        var itemAlias = my.prototype.itemData['item_' + value].ItemAliases.join(' ');
-    }
-    else {
-        var itemAlias = my.prototype.itemData['item_' + value].ItemAliases;
-    }
-    this.value = ko.observable(value);
-    this.debuff = ko.observable(debuff);
-    if (this.debuff()) {
-        this.value = ko.observable(value + '|' + debuff.id);
-        this.name = ko.observable(name + ' (' + debuff.name + ')');
-        this.displayname = ko.observable(name + ' (' + debuff.name + ') <span style="display:none">' + ';' + itemAlias + '</span>');
-    }
-    else {
-        this.value = ko.observable(value);
-        this.name = ko.observable(name);
-        this.displayname = ko.observable(name + ' <span style="display:none">' + ';' + itemAlias + '</span>');
-    }
-};
-
-my.prototype.BasicInventoryViewModel = function (h) {
-    var self = this;
-    self.items = ko.observableArray([]);
-    self.activeItems = ko.observableArray([]);
-    self.addItem = function (data, event) {
-        if (data.selectedItem() != undefined) {
-            var new_item = {
-                item: data.selectedItem().split('|')[0],
-                state: ko.observable(0),
-                size: data.itemInputValue(),
-                enabled: ko.observable(true)
-            }
-            switch (new_item.item) {
-                case 'dagon':
-                    new_item.size = Math.min(new_item.size, 5);
-                break;
-                break;
-                case 'travel_boots':
-                case 'diffusal_blade':
-                    new_item.size = Math.min(new_item.size, 2);
-                break;
-                case 'necronomicon':
-                    new_item.size = Math.min(new_item.size, 3);
-                break;
-            }
-            self.items.push(new_item);
-            if (data.selectedItem() === 'ring_of_aquila' || data.selectedItem() === 'ring_of_basilius' || data.selectedItem() === 'heart') {
-                self.toggleItem(undefined, new_item, undefined);
-            }
-        }
-    };
-    self.toggleItem = function (index, data, event) {
-        if (my.prototype.itemsWithActive.indexOf(data.item) >= 0) {
-            if (self.activeItems.indexOf(data) < 0) {
-                self.activeItems.push(data);
-            }
-            else {
-                self.activeItems.remove(data);
-            }
-            switch (data.item) {
-                case 'power_treads':
-                    if (data.state() < 2) {
-                        data.state(data.state() + 1);
-                    }
-                    else {
-                        data.state(0);
-                    }                
-                break;
-                default:
-                    if (data.state() == 0) {
-                        data.state(1);
-                    }
-                    else {
-                        data.state(0);
-                    }                
-                break;
-            }
-        }
-    }.bind(this);
-    self.removeItem = function (item) {
-        self.activeItems.remove(item);
-        self.items.remove(item);
-    }.bind(this);
-    self.toggleMuteItem = function (item) {
-        item.enabled(!item.enabled());
-    }.bind(this);      
-    self.removeAll = function () {
-        self.activeItems.removeAll();
-        self.items.removeAll();
-    }.bind(this);
-}
-my.prototype.BasicInventoryViewModel.prototype.getItemImage = function (data) {
-    var state = ko.utils.unwrapObservable(data.state);
-    switch (data.item) {
-        case 'power_treads':
-            if (state == 0) {
-                return '/media/images/items/' + data.item + '_str.png';
-            }
-            else if (state == 1) {
-                return '/media/images/items/' + data.item + '_int.png';
-            }
-            else {
-                return '/media/images/items/' + data.item + '_agi.png';
-            }
-        break;
-        case 'tranquil_boots':
-        case 'ring_of_basilius':
-            if (state == 0) {
-                return '/media/images/items/' + data.item + '.png';
-            }
-            else {
-                return '/media/images/items/' + data.item + '_active.png';
-            }
-        break;
-        case 'armlet':
-            if (state == 0) {
-                return '/media/images/items/' + data.item + '.png';
-            }
-            else {
-                return '/media/images/items/' + data.item + '_active.png';
-            }
-        break;
-        case 'ring_of_aquila':
-            if (state == 0) {
-                return '/media/images/items/' + data.item + '_active.png';
-            }
-            else {
-                return '/media/images/items/' + data.item + '.png';
-            }
-        break;
-        case 'dagon':
-        case 'diffusal_blade':
-        case 'travel_boots':
-        case 'necronomicon':
-            if (data.size > 1) {
-                return '/media/images/items/' + data.item + '_' + data.size + '.png';
-            }
-            else {
-                return '/media/images/items/' + data.item + '.png';
-            }
-        break;
-        default:
-            return '/media/images/items/' + data.item + '.png';            
-        break;
-    }
-};
-my.prototype.BasicInventoryViewModel.prototype.getItemSizeLabel = function (data) {
-    if (my.prototype.stackableItems.indexOf(data.item) != -1) {
-        return '<span style="font-size:10px">Qty: </span>' + data.size;
-    }
-    else if (my.prototype.levelitems.indexOf(data.item) != -1) {
-        return '<span style="font-size:10px">Lvl: </span>' + data.size;
-    }
-    else if (data.item == 'bloodstone') {
-        return '<span style="font-size:10px">Charges: </span>' + data.size;
-    }
-    else {
-        return '';
-    }
-};
-my.prototype.BasicInventoryViewModel.prototype.getActiveBorder = function (data) {
-    switch (data.item) {
-        case 'power_treads':
-        case 'tranquil_boots':
-        case 'ring_of_basilius':
-        case 'ring_of_aquila':
-        case 'armlet':
-            return 0;
-        break;
-        default:
-            return ko.utils.unwrapObservable(data.state);    
-        break;
-    }
-}
-my.prototype.BasicInventoryViewModel.prototype.getItemAttributeValue = function (attributes, attributeName, level) {
-    for (var i = 0; i < attributes.length; i++) {
-        if (attributes[i].name == attributeName) {
-            if (level == 0) {
-                return parseFloat(attributes[i].value[0]);
-            }
-            else if (level > attributes[i].value.length) {
-                return parseFloat(attributes[i].value[0]);
-            }
-            else {
-                return parseFloat(attributes[i].value[level - 1]);
-            }
-        }
-    }
-}
-
-my.prototype.InventoryViewModel = function (h) {
-    var self = new my.prototype.BasicInventoryViewModel();
+var InventoryViewModel = function (h) {
+    var self = new BasicInventoryViewModel();
     self.hero = h;
     self.hasInventory = ko.observable(true);
     self.items = ko.observableArray([]);
@@ -239,25 +50,25 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            if (my.prototype.stackableItems.indexOf(item) != -1) {
-                c += my.prototype.itemData['item_' + item].itemcost * self.items()[i].size;
+            if (stackableItems.indexOf(item) != -1) {
+                c += itemData['item_' + item].itemcost * self.items()[i].size;
             }
-            else if (my.prototype.levelitems.indexOf(item) != -1) {
+            else if (levelItems.indexOf(item) != -1) {
                 switch(item) {
                     case 'diffusal_blade':
-                        c += my.prototype.itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 700;
+                        c += itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 700;
                     break;
                     case 'necronomicon':
                     case 'dagon':
-                        c += my.prototype.itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 1250;
+                        c += itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 1250;
                     break;
                     default:
-                        c += my.prototype.itemData['item_' + item].itemcost;
+                        c += itemData['item_' + item].itemcost;
                     break;
                 }
             }
             else {
-                c += my.prototype.itemData['item_' + item].itemcost;
+                c += itemData['item_' + item].itemcost;
             }
             
         }
@@ -302,8 +113,8 @@ my.prototype.InventoryViewModel = function (h) {
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
             var size = self.items()[i].size;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_all_stats':
                         totalAttribute += parseInt(attribute.value[0]);
@@ -367,8 +178,8 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bash_chance':
                         totalAttribute *= (1 - parseInt(attribute.value[0]) / 100);
@@ -391,8 +202,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'crit_chance':
                         totalAttribute *= (1 - parseInt(attribute.value[0]) / 100);
@@ -415,10 +226,10 @@ my.prototype.InventoryViewModel = function (h) {
                 case 'bloodthorn':
                     if (sources[item] == undefined) {
                         sources[item] = {
-                            'chance': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'crit_chance', 0) / 100,
-                            'multiplier': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'crit_multiplier', 0) / 100,
+                            'chance': self.getItemAttributeValue(itemData['item_' + item].attributes, 'crit_chance', 0) / 100,
+                            'multiplier': self.getItemAttributeValue(itemData['item_' + item].attributes, 'crit_multiplier', 0) / 100,
                             'count': 1,
-                            'displayname': my.prototype.itemData['item_' + item].displayname
+                            'displayname': itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -430,7 +241,7 @@ my.prototype.InventoryViewModel = function (h) {
                 if (sources['soul_rend'] == undefined) {
                     sources['soul_rend'] = {
                         'chance': 1,
-                        'multiplier': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'target_crit_multiplier', 0) / 100,
+                        'multiplier': self.getItemAttributeValue(itemData['item_' + item].attributes, 'target_crit_multiplier', 0) / 100,
                         'count': 1,
                         'displayname': 'Soul Rend'
                     }
@@ -453,10 +264,10 @@ my.prototype.InventoryViewModel = function (h) {
                 case 'bfury':
                     if (sources[item] == undefined) {
                         sources[item] = {
-                            'radius': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'cleave_radius', 0),
-                            'magnitude': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'cleave_damage_percent', 0) / 100,
+                            'radius': self.getItemAttributeValue(itemData['item_' + item].attributes, 'cleave_radius', 0),
+                            'magnitude': self.getItemAttributeValue(itemData['item_' + item].attributes, 'cleave_damage_percent', 0) / 100,
                             'count': 1,
-                            'displayname': my.prototype.itemData['item_' + item].displayname
+                            'displayname': itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -479,11 +290,11 @@ my.prototype.InventoryViewModel = function (h) {
                 case 'javelin':
                     if (sources[item] == undefined) {
                         sources[item] = {
-                            'damage': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bonus_chance_damage', 1),
+                            'damage': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bonus_chance_damage', 1),
                             'damageType': 'magic',
                             'count': 1,
-                            'chance': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bonus_chance', 1) / 100,
-                            'displayname': my.prototype.itemData['item_' + item].displayname + ' Pierce'
+                            'chance': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bonus_chance', 1) / 100,
+                            'displayname': itemData['item_' + item].displayname + ' Pierce'
                         }
                     }
                     else {
@@ -494,12 +305,12 @@ my.prototype.InventoryViewModel = function (h) {
                     if (sources[item] == undefined) {
                         sources[item] = {
                             'item': item,
-                            'chance': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bash_chance', 0) / 100,
-                            'damage': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bash_damage', 0),
-                            'duration': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bash_stun', 0),
+                            'chance': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bash_chance', 0) / 100,
+                            'damage': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bash_damage', 0),
+                            'duration': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bash_stun', 0),
                             'count': 1,
                             'damageType': 'magic',
-                            'displayname': 'Mini-Bash' //my.prototype.itemData['item_' + item].displayname
+                            'displayname': 'Mini-Bash' //itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -511,12 +322,12 @@ my.prototype.InventoryViewModel = function (h) {
                     if (!sources.hasOwnProperty('bash')) {
                         sources['bash'] = {
                             'item': item,
-                            'chance': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, (attacktype == 'DOTA_UNIT_CAP_MELEE_ATTACK') ?'bash_chance_melee' : 'bash_chance_ranged', 0) / 100,
-                            'damage': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bonus_chance_damage', 0),
-                            'duration': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'bash_duration', 0),
+                            'chance': self.getItemAttributeValue(itemData['item_' + item].attributes, (attacktype == 'DOTA_UNIT_CAP_MELEE_ATTACK') ?'bash_chance_melee' : 'bash_chance_ranged', 0) / 100,
+                            'damage': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bonus_chance_damage', 0),
+                            'duration': self.getItemAttributeValue(itemData['item_' + item].attributes, 'bash_duration', 0),
                             'count': 1,
                             'damageType': 'physical',
-                            'displayname': 'Bash' //my.prototype.itemData['item_' + item].displayname
+                            'displayname': 'Bash' //itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -540,11 +351,11 @@ my.prototype.InventoryViewModel = function (h) {
                 case 'mjollnir':
                     if (sources[item] == undefined) {
                         sources[item] = {
-                            'chance': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'chain_chance', 0) / 100,
-                            'damage': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'chain_damage', 0),
+                            'chance': self.getItemAttributeValue(itemData['item_' + item].attributes, 'chain_chance', 0) / 100,
+                            'damage': self.getItemAttributeValue(itemData['item_' + item].attributes, 'chain_damage', 0),
                             'count': 1,
                             'damageType': 'magic',
-                            'displayname': my.prototype.itemData['item_' + item].displayname
+                            'displayname': itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -568,10 +379,10 @@ my.prototype.InventoryViewModel = function (h) {
                     if (sources[item] == undefined) {
                         sources[item] = {
                             'chance': 1,
-                            'damage': self.getItemAttributeValue(my.prototype.itemData['item_' + item].attributes, 'feedback_mana_burn', self.items()[i].size),
+                            'damage': self.getItemAttributeValue(itemData['item_' + item].attributes, 'feedback_mana_burn', self.items()[i].size),
                             'count': 1,
                             'damageType': 'physical',
-                            'displayname': my.prototype.itemData['item_' + item].displayname
+                            'displayname': itemData['item_' + item].displayname
                         }
                     }
                     else {
@@ -589,8 +400,8 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_health':
                         totalAttribute += parseInt(attribute.value[0]);
@@ -606,8 +417,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'health_regen':
                     case 'bonus_regen':
@@ -641,8 +452,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(item + attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'aura_health_regen':
@@ -660,8 +471,8 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_mana':
                         totalAttribute += parseInt(attribute.value[0]);
@@ -677,8 +488,8 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'aura_mana_regen':
                     case 'mana_regen_aura':
@@ -697,8 +508,8 @@ my.prototype.InventoryViewModel = function (h) {
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_mana_regen':
                     case 'mana_regen':
@@ -727,8 +538,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_armor':
                         if (!isActive || (item != 'medallion_of_courage' && item != 'solar_crest')) { totalAttribute += parseInt(attribute.value[0]); };
@@ -749,8 +560,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0;j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0;j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (attributeList.find(function (a) { return attribute.name == a.name; })) continue;
                 switch(attribute.name) {
                     // buckler
@@ -807,8 +618,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1 || excludeList.indexOf(item + '_' + attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'armor_reduction':
@@ -836,8 +647,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_evasion':
                         if (!isActive || (item != 'butterfly' && item != 'solar_crest')) { totalAttribute *= (1 - parseInt(attribute.value[0]) / 100); }
@@ -857,8 +668,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_movement_speed':
                         if (!hasBoots && bootItems.indexOf(item) >= 0) {
@@ -913,8 +724,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'movement_speed_percent_bonus':
@@ -983,8 +794,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'movespeed':
@@ -1020,8 +831,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_damage':
                         totalAttribute += parseInt(attribute.value[0]);
@@ -1030,7 +841,7 @@ my.prototype.InventoryViewModel = function (h) {
                                 'damage': parseInt(attribute.value[0]),
                                 'damageType': 'physical',
                                 'count':1,
-                                'displayname': my.prototype.itemData['item_' + item].displayname
+                                'displayname': itemData['item_' + item].displayname
                             }                            
                         }
                         else {
@@ -1045,7 +856,7 @@ my.prototype.InventoryViewModel = function (h) {
                                     'damage': parseInt(attribute.value[0]),
                                     'damageType': 'physical',
                                     'count':1,
-                                    'displayname': my.prototype.itemData['item_' + item].displayname + ' Unholy Strength'
+                                    'displayname': itemData['item_' + item].displayname + ' Unholy Strength'
                                 }                            
                             }
                             else {
@@ -1066,8 +877,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'damage_aura':
                         if (sources[item] == undefined) {
@@ -1076,7 +887,7 @@ my.prototype.InventoryViewModel = function (h) {
                                 'damage': parseInt(attribute.value[0]) / 100,
                                 'damageType': 'physical',
                                 'count':1,
-                                'displayname': my.prototype.itemData['item_' + item].displayname
+                                'displayname': itemData['item_' + item].displayname
                             }
                         }
                         // else {
@@ -1096,8 +907,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'bonus_attack_speed':
@@ -1163,8 +974,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'aura_attack_speed':
@@ -1196,8 +1007,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'lifesteal_percent':
                         if (item == 'satanic') {
@@ -1222,8 +1033,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'vampiric_aura':
@@ -1241,8 +1052,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_magical_armor':
                         totalAttribute *= (1 - parseInt(attribute.value[0]) / 100);
@@ -1265,8 +1076,8 @@ my.prototype.InventoryViewModel = function (h) {
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
             if (isActive) {
-                for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                    var attribute = my.prototype.itemData['item_' + item].attributes[j];
+                for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                    var attribute = itemData['item_' + item].attributes[j];
                     switch(attribute.name) {
                         case 'extra_spell_damage_percent':
                         case 'ethereal_damage_bonus':
@@ -1285,8 +1096,8 @@ my.prototype.InventoryViewModel = function (h) {
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
             if (isActive) {
-                for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                    var attribute = my.prototype.itemData['item_' + item].attributes[j];
+                for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                    var attribute = itemData['item_' + item].attributes[j];
                     switch(attribute.name) {
                         case 'ethereal_damage_bonus':
                             if (!self.isEthereal()) totalAttribute *= (1 - parseInt(attribute.value[0]) / 100);
@@ -1306,8 +1117,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'bonus_night_vision':
                         if (item != 'moon_shard' || !isActive) {
@@ -1327,8 +1138,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0;j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0;j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (attributeList.find(function (a) { return attribute.name == a.name; })) continue;
                 switch(attribute.name) {
                     // dragon_lance
@@ -1352,8 +1163,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'miss_chance':
@@ -1378,8 +1189,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'backstab_reduction':
                         if (self.items()[i].debuff && self.items()[i].debuff == 'shadow_walk') {
@@ -1397,8 +1208,8 @@ my.prototype.InventoryViewModel = function (h) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
             if (!self.items()[i].enabled()) continue;
-            for (var j = 0; j < my.prototype.itemData['item_' + item].attributes.length; j++) {
-                var attribute = my.prototype.itemData['item_' + item].attributes[j];
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
                 switch(attribute.name) {
                     case 'backstab_reduction':
                         if (self.items()[i].debuff && self.items()[i].debuff == 'shadow_walk') {
@@ -1409,15 +1220,17 @@ my.prototype.InventoryViewModel = function (h) {
             }
         }
         return totalAttribute;
-    };    
+    };
     
-    self.itemOptions = ko.observableArray(my.prototype.itemOptionsArr);
+    self.itemOptions = ko.observableArray(itemOptionsArray);
     
-    self.itemBuffOptions = ko.observableArray(my.prototype.itemBuffOptions);
+    self.itemBuffOptions = ko.observableArray(itemBuffOptions);
     self.selectedItemBuff = ko.observable('assault');
 
-    self.itemDebuffOptions = ko.observableArray(my.prototype.itemDebuffOptions);
+    self.itemDebuffOptions = ko.observableArray(itemDebuffOptions);
     self.selectedItemDebuff = ko.observable('assault');
     
     return self;
 };
+
+module.exports = InventoryViewModel;

@@ -1,8 +1,4 @@
-'use strict';
-    
-var my = require("./herocalc_core");
-
-my.prototype.abilityData = {
+var abilityData = {
     'alchemist_acid_spray': [
         {
             label: 'Duration',
@@ -3560,3 +3556,5 @@ my.prototype.abilityData = {
         }
     ]
 }
+
+module.exports = abilityData;

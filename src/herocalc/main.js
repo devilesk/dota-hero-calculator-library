@@ -1,13 +1,14 @@
 'use strict';
 
-var core = require("./herocalc_core");
-require("./herocalc_inventory");
-require("./herocalc_abilitydata");
-require("./herocalc_abilities");
-require("./herocalc_buffs");
-require("./herocalc_hero");
-require("./herocalc_hero.illusion");
-require("./herocalc_hero.meepo");
-require("./herocalc_unit");
+var core = {};
+core.InventoryViewModel = require("./inventory/InventoryViewModel");
+core.AbilityModel = require("./AbilityModel");
+core.BuffViewModel = require("./BuffViewModel");
+core.HeroModel = require("./hero/HeroModel");
+core.CloneModel = require("./hero/CloneModel");
+core.UnitModel = require("./hero/UnitModel");
+core.HeroOptions = require("./hero/heroOptionsArray");
+core.findWhere = require("./util/findWhere");
+core.extend = require("./util/extend");
 
 module.exports = core;

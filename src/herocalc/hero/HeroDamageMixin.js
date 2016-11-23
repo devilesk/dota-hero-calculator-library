@@ -1,20 +1,15 @@
 'use strict';
-var ko = require('./herocalc_knockout');
+var ko = require('../herocalc_knockout');
     
-var my = require("./herocalc_core");
+var DamageTypeColor = require("./DamageTypeColor");
+var itemData = require("../data/itemdata.json");
+var extend = require("../util/extend");
 
-my.prototype.DamageTypeColor = {
-    'physical': '#979aa2',
-    'pure': 'goldenrod',
-    'magic': '#428bca',
-    'default': '#979aa2'
-}
-
-my.prototype.HeroDamageMixin = function (self) {
+var HeroDamageMixin = function (self) {
     self.critInfo = ko.pureComputed(function () {
         var critSources = self.inventory.getCritSource();
-        my.prototype.extend(critSources, self.ability().getCritSource());
-        my.prototype.extend(critSources, self.buffs.getCritSource());
+        extend(critSources, self.ability().getCritSource());
+        extend(critSources, self.buffs.getCritSource());
         var critSourcesArray = [];
         for (var prop in critSources) {
             var el = critSources[prop];
@@ -70,8 +65,8 @@ my.prototype.HeroDamageMixin = function (self) {
 
     self.cleaveInfo = ko.pureComputed(function () {
         var cleaveSources = self.inventory.getCleaveSource();
-        my.prototype.extend(cleaveSources, self.ability().getCleaveSource());
-        my.prototype.extend(cleaveSources, self.buffs.getCleaveSource());
+        extend(cleaveSources, self.ability().getCleaveSource());
+        extend(cleaveSources, self.buffs.getCleaveSource());
         var cleaveSourcesArray = [];
         for (var prop in cleaveSources) {
             var el = cleaveSources[prop];
@@ -110,7 +105,7 @@ my.prototype.HeroDamageMixin = function (self) {
     self.bashInfo = ko.pureComputed(function () {
         var attacktype = self.heroData().attacktype;
         var bashSources = self.inventory.getBashSource(attacktype);
-        my.prototype.extend(bashSources, self.ability().getBashSource());
+        extend(bashSources, self.ability().getBashSource());
         var bashSourcesArray = [];
         for (var prop in bashSources) {
             var el = bashSources[prop];
@@ -302,7 +297,7 @@ my.prototype.HeroDamageMixin = function (self) {
         // echo_sabre
         var item = self.inventory.items().find(function (o) { return o.item === "echo_sabre" && o.enabled(); });
         if (item && self.heroData().attacktype === 'DOTA_UNIT_CAP_MELEE_ATTACK') {
-            var item_echo_sabre = my.prototype.itemData['item_echo_sabre'];
+            var item_echo_sabre = itemData['item_echo_sabre'];
             attackSources.push({
                 name: item_echo_sabre.displayname,
                 cooldown: (1/item_echo_sabre.cooldown)
@@ -315,7 +310,7 @@ my.prototype.HeroDamageMixin = function (self) {
             totalCritableDamage = 0,
             totalCrit = 0,
             geminateAttack = { damage: 0, damageReduced: 0, cooldown: 6, active: false },
-            echoSabreAttack = { damage: 0, damageReduced: 0, cooldown: my.prototype.itemData['item_echo_sabre'].cooldown[0], active: false },
+            echoSabreAttack = { damage: 0, damageReduced: 0, cooldown: itemData['item_echo_sabre'].cooldown[0], active: false },
             damage = {
                 pure: 0,
                 physical: 0,
@@ -660,7 +655,9 @@ my.prototype.HeroDamageMixin = function (self) {
     });
     
     self.getDamageTypeColor = function (damageType) {
-        return my.prototype.DamageTypeColor[damageType] || my.prototype.DamageTypeColor['default'];
+        return DamageTypeColor[damageType] || DamageTypeColor['default'];
     }
     
 }
+
+module.exports = HeroDamageMixin;

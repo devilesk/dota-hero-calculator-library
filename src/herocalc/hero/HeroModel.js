@@ -1,91 +1,46 @@
 'use strict';
-var ko = require('./herocalc_knockout');
+var ko = require('../herocalc_knockout');
 
-var my = require("./herocalc_core");
-require("./herocalc_hero_damage");
+var AbilityModel = require("../AbilityModel");
+var BuffViewModel = require("../BuffViewModel");
+var InventoryViewModel = require("../inventory/InventoryViewModel");
+var illusionOptionsArray = require("../illusion/illusionOptionsArray");
+var illusionData = require("../illusion/illusionData");
+var heroData = require("./heroData");
+var diffProperties = require("./diffProperties");
+var HeroDamageMixin = require("./HeroDamageMixin");
 
-my.prototype.totalExp = [0, 200, 500, 900, 1400, 2000, 2600, 3400, 4400, 5400, 6000, 8200, 9000, 10400, 11900, 13500, 15200, 17000, 18900, 20900, 23000, 25200, 27500, 29900, 32400];
-my.prototype.nextLevelExp = [200, 300, 400, 500, 600, 600, 800, 1000, 1000, 600, 2200, 800, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, '&mdash;'];
-my.prototype.diffProperties = [
-    'totalAgi',
-    'totalInt',
-    'totalStr',
-    'health',
-    'healthregen',
-    'mana',
-    'manaregen',
-    'totalArmorPhysical',
-    'totalArmorPhysicalReduction',
-    'totalMovementSpeed',
-    'totalTurnRate',
-    'baseDamage',
-    'bonusDamage',
-    'bonusDamageReduction',
-    'damage',
-    'totalMagicResistanceProduct',
-    'totalMagicResistance',
-    'bat',
-    'ias',
-    'attackTime',
-    'attacksPerSecond',
-    'evasion',
-    'ehpPhysical',
-    'ehpMagical',
-    'bash',
-    'critChance',
-    //'critDamage',
-    'missChance',
-    'totalattackrange',
-    'visionrangeday',
-    'visionrangenight',
-    'lifesteal'
-];
+var totalExp = require("./totalExp");
+var nextLevelExp = require("./nextLevelExp");
 
-my.prototype.IllusionOption = function (name, displayname, baseHero) {
-    this.illusionName = name;
-    this.illusionDisplayName = displayname;
-    this.baseHero = baseHero;
-};
-
-my.prototype.createIllusionOptions = function () {
-    var options = [];
-    for (var h in my.prototype.illusionData) {
-        options.push(new my.prototype.IllusionOption(h, my.prototype.illusionData[h].displayName, my.prototype.illusionData[h].hero));
-    }
-    return options;
-}
-
-my.prototype.HeroModel = function (h) {
+var HeroModel = function (h) {
     var self = this;
     self.heroId = ko.observable(h);
     self.selectedHeroLevel = ko.observable(1);
-    self.inventory = new my.prototype.InventoryViewModel(self);
+    self.inventory = new InventoryViewModel(self);
     self.selectedInventory = ko.observable(-1);
-    self.buffs = new my.prototype.BuffViewModel();
+    self.buffs = new BuffViewModel();
     self.buffs.hasScepter = self.inventory.hasScepter;
-    self.debuffs = new my.prototype.BuffViewModel();
-    /*self.hero = ko.computed(function () {
-        return ko.mapping.fromJS(my.prototype.heroData['npc_dota_hero_' + self.heroId()]);
-    });*/
+    self.debuffs = new BuffViewModel();
     self.heroData = ko.computed(function () {
-      return my.prototype.heroData['npc_dota_hero_' + self.heroId()];
+      return heroData['npc_dota_hero_' + self.heroId()];
     });
     self.heroCompare = ko.observable(self);
     self.enemy = ko.observable(self);
     self.unit = ko.observable(self);
     self.clone = ko.observable(self);
     self.illusions = ko.observableArray([]);
-    self.availableIllusions = ko.observableArray(my.prototype.createIllusionOptions());
+    self.availableIllusions = ko.observableArray(illusionOptionsArray);
     self.selectedIllusion = ko.observable(self.availableIllusions()[0]);
     self.illusionAbilityLevel = ko.observable(1);
     self.illusionAbilityMaxLevel = ko.computed(function () {
-        return my.prototype.illusionData[self.selectedIllusion().illusionName].max_level;
+        return illusionData[self.selectedIllusion().illusionName].max_level;
     });
     
     self.skillPointHistory = ko.observableArray();
     
     self.ability = ko.computed(function () {
-        var a = new my.prototype.AbilityModel(ko.observableArray(JSON.parse(JSON.stringify(self.heroData().abilities))), self);
+        var a = new AbilityModel(ko.observableArray(JSON.parse(JSON.stringify(self.heroData().abilities))), self);
         switch (self.heroId()) {
             case 'earth_spirit':
             case 'ogre_magi':
@@ -148,10 +103,10 @@ my.prototype.HeroModel = function (h) {
         return '';
     });
     self.totalExp = ko.pureComputed(function () {
-        return my.prototype.totalExp[self.selectedHeroLevel() - 1];
+        return totalExp[self.selectedHeroLevel() - 1];
     });
     self.nextLevelExp = ko.pureComputed(function () {
-        return my.prototype.nextLevelExp[self.selectedHeroLevel() - 1];
+        return nextLevelExp[self.selectedHeroLevel() - 1];
     });
     self.startingArmor = ko.pureComputed(function () {
         return (self.heroData().attributebaseagility * .14 + self.heroData().armorphysical).toFixed(2);
@@ -460,7 +415,7 @@ my.prototype.HeroModel = function (h) {
         return ((1 - (self.inventory.getCritChance() * self.ability().getCritChance())) * 100).toFixed(2);
     });
 
-    my.prototype.HeroDamageMixin(self);
+    HeroDamageMixin(self);
     
     /*self.critDamage = ko.computed(function () {
         self.critInfo();
@@ -498,10 +453,10 @@ my.prototype.HeroModel = function (h) {
     });
     
     self.addIllusion = function (data, event) {
-        self.illusions.push(ko.observable(new my.prototype.IllusionViewModel(0, self, self.illusionAbilityLevel())));
+        self.illusions.push(ko.observable(new IllusionViewModel(0, self, self.illusionAbilityLevel())));
     };
     
-    self.diffProperties = my.prototype.diffProperties;
+    self.diffProperties = diffProperties;
     self.diff = {};
 
     for (var i = 0; i < self.diffProperties.length; i++) {
@@ -510,7 +465,7 @@ my.prototype.HeroModel = function (h) {
     }
 };
 
-my.prototype.HeroModel.prototype.getDiffFunction = function (prop) {
+HeroModel.prototype.getDiffFunction = function (prop) {
     var self = this;
     return ko.computed(function () {
         if (prop == 'baseDamage') {
@@ -522,7 +477,7 @@ my.prototype.HeroModel.prototype.getDiffFunction = function (prop) {
     }, this, { deferEvaluation: true });
 }
 
-my.prototype.HeroModel.prototype.getAbilityLevelMax = function (data) {
+HeroModel.prototype.getAbilityLevelMax = function (data) {
     if (data.abilitytype === 'DOTA_ABILITY_TYPE_ATTRIBUTES') {
         return 10;
     }
@@ -557,3 +512,5 @@ my.prototype.HeroModel.prototype.getAbilityLevelMax = function (data) {
         return 4;
     }
 };
+
+module.exports = HeroModel;

@@ -1,52 +1,23 @@
 'use strict';
 var ko = require('./herocalc_knockout');
-    
-var my = require("./herocalc_core");
 
-my.prototype.BuffOption = function (hero, ability) {
-    this.buffName = ability;
-    if (my.prototype.heroData['npc_dota_hero_' + hero] == undefined) {
-        this.hero = hero;
-        this.abilityData = my.prototype.findWhere(my.prototype.unitData[hero].abilities, {name: ability})
-        this.buffDisplayName = my.prototype.unitData[hero].displayname + ' - ' + this.abilityData.displayname;
-    }
-    else {
-        this.hero = 'npc_dota_hero_' + hero;
-        this.abilityData = my.prototype.findWhere(my.prototype.heroData['npc_dota_hero_' + hero].abilities, {name: ability})
-        this.buffDisplayName = my.prototype.heroData['npc_dota_hero_' + hero].displayname + ' - ' + this.abilityData.displayname;        
-        if (ability == 'sven_gods_strength') {
-            this.buffDisplayName += ' (Aura for allies)';
-        }
-    }
+var AbilityModel = require("./AbilityModel");
+var InventoryViewModel = require("./inventory/InventoryViewModel");
+var findWhere = require("./util/findWhere");
+var buffOptionsArray = require("./buffs/buffOptionsArray");
+var debuffOptionsArray = require("./buffs/debuffOptionsArray");
 
-};
-
-my.prototype.ItemBuffOption = function (item) {
-    this.buffName = item;
-    if (my.prototype.heroData['npc_dota_hero_' + hero] == undefined) {
-        this.hero = hero;
-        this.abilityData = my.prototype.findWhere(my.prototype.unitData[hero].abilities, {name: item})
-        this.buffDisplayName = my.prototype.unitData[hero].displayname + ' - ' + this.abilityData.displayname;        
-    }
-    else {
-        this.hero = 'npc_dota_hero_' + hero;
-        this.abilityData = my.prototype.findWhere(my.prototype.heroData['npc_dota_hero_' + hero].abilities, {name: item})
-        this.buffDisplayName = my.prototype.heroData['npc_dota_hero_' + hero].displayname + ' - ' + this.abilityData.displayname;        
-    }
-
-};
-
-my.prototype.BuffViewModel = function (a) {
-    var self = new my.prototype.AbilityModel(ko.observableArray([]));
-    self.availableBuffs = ko.observableArray(my.prototype.availableBuffs);
-    self.availableDebuffs = ko.observableArray(my.prototype.availableDebuffs);
+var BuffViewModel = function (a) {
+    var self = new AbilityModel(ko.observableArray([]));
+    self.availableBuffs = ko.observableArray(buffOptionsArray);
+    self.availableDebuffs = ko.observableArray(debuffOptionsArray);
     self.selectedBuff = ko.observable(self.availableBuffs()[0]);
     
     self.buffs = ko.observableArray([]);
-    self.itemBuffs = new my.prototype.InventoryViewModel();
+    self.itemBuffs = InventoryViewModel();
     
     self.addBuff = function (data, event) {
-        if (my.prototype.findWhere(self.buffs(), { name: self.selectedBuff().buffName })  == undefined) {
+        if (findWhere(self.buffs(), { name: self.selectedBuff().buffName }) == undefined) {
             var a = JSON.parse(JSON.stringify(self.selectedBuff().abilityData));
             a.level = ko.observable(0);
             a.isActive = ko.observable(false);
@@ -106,8 +77,8 @@ my.prototype.BuffViewModel = function (a) {
     };
     
     self.removeBuff = function (data, event, abilityName) {
-        if (my.prototype.findWhere(self.buffs(), { name: abilityName })  != undefined) {
-                self.buffs.remove(my.prototype.findWhere(self.buffs(), { name: abilityName }));
+        if (findWhere(self.buffs(), { name: abilityName })  != undefined) {
+                self.buffs.remove(findWhere(self.buffs(), { name: abilityName }));
                 if (self.abilityControlData[abilityName] != undefined) {
                     for (var i = 0; i < self.abilityControlData[abilityName].data.length; i++) {
                         if (self.abilityControlData[abilityName].data[i].controlVal.dispose != undefined) {
@@ -229,3 +200,5 @@ my.prototype.BuffViewModel = function (a) {
     
     return self;
 }
+
+module.exports = BuffViewModel;

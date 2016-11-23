@@ -1,29 +1,19 @@
 'use strict';
-var ko = require('./herocalc_knockout');
-    
-var my = require("./herocalc_core");
+var ko = require('../herocalc_knockout');
 
-my.prototype.UnitOption = function (name, displayname, levels, image, level) {
-    this.heroName = ko.computed(function() {
-        return (levels > 0) ? name + (level() <= levels ? level() : 1) : name;
-    });
-    this.heroDisplayName = displayname;
-    this.image = image;
-    this.levels = levels;
-};
+var AbilityModel = require("../AbilityModel");
+var HeroModel = require("./HeroModel");
+var unitData = require("../data/unitdata.json");
 
-my.prototype.UnitModel = function (h,p) {
+var UnitModel = function (h,p) {
     var self = this;
-    my.prototype.HeroModel.call(this, 'abaddon');
+    HeroModel.call(this, 'abaddon');
     self.parent = p;
     self.unitId = ko.observable(h);
     self.unitLevel = ko.observable(1);
 
-    /*self.hero = ko.computed(function() {
-        return ko.wrap.fromJS(my.prototype.unitData[self.unitId()]);
-    });*/
     self.heroData = ko.computed(function() {
-        return my.prototype.unitData[self.unitId()];
+        return unitData[self.unitId()];
     });
     self.getAbilityLevelMax = function(data) {
         if (data.abilitytype == 'DOTA_ABILITY_TYPE_ATTRIBUTES') {
@@ -42,8 +32,7 @@ my.prototype.UnitModel = function (h,p) {
     };
     self.availableSkillPoints.dispose();
     self.ability = ko.computed(function() {
-        //var a = new my.prototype.AbilityModel(ko.mapping.fromJS(my.prototype.unitData[self.unitId()].abilities));
-        var a = new my.prototype.AbilityModel(ko.observableArray(JSON.parse(JSON.stringify(self.heroData().abilities))), self);
+        var a = new AbilityModel(ko.observableArray(JSON.parse(JSON.stringify(self.heroData().abilities))), self);
         a.hasScepter = self.inventory.hasScepter
         switch (self.unitId()) {
             case 'npc_dota_necronomicon_archer_1':
@@ -102,7 +91,7 @@ my.prototype.UnitModel = function (h,p) {
         return a;
     });        
     self.primaryAttribute = ko.computed(function() {
-        //var v = my.prototype.unitData[self.unitId()].attributeprimary;
+        //var v = unitData[self.unitId()].attributeprimary;
         var v = 0;
         if (v == 'DOTA_ATTRIBUTE_AGILITY') {
             return 'agi'
@@ -130,8 +119,8 @@ my.prototype.UnitModel = function (h,p) {
         return 0;
     };
     self.totalAgi = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].attributebaseagility
-                + my.prototype.unitData[self.unitId()].attributeagilitygain * (self.selectedHeroLevel() - 1) 
+        return (unitData[self.unitId()].attributebaseagility
+                + unitData[self.unitId()].attributeagilitygain * (self.selectedHeroLevel() - 1) 
                 //+ self.inventory.getAttributes('agi') 
                 + self.ability().getAttributeBonusLevel()*2
                 + self.ability().getAgility()
@@ -140,8 +129,8 @@ my.prototype.UnitModel = function (h,p) {
                ).toFixed(2);
     });
     self.totalInt = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].attributebaseintelligence 
-                + my.prototype.unitData[self.unitId()].attributeintelligencegain * (self.selectedHeroLevel() - 1) 
+        return (unitData[self.unitId()].attributebaseintelligence 
+                + unitData[self.unitId()].attributeintelligencegain * (self.selectedHeroLevel() - 1) 
                 //+ self.inventory.getAttributes('int') 
                 + self.ability().getAttributeBonusLevel()*2
                 + self.ability().getIntelligence()
@@ -150,8 +139,8 @@ my.prototype.UnitModel = function (h,p) {
                ).toFixed(2);
     });
     self.totalStr = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].attributebasestrength 
-                + my.prototype.unitData[self.unitId()].attributestrengthgain * (self.selectedHeroLevel() - 1) 
+        return (unitData[self.unitId()].attributebasestrength 
+                + unitData[self.unitId()].attributestrengthgain * (self.selectedHeroLevel() - 1) 
                 //+ self.inventory.getAttributes('str') 
                 + self.ability().getAttributeBonusLevel()*2
                 + self.ability().getStrength()
@@ -160,21 +149,21 @@ my.prototype.UnitModel = function (h,p) {
                ).toFixed(2);
     });
     /*self.health = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].statushealth + self.totalStr()*19 
+        return (unitData[self.unitId()].statushealth + self.totalStr()*19 
                 + self.inventory.getHealth()
                 + self.ability().getHealth()).toFixed(2);
     });
     self.healthregen = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].statushealthregen + self.totalStr()*.03 
+        return (unitData[self.unitId()].statushealthregen + self.totalStr()*.03 
                 + self.inventory.getHealthRegen() 
                 + self.ability().getHealthRegen()
                 + self.buffs.getHealthRegen()).toFixed(2);
     });
     self.mana = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].statusmana + self.totalInt()*13 + self.inventory.getMana()).toFixed(2);
+        return (unitData[self.unitId()].statusmana + self.totalInt()*13 + self.inventory.getMana()).toFixed(2);
     });
     self.manaregen = ko.computed(function() {
-        return ((my.prototype.unitData[self.unitId()].statusmanaregen 
+        return ((unitData[self.unitId()].statusmanaregen 
                 + self.totalInt()*.04 
                 + self.ability().getManaRegen()) 
                 * (1 + self.inventory.getManaRegenPercent()) 
@@ -183,7 +172,7 @@ my.prototype.UnitModel = function (h,p) {
                 - self.enemy().ability().getManaRegenReduction()).toFixed(2);
     });
     self.totalArmorPhysical = ko.computed(function() {
-        return (self.enemy().ability().getArmorBaseReduction() * self.debuffs.getArmorBaseReduction() * (my.prototype.unitData[self.unitId()].armorphysical + self.totalAgi()*.14)
+        return (self.enemy().ability().getArmorBaseReduction() * self.debuffs.getArmorBaseReduction() * (unitData[self.unitId()].armorphysical + self.totalAgi()*.14)
                 + self.inventory.getArmor() + self.ability().getArmor() + self.enemy().ability().getArmorReduction() + self.buffs.getArmor() + self.debuffs.getArmorReduction()).toFixed(2);
     });
     self.totalArmorPhysicalReduction = ko.computed(function() {
@@ -198,7 +187,7 @@ my.prototype.UnitModel = function (h,p) {
             return ms;
         }
         else {
-            return ((my.prototype.unitData[self.unitId()].movementspeed + self.inventory.getMovementSpeedFlat()+ self.ability().getMovementSpeedFlat()) * 
+            return ((unitData[self.unitId()].movementspeed + self.inventory.getMovementSpeedFlat()+ self.ability().getMovementSpeedFlat()) * 
                     (1 + self.inventory.getMovementSpeedPercent() 
                        + self.ability().getMovementSpeedPercent() 
                        + self.enemy().inventory.getMovementSpeedPercentReduction() 
@@ -209,14 +198,14 @@ my.prototype.UnitModel = function (h,p) {
         }
     });
     self.totalTurnRate = ko.computed(function() {
-        return (my.prototype.unitData[self.unitId()].movementturnrate 
+        return (unitData[self.unitId()].movementturnrate 
                 * (1 + self.enemy().ability().getTurnRateReduction()
                      + self.debuffs.getTurnRateReduction())).toFixed(2);
     });
     */
     self.baseDamage = ko.computed(function() {
-        return [Math.floor(my.prototype.unitData[self.unitId()].attackdamagemin + self.totalAttribute(self.primaryAttribute()) + self.ability().getBaseDamage().total),
-                Math.floor(my.prototype.unitData[self.unitId()].attackdamagemax + self.totalAttribute(self.primaryAttribute()) + self.ability().getBaseDamage().total)];
+        return [Math.floor(unitData[self.unitId()].attackdamagemin + self.totalAttribute(self.primaryAttribute()) + self.ability().getBaseDamage().total),
+                Math.floor(unitData[self.unitId()].attackdamagemax + self.totalAttribute(self.primaryAttribute()) + self.ability().getBaseDamage().total)];
     });
     /*self.bonusDamage = ko.computed(function() {
         return self.inventory.getBonusDamage().total
@@ -242,7 +231,7 @@ my.prototype.UnitModel = function (h,p) {
                 self.baseDamage()[1] + self.bonusDamage()[1]];
     });*/
     self.totalMagicResistanceProduct = ko.computed(function() {
-        return (1 - my.prototype.unitData[self.unitId()].magicalresistance / 100) 
+        return (1 - unitData[self.unitId()].magicalresistance / 100) 
                    * (1 - self.inventory.getMagicResist() / 100) 
                    * (1 - self.ability().getMagicResist() / 100) 
                    * (1 - self.buffs.getMagicResist() / 100) 
@@ -258,7 +247,7 @@ my.prototype.UnitModel = function (h,p) {
         if (abilityBAT > 0) {
             return abilityBAT;
         }
-        return my.prototype.unitData[self.unitId()].attackrate;
+        return unitData[self.unitId()].attackrate;
     });
     /*
     self.ias = ko.computed(function() {
@@ -303,5 +292,7 @@ my.prototype.UnitModel = function (h,p) {
     });
     return self;
 }
-my.prototype.UnitModel.prototype = Object.create(my.prototype.HeroModel.prototype);
-my.prototype.UnitModel.prototype.constructor = my.prototype.UnitModel;
+UnitModel.prototype = Object.create(HeroModel.prototype);
+UnitModel.prototype.constructor = UnitModel;
+
+module.exports = UnitModel;

@@ -1,12 +1,11 @@
 'use strict';
 var ko = require('./herocalc_knockout');
-    
-var my = require("./herocalc_core");
+var abilityData = require("./herocalc_abilitydata");
 
-my.prototype.AbilityModel = function (a, h) {
+var AbilityModel = function (a, h) {
     var self = this;
     self.hero = h;
-    self.abilityData = my.prototype.abilityData;
+    self.abilityData = abilityData;
     self.hasScepter = ko.observable(false);
     self.isShapeShiftActive = ko.observable(false);
     self.abilities = a;
@@ -2244,7 +2243,7 @@ my.prototype.AbilityModel = function (a, h) {
     }
 }
 
-my.prototype.AbilityModel.prototype.levelUpAbility = function (index, data, event, hero) {
+AbilityModel.prototype.levelUpAbility = function (index, data, event, hero) {
     var self = this;
     if (self.abilities()[index()].level() < hero.getAbilityLevelMax(data) && hero.availableSkillPoints() > 0 ) {
         switch(self.abilities()[index()].abilitytype) {
@@ -2315,7 +2314,7 @@ my.prototype.AbilityModel.prototype.levelUpAbility = function (index, data, even
         }
     }
 };
-my.prototype.AbilityModel.prototype.levelDownAbility = function (index, data, event, hero) {
+AbilityModel.prototype.levelDownAbility = function (index, data, event, hero) {
     var i = ko.utils.unwrapObservable(index);
     var self = this;
     if (self.abilities()[i].level() > 0) {
@@ -2356,7 +2355,7 @@ my.prototype.AbilityModel.prototype.levelDownAbility = function (index, data, ev
         }
     }
 };
-my.prototype.AbilityModel.prototype.getAbilityAttributeValue = function (attributes, attributeName, level) {
+AbilityModel.prototype.getAbilityAttributeValue = function (attributes, attributeName, level) {
     for (var i=0; i < attributes.length; i++) {
         if (attributes[i].name == attributeName) {
             if (level == 0) {
@@ -2371,7 +2370,7 @@ my.prototype.AbilityModel.prototype.getAbilityAttributeValue = function (attribu
         }
     }
 }
-my.prototype.AbilityModel.prototype.getAbilityAttributeTooltip = function (attributes, attributeName) {
+AbilityModel.prototype.getAbilityAttributeTooltip = function (attributes, attributeName) {
     for (var i=0; i<attributes.length; i++) {
         if (attributes[i].name == attributeName) {
             if (attributes[i].hasOwnProperty('tooltip')) {
@@ -2385,3 +2384,5 @@ my.prototype.AbilityModel.prototype.getAbilityAttributeTooltip = function (attri
     }
     return '';
 }
+
+module.exports = AbilityModel;
