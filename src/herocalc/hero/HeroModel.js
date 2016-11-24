@@ -4,8 +4,6 @@ var ko = require('../herocalc_knockout');
 var AbilityModel = require("../AbilityModel");
 var BuffViewModel = require("../BuffViewModel");
 var InventoryViewModel = require("../inventory/InventoryViewModel");
-var illusionOptionsArray = require("../illusion/illusionOptionsArray");
-var illusionData = require("../illusion/illusionData");
 var heroData = require("./heroData");
 var diffProperties = require("./diffProperties");
 var HeroDamageMixin = require("./HeroDamageMixin");
@@ -29,13 +27,6 @@ var HeroModel = function (h) {
     self.enemy = ko.observable(self);
     self.unit = ko.observable(self);
     self.clone = ko.observable(self);
-    self.illusions = ko.observableArray([]);
-    self.availableIllusions = ko.observableArray(illusionOptionsArray);
-    self.selectedIllusion = ko.observable(self.availableIllusions()[0]);
-    self.illusionAbilityLevel = ko.observable(1);
-    self.illusionAbilityMaxLevel = ko.computed(function () {
-        return illusionData[self.selectedIllusion().illusionName].max_level;
-    });
     
     self.skillPointHistory = ko.observableArray();
     
@@ -451,10 +442,6 @@ var HeroModel = function (h) {
         }
         return (total).toFixed(2);
     });
-    
-    self.addIllusion = function (data, event) {
-        self.illusions.push(ko.observable(new IllusionViewModel(0, self, self.illusionAbilityLevel())));
-    };
     
     self.diffProperties = diffProperties;
     self.diff = {};

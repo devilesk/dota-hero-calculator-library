@@ -1,0 +1,173 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish',
+1 verbose cli   'dota-hero-calculator-library',
+1 verbose cli   '--tag',
+1 verbose cli   'latest' ]
+2 info using npm@3.9.5
+3 info using node@v6.2.2
+4 verbose publish [ 'dota-hero-calculator-library' ]
+5 silly cache add args [ 'dota-hero-calculator-library', null ]
+6 verbose cache add spec dota-hero-calculator-library
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: 'dota-hero-calculator-library',
+7 silly cache add   scope: null,
+7 silly cache add   name: 'dota-hero-calculator-library',
+7 silly cache add   rawSpec: '',
+7 silly cache add   spec: 'latest',
+7 silly cache add   type: 'tag' }
+8 silly addNamed dota-hero-calculator-library@latest
+9 verbose addNamed "latest" is being treated as a dist-tag for dota-hero-calculator-library
+10 info addNameTag [ 'dota-hero-calculator-library', 'latest' ]
+11 silly mapToRegistry name dota-hero-calculator-library
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry data Result {
+14 silly mapToRegistry   raw: 'dota-hero-calculator-library',
+14 silly mapToRegistry   scope: null,
+14 silly mapToRegistry   name: 'dota-hero-calculator-library',
+14 silly mapToRegistry   rawSpec: '',
+14 silly mapToRegistry   spec: 'latest',
+14 silly mapToRegistry   type: 'tag' }
+15 silly mapToRegistry uri https://registry.npmjs.org/dota-hero-calculator-library
+16 verbose addNameTag registry:https://registry.npmjs.org/dota-hero-calculator-library not in flight; fetching
+17 verbose request uri https://registry.npmjs.org/dota-hero-calculator-library
+18 verbose request no auth needed
+19 info attempt registry request try #1 at 1:28:15 PM
+20 verbose request using bearer token for auth
+21 verbose request id b7cc37eaf0b70361
+22 verbose etag W/"5835cd4c-380b"
+23 verbose lastModified Wed, 23 Nov 2016 17:09:32 GMT
+24 http request GET https://registry.npmjs.org/dota-hero-calculator-library
+25 http 304 https://registry.npmjs.org/dota-hero-calculator-library
+26 verbose headers { server: 'nginx/1.10.1',
+26 verbose headers   'last-modified': 'Wed, 23 Nov 2016 17:09:32 GMT',
+26 verbose headers   etag: '"5835cd4c-380b"',
+26 verbose headers   'cache-control': 'max-age=300',
+26 verbose headers   'accept-ranges': 'bytes',
+26 verbose headers   date: 'Wed, 23 Nov 2016 18:28:15 GMT',
+26 verbose headers   via: '1.1 varnish',
+26 verbose headers   connection: 'keep-alive',
+26 verbose headers   'x-served-by': 'cache-iad2629-IAD',
+26 verbose headers   'x-cache': 'MISS',
+26 verbose headers   'x-cache-hits': '0',
+26 verbose headers   'x-timer': 'S1479925695.712430,VS0,VE0',
+26 verbose headers   vary: 'Accept-Encoding' }
+27 silly get cb [ 304,
+27 silly get   { server: 'nginx/1.10.1',
+27 silly get     'last-modified': 'Wed, 23 Nov 2016 17:09:32 GMT',
+27 silly get     etag: '"5835cd4c-380b"',
+27 silly get     'cache-control': 'max-age=300',
+27 silly get     'accept-ranges': 'bytes',
+27 silly get     date: 'Wed, 23 Nov 2016 18:28:15 GMT',
+27 silly get     via: '1.1 varnish',
+27 silly get     connection: 'keep-alive',
+27 silly get     'x-served-by': 'cache-iad2629-IAD',
+27 silly get     'x-cache': 'MISS',
+27 silly get     'x-cache-hits': '0',
+27 silly get     'x-timer': 'S1479925695.712430,VS0,VE0',
+27 silly get     vary: 'Accept-Encoding' } ]
+28 verbose etag https://registry.npmjs.org/dota-hero-calculator-library from cache
+29 verbose get saving dota-hero-calculator-library to /root/.npm/registry.npmjs.org/dota-hero-calculator-library/.cache.json
+30 verbose correctMkdir /root/.npm correctMkdir not in flight; initializing
+31 silly addNameTag next cb for dota-hero-calculator-library with tag latest
+32 silly addNamed dota-hero-calculator-library@0.1.1
+33 verbose addNamed "0.1.1" is a plain semver version for dota-hero-calculator-library
+34 warn deprecated dota-hero-calculator-library@0.1.1: reset version to pre-1.0.0 to properly reflect state of project not ready for 1.0.0 release
+35 silly cache afterAdd dota-hero-calculator-library@0.1.1
+36 verbose afterAdd /root/.npm/dota-hero-calculator-library/0.1.1/package/package.json not in flight; writing
+37 verbose correctMkdir /root/.npm correctMkdir not in flight; initializing
+38 verbose afterAdd /root/.npm/dota-hero-calculator-library/0.1.1/package/package.json written
+39 silly publish { name: 'dota-hero-calculator-library',
+39 silly publish   version: '0.1.1',
+39 silly publish   description: 'Dota 2 Hero Calculator Library',
+39 silly publish   main: 'src/herocalc/main.js',
+39 silly publish   repository:
+39 silly publish    { type: 'git',
+39 silly publish      url: 'git+https://github.com/devilesk/dota-hero-calculator-library.git' },
+39 silly publish   author: { name: 'devilesk' },
+39 silly publish   license: 'MIT',
+39 silly publish   bugs: { url: 'https://github.com/devilesk/dota-hero-calculator-library/issues' },
+39 silly publish   scripts:
+39 silly publish    { build: 'browserify -d -x \'knockout\' -x \'jquery\' --standalone HeroCalc src/herocalc/main.js | exorcist dist/herocalc.js.map > dist/herocalc.js',
+39 silly publish      'prod-build': 'browserify -d -x \'knockout\' -x \'jquery\' -p [minifyify --map herocalc.min.js.map --output dist/herocalc.min.js.map] --standalone HeroCalc src/herocalc/main.js > dist/herocalc.min.js' },
+39 silly publish   homepage: 'https://github.com/devilesk/dota-hero-calculator-library#readme',
+39 silly publish   devDependencies:
+39 silly publish    { 'babel-preset-es2015': '^6.18.0',
+39 silly publish      babelify: '^7.3.0',
+39 silly publish      brfs: '^1.4.3',
+39 silly publish      browserify: '^13.1.0',
+39 silly publish      'browserify-shim': '^3.8.12',
+39 silly publish      exorcist: '^0.4.0',
+39 silly publish      jquery: '^3.1.0',
+39 silly publish      knockout: '^3.4.0',
+39 silly publish      minifyify: '^7.3.3' },
+39 silly publish   dependencies: {},
+39 silly publish   browserify: { transform: [ 'browserify-shim' ] },
+39 silly publish   'browserify-shim': { knockout: 'global:ko', jquery: 'global:$' },
+39 silly publish   readme: 'dota-hero-calculator-library\n===============\nCore logic and models for dota hero calculator decoupled from views and view models.\n\nhttp://devilesk.com/dota2/apps/hero-calculator/',
+39 silly publish   readmeFilename: 'README.md',
+39 silly publish   gitHead: 'c1fd195c9c59c3cb709110466c487a8f28d1cd14',
+39 silly publish   _id: 'dota-hero-calculator-library@0.1.1',
+39 silly publish   _shasum: '6d41de99ee6607efeccebdf1abfb89a69aee3955',
+39 silly publish   _from: 'dota-hero-calculator-library@latest' }
+40 info lifecycle dota-hero-calculator-library@0.1.1~prepublish: dota-hero-calculator-library@0.1.1
+41 silly lifecycle dota-hero-calculator-library@0.1.1~prepublish: no script for prepublish, continuing
+42 verbose getPublishConfig undefined
+43 silly mapToRegistry name dota-hero-calculator-library
+44 silly mapToRegistry using default registry
+45 silly mapToRegistry registry https://registry.npmjs.org/
+46 silly mapToRegistry data Result {
+46 silly mapToRegistry   raw: 'dota-hero-calculator-library',
+46 silly mapToRegistry   scope: null,
+46 silly mapToRegistry   name: 'dota-hero-calculator-library',
+46 silly mapToRegistry   rawSpec: '',
+46 silly mapToRegistry   spec: 'latest',
+46 silly mapToRegistry   type: 'tag' }
+47 silly mapToRegistry uri https://registry.npmjs.org/dota-hero-calculator-library
+48 verbose publish registryBase https://registry.npmjs.org/
+49 silly publish uploading /root/.npm/dota-hero-calculator-library/0.1.1/package.tgz
+50 verbose request uri https://registry.npmjs.org/dota-hero-calculator-library
+51 verbose request sending authorization for write operation
+52 info attempt registry request try #1 at 1:28:15 PM
+53 verbose request using bearer token for auth
+54 http request PUT https://registry.npmjs.org/dota-hero-calculator-library
+55 http 403 https://registry.npmjs.org/dota-hero-calculator-library
+56 verbose headers { 'content-type': 'application/json',
+56 verbose headers   'cache-control': 'max-age=300',
+56 verbose headers   'content-length': '95',
+56 verbose headers   'accept-ranges': 'bytes',
+56 verbose headers   date: 'Wed, 23 Nov 2016 18:28:17 GMT',
+56 verbose headers   via: '1.1 varnish',
+56 verbose headers   connection: 'keep-alive',
+56 verbose headers   'x-served-by': 'cache-iad2629-IAD',
+56 verbose headers   'x-cache': 'MISS',
+56 verbose headers   'x-cache-hits': '0',
+56 verbose headers   'x-timer': 'S1479925695.876335,VS0,VE1149',
+56 verbose headers   vary: 'Accept-Encoding' }
+57 verbose request invalidating /root/.npm/registry.npmjs.org/dota-hero-calculator-library on PUT
+58 error publish Failed PUT 403
+59 verbose stack Error: "You cannot publish over the previously published version 0.1.1." : dota-hero-calculator-library
+59 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+59 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+59 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+59 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:200:22)
+59 verbose stack     at emitTwo (events.js:106:13)
+59 verbose stack     at Request.emit (events.js:191:7)
+59 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+59 verbose stack     at emitOne (events.js:101:20)
+59 verbose stack     at Request.emit (events.js:188:7)
+59 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:988:12)
+60 verbose statusCode 403
+61 verbose pkgid dota-hero-calculator-library
+62 verbose cwd /srv/www/dev.devilesk.com/dota2/apps/dota-hero-calculator-library
+63 error Linux 3.8.0-29-generic
+64 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish" "dota-hero-calculator-library" "--tag" "latest"
+65 error node v6.2.2
+66 error npm  v3.9.5
+67 error code E403
+68 error "You cannot publish over the previously published version 0.1.1." : dota-hero-calculator-library
+69 error If you need help, you may report this error at:
+69 error     <https://github.com/npm/npm/issues>
+70 verbose exit [ 1, true ]
