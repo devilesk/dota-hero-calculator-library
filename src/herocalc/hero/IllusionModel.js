@@ -7,7 +7,6 @@ var findWhere = require("../util/findWhere");
 
 var IllusionModel = function (h,p, abilityLevel) {
     var self = this;
-    console.log('IllusionModel', h);
     HeroModel.call(this, h);
     self.illusionAbilityLevel = ko.observable(abilityLevel);
     self.parent = p;
