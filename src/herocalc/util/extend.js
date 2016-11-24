@@ -10,7 +10,7 @@ var extend = function (out) {
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
                 if (typeof obj[key] === 'object')
-                    out[key] = my.prototype.extend(out[key], obj[key]);
+                    out[key] = extend(out[key], obj[key]);
                 else
                     out[key] = obj[key];
             }
