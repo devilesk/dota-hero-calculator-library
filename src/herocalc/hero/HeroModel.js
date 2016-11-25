@@ -4,7 +4,7 @@ var ko = require('../herocalc_knockout');
 var AbilityModel = require("../AbilityModel");
 var BuffViewModel = require("../BuffViewModel");
 var InventoryViewModel = require("../inventory/InventoryViewModel");
-var heroData = require("./heroData");
+var heroData = require("../data/main").heroData;
 var diffProperties = require("./diffProperties");
 var HeroDamageMixin = require("./HeroDamageMixin");
 

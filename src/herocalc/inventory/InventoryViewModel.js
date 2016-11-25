@@ -3,7 +3,7 @@ var ko = require('../herocalc_knockout');
 
 var stackableItems = require("./stackableItems");
 var levelItems = require("./levelItems");
-var itemData = require("../data/itemdata.json");
+var itemData = require("../data/main").itemData;
 var BasicInventoryViewModel = require("./BasicInventoryViewModel");
 var itemOptionsArray = require("./itemOptionsArray");
 var itemBuffOptions = require("./itemBuffOptions");

@@ -8,7 +8,8 @@ var buffOptionsArray = require("./buffs/buffOptionsArray");
 var debuffOptionsArray = require("./buffs/debuffOptionsArray");
 
 var BuffViewModel = function (a) {
-    var self = new AbilityModel(ko.observableArray([]));
+    var self = this;
+    AbilityModel.call(this, ko.observableArray([]));
     self.availableBuffs = ko.observableArray(buffOptionsArray);
     self.availableDebuffs = ko.observableArray(debuffOptionsArray);
     self.selectedBuff = ko.observable(self.availableBuffs()[0]);
@@ -200,5 +201,7 @@ var BuffViewModel = function (a) {
     
     return self;
 }
+BuffViewModel.prototype = Object.create(AbilityModel.prototype);
+BuffViewModel.prototype.constructor = BuffViewModel;
 
 module.exports = BuffViewModel;

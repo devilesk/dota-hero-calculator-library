@@ -3,7 +3,7 @@ var ko = require('../herocalc_knockout');
 
 var AbilityModel = require("../AbilityModel");
 var HeroModel = require("./HeroModel");
-var unitData = require("../data/unitdata.json");
+var unitData = require("../data/main").unitData;
 
 var UnitModel = function (h,p) {
     var self = this;

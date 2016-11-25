@@ -1,6 +1,6 @@
 var findWhere = require("../util/findWhere");
-var heroData = require("./hero/heroData");
-var unitData = require("./data/unitdata.json");
+var heroData = require("../data/main").heroData;
+var unitData = require("../data/main").unitData;
 
 var ItemBuffOption = function (item) {
     this.buffName = item;

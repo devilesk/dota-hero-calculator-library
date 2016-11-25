@@ -1,6 +1,6 @@
 var validItems = require("./validItems");
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/itemdata.json");
+var itemData = require("../data/main").itemData;
 
 var itemOptionsArr = [];
 

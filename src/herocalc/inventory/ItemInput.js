@@ -1,4 +1,4 @@
-var itemData = require("../data/itemdata.json");
+var itemData = require("../data/main").itemData;
 
 var ItemInput = function (value, name, debuff) {
     if (itemData['item_' + value].ItemAliases instanceof Array) {

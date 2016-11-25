@@ -1,4 +1,4 @@
-var heroData = require("./heroData");
+var heroData = require("../data/main").heroData;
 var HeroOption = require("./HeroOption");
 
 var heroOptionsArray = [];

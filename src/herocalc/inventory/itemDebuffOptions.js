@@ -1,5 +1,5 @@
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/itemdata.json");
+var itemData = require("../data/main").itemData;
 var itemDebuffs = [
     {item: 'assault', debuff: null},
     {item: 'shivas_guard', debuff: null},

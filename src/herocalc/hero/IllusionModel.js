@@ -1,7 +1,7 @@
 'use strict';
 var HeroModel = require("./HeroModel");
-var heroData = require("./heroData");
-var itemData = require("../data/itemdata.json");
+var heroData = require("../data/main").heroData;
+var itemData = require("../data/main").itemData;
 var illusionData = require("../illusion/illusionData");
 var findWhere = require("../util/findWhere");
 

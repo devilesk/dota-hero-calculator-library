@@ -11,5 +11,6 @@ core.IllusionModel = require("./hero/IllusionModel");
 core.HeroOptions = require("./hero/heroOptionsArray");
 core.findWhere = require("./util/findWhere");
 core.extend = require("./util/extend");
+core.Data = require("./data/main");
 
 module.exports = core;

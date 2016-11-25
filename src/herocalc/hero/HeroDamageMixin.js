@@ -2,7 +2,7 @@
 var ko = require('../herocalc_knockout');
     
 var DamageTypeColor = require("./DamageTypeColor");
-var itemData = require("../data/itemdata.json");
+var itemData = require("../data/main").itemData;
 var extend = require("../util/extend");
 
 var HeroDamageMixin = function (self) {
