@@ -2,7 +2,7 @@ var findWhere = require("../util/findWhere");
 var heroData = require("../data/main").heroData;
 var unitData = require("../data/main").unitData;
 
-var BuffOption = function (hero, ability) {
+var BuffModel = function (hero, ability) {
     this.buffName = ability;
     if (heroData['npc_dota_hero_' + hero] == undefined) {
         this.hero = hero;
@@ -20,4 +20,4 @@ var BuffOption = function (hero, ability) {
 
 };
 
-module.exports = BuffOption;
+module.exports = BuffModel;
