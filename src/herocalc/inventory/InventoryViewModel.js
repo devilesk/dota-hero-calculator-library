@@ -10,7 +10,8 @@ var itemBuffOptions = require("./itemBuffOptions");
 var itemDebuffOptions = require("./itemDebuffOptions");
 
 var InventoryViewModel = function (h) {
-    var self = new BasicInventoryViewModel();
+    var self = this;
+    BasicInventoryViewModel.call(this, h);
     self.hero = h;
     self.hasInventory = ko.observable(true);
     self.items = ko.observableArray([]);
@@ -1232,5 +1233,7 @@ var InventoryViewModel = function (h) {
     
     return self;
 };
+InventoryViewModel.prototype = Object.create(BasicInventoryViewModel.prototype);
+InventoryViewModel.prototype.constructor = InventoryViewModel;
 
 module.exports = InventoryViewModel;

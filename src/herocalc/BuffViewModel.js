@@ -15,7 +15,7 @@ var BuffViewModel = function (a) {
     self.selectedBuff = ko.observable(self.availableBuffs()[0]);
     
     self.buffs = ko.observableArray([]);
-    self.itemBuffs = InventoryViewModel();
+    self.itemBuffs = new InventoryViewModel();
     
     self.addBuff = function (data, event) {
         if (findWhere(self.buffs(), { name: self.selectedBuff().buffName }) == undefined) {

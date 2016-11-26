@@ -27,19 +27,19 @@ var BasicInventoryViewModel = function (h) {
                     new_item.size = Math.min(new_item.size, 3);
                 break;
             }
-            self.items.push(new_item);
+            this.items.push(new_item);
             if (data.selectedItem() === 'ring_of_aquila' || data.selectedItem() === 'ring_of_basilius' || data.selectedItem() === 'heart') {
-                self.toggleItem(undefined, new_item, undefined);
+                this.toggleItem(undefined, new_item, undefined);
             }
         }
-    };
+    }.bind(this);
     self.toggleItem = function (index, data, event) {
         if (itemsWithActive.indexOf(data.item) >= 0) {
-            if (self.activeItems.indexOf(data) < 0) {
-                self.activeItems.push(data);
+            if (this.activeItems.indexOf(data) < 0) {
+                this.activeItems.push(data);
             }
             else {
-                self.activeItems.remove(data);
+                this.activeItems.remove(data);
             }
             switch (data.item) {
                 case 'power_treads':
@@ -62,15 +62,15 @@ var BasicInventoryViewModel = function (h) {
         }
     }.bind(this);
     self.removeItem = function (item) {
-        self.activeItems.remove(item);
-        self.items.remove(item);
+        this.activeItems.remove(item);
+        this.items.remove(item);
     }.bind(this);
     self.toggleMuteItem = function (item) {
         item.enabled(!item.enabled());
-    }.bind(this);      
+    }.bind(this);
     self.removeAll = function () {
-        self.activeItems.removeAll();
-        self.items.removeAll();
+        this.activeItems.removeAll();
+        this.items.removeAll();
     }.bind(this);
 }
 BasicInventoryViewModel.prototype.getItemImage = function (data) {
