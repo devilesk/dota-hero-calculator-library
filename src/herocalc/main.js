@@ -9,8 +9,7 @@ core.CloneModel = require("./hero/CloneModel");
 core.UnitModel = require("./hero/UnitModel");
 core.IllusionModel = require("./hero/IllusionModel");
 core.HeroOptions = require("./hero/heroOptionsArray");
-core.findWhere = require("./util/findWhere");
-core.extend = require("./util/extend");
 core.Data = require("./data/main");
+core.Util = require("./util/main");
 
 module.exports = core;
