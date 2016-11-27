@@ -1223,12 +1223,12 @@ var InventoryViewModel = function (h) {
         return totalAttribute;
     };
     
-    self.itemOptions = ko.observableArray(itemOptionsArray);
+    self.itemOptions = ko.observableArray(itemOptionsArray.items);
     
-    self.itemBuffOptions = ko.observableArray(itemBuffOptions);
+    self.itemBuffOptions = ko.observableArray(itemBuffOptions.items);
     self.selectedItemBuff = ko.observable('assault');
 
-    self.itemDebuffOptions = ko.observableArray(itemDebuffOptions);
+    self.itemDebuffOptions = ko.observableArray(itemDebuffOptions.items);
     self.selectedItemDebuff = ko.observable('assault');
     
     return self;

@@ -12,8 +12,15 @@ var itemDebuffs = [
     {item: 'silver_edge', debuff: {id: 'shadow_walk', name: 'Shadow Walk'}},
     {item: 'silver_edge', debuff: {id: 'maim', name: 'Lesser Maim'}}
 ]
-var itemDebuffOptions = itemDebuffs.map(function(item) {
-    return new ItemInput(item.item, itemData['item_' + item.item].displayname, item.debuff);
-});
+var itemDebuffOptions = {};
+
+var init = function () {
+    itemDebuffOptions.items = itemDebuffs.map(function(item) {
+        return new ItemInput(item.item, itemData['item_' + item.item].displayname, item.debuff);
+    });
+    return itemDebuffOptions.items;
+}
+
+itemDebuffOptions.init = init;
 
 module.exports = itemDebuffOptions;

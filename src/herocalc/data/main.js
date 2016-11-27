@@ -1,5 +1,28 @@
-var HeroCalcData = {};
+var HeroCalcData = {
+    heroData: {},
+    itemData: {},
+    unitData: {},
+    heroDataReady: false,
+    itemDataReady: false,
+    unitDataReady: false
+};
 var getJSON = require("../util/getJSON");
+var extend = function(out) {
+  out = out || {};
+
+  for (var i = 1; i < arguments.length; i++) {
+    if (!arguments[i])
+      continue;
+
+    for (var key in arguments[i]) {
+      if (arguments[i].hasOwnProperty(key))
+        out[key] = arguments[i][key];
+    }
+  }
+
+  return out;
+};
+
 var resourceCounter = 0;
 
 var onResourceLoaded = function (callback) {
@@ -15,10 +38,11 @@ var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
     if (ITEMDATA_PATH) resourceCounter++;
     if (UNITDATA_PATH) resourceCounter++;
     
-    if (!HeroCalcData.heroData) {
+    if (!HeroCalcData.heroDataReady) {
         if (HERODATA_PATH) {
             getJSON(HERODATA_PATH, function (heroData) {
-                HeroCalcData.heroData = heroData;
+                extend(HeroCalcData.heroData, heroData);
+                HeroCalcData.heroDataReady = true;
                 heroData['npc_dota_hero_chen'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
                 heroData['npc_dota_hero_nevermore'].abilities[1].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
                 heroData['npc_dota_hero_nevermore'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
@@ -40,18 +64,20 @@ var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
             });
         }
     }
-    if (!HeroCalcData.itemData) {
+    if (!HeroCalcData.itemDataReady) {
         if (ITEMDATA_PATH) {
             getJSON(ITEMDATA_PATH, function (data) {
-                HeroCalcData.itemData = data;
+                extend(HeroCalcData.itemData, data);
+                HeroCalcData.itemDataReady = true;
                 onResourceLoaded(callback);
             });
         }
     }
-    if (!HeroCalcData.unitData) {
+    if (!HeroCalcData.unitDataReady) {
         if (UNITDATA_PATH) {
             getJSON(UNITDATA_PATH, function (data) {
-                HeroCalcData.unitData = data;
+                extend(HeroCalcData.unitData, data);
+                HeroCalcData.unitDataReady = true;
                 onResourceLoaded(callback);
             });
         }

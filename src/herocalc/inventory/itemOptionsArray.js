@@ -2,10 +2,16 @@ var validItems = require("./validItems");
 var ItemInput = require("./ItemInput");
 var itemData = require("../data/main").itemData;
 
-var itemOptionsArr = [];
+var itemOptionsArray = {};
 
-for (var i = 0; i < validItems.length; i++) {
-    itemOptionsArr.push(new ItemInput(validItems[i], itemData['item_' + validItems[i]].displayname));
+var init = function () {
+    itemOptionsArray.items = [];
+    for (var i = 0; i < validItems.length; i++) {
+        itemOptionsArray.items.push(new ItemInput(validItems[i], itemData['item_' + validItems[i]].displayname));
+    }
+    return itemOptionsArray.items;
 }
-        
-module.exports = itemOptionsArr;
+
+itemOptionsArray.init = init;
+
+module.exports = itemOptionsArray;
