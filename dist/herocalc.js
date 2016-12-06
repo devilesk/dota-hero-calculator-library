@@ -8139,14 +8139,14 @@ var ko = (typeof window !== "undefined" ? window['ko'] : typeof global !== "unde
 ko.mapping = require('../lib/knockout.mapping');
 ko.wrap = require('../lib/knockout.wrap');
 
-ko.extenders.numeric = function(target, precision) {
-    //create a writeable computed observable to intercept writes to our observable
-    var result = ko.computed({
+ko.extenders.numeric = function(target, opts) {
+    //create a writable computed observable to intercept writes to our observable
+    var result = ko.pureComputed({
         read: target,  //always return the original observables value
         write: function(newValue) {
             var current = target(),
-                roundingMultiplier = Math.pow(10, precision),
-                newValueAsNum = isNaN(newValue) ? 0 : parseFloat(+newValue),
+                roundingMultiplier = Math.pow(10, (opts === Object(opts) ? opts.precision : opts) || 0),
+                newValueAsNum = isNaN(newValue) ? (opts.defaultValue || 0) : +newValue,
                 valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
  
             //only write if it changed
