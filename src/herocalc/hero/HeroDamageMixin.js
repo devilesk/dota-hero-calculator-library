@@ -2,10 +2,9 @@
 var ko = require('../herocalc_knockout');
     
 var DamageTypeColor = require("./DamageTypeColor");
-var itemData = require("../data/main").itemData;
 var extend = require("../util/extend");
 
-var HeroDamageMixin = function (self) {
+var HeroDamageMixin = function (self, itemData) {
     self.critInfo = ko.pureComputed(function () {
         var critSources = self.inventory.getCritSource();
         extend(critSources, self.ability().getCritSource());

@@ -4,22 +4,21 @@ var ko = require('../herocalc_knockout');
 var AbilityModel = require("../AbilityModel");
 var BuffViewModel = require("../BuffViewModel");
 var InventoryViewModel = require("../inventory/InventoryViewModel");
-var heroData = require("../data/main").heroData;
 var diffProperties = require("./diffProperties");
 var HeroDamageMixin = require("./HeroDamageMixin");
 
 var totalExp = require("./totalExp");
 var nextLevelExp = require("./nextLevelExp");
 
-var HeroModel = function (h) {
+var HeroModel = function (heroData, itemData, h) {
     var self = this;
     self.heroId = ko.observable(h);
     self.selectedHeroLevel = ko.observable(1);
-    self.inventory = new InventoryViewModel(self);
+    self.inventory = new InventoryViewModel(itemData, self);
     self.selectedInventory = ko.observable(-1);
-    self.buffs = new BuffViewModel();
+    self.buffs = new BuffViewModel(itemData);
     self.buffs.hasScepter = self.inventory.hasScepter;
-    self.debuffs = new BuffViewModel();
+    self.debuffs = new BuffViewModel(itemData);
     self.heroData = ko.computed(function () {
       return heroData['npc_dota_hero_' + self.heroId()];
     });
@@ -406,7 +405,7 @@ var HeroModel = function (h) {
         return ((1 - (self.inventory.getCritChance() * self.ability().getCritChance())) * 100).toFixed(2);
     });
 
-    HeroDamageMixin(self);
+    HeroDamageMixin(self, itemData);
     
     /*self.critDamage = ko.computed(function () {
         self.critInfo();

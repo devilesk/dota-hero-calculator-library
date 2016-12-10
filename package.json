@@ -35,6 +35,7 @@
   },
   "browserify-shim": {
     "knockout": "global:ko",
-    "jquery": "global:$"
+    "jquery": "global:$",
+    "./HeroCalcData": "global:HeroCalcData"
   }
 }

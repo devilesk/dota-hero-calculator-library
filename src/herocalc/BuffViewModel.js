@@ -7,7 +7,7 @@ var findWhere = require("./util/findWhere");
 var buffOptionsArray = require("./buffs/buffOptionsArray");
 var debuffOptionsArray = require("./buffs/debuffOptionsArray");
 
-var BuffViewModel = function (a) {
+var BuffViewModel = function (itemData, a) {
     var self = this;
     AbilityModel.call(this, ko.observableArray([]));
     self.availableBuffs = ko.observableArray(buffOptionsArray.items);
@@ -15,7 +15,7 @@ var BuffViewModel = function (a) {
     self.selectedBuff = ko.observable(self.availableBuffs()[0]);
     
     self.buffs = ko.observableArray([]);
-    self.itemBuffs = new InventoryViewModel();
+    self.itemBuffs = new InventoryViewModel(itemData);
     
     self.addBuff = function (data, event) {
         if (findWhere(self.buffs(), { name: self.selectedBuff().buffName }) == undefined) {

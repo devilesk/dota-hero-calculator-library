@@ -1,8 +1,6 @@
 var findWhere = require("../util/findWhere");
-var heroData = require("../data/main").heroData;
-var unitData = require("../data/main").unitData;
 
-var BuffModel = function (hero, ability) {
+var BuffModel = function (heroData, unitData, hero, ability) {
     this.buffName = ability;
     if (heroData['npc_dota_hero_' + hero] == undefined) {
         this.hero = hero;

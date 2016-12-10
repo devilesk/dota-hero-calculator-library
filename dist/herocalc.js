@@ -2397,7 +2397,7 @@ var findWhere = require("./util/findWhere");
 var buffOptionsArray = require("./buffs/buffOptionsArray");
 var debuffOptionsArray = require("./buffs/debuffOptionsArray");
 
-var BuffViewModel = function (a) {
+var BuffViewModel = function (itemData, a) {
     var self = this;
     AbilityModel.call(this, ko.observableArray([]));
     self.availableBuffs = ko.observableArray(buffOptionsArray.items);
@@ -2405,7 +2405,7 @@ var BuffViewModel = function (a) {
     self.selectedBuff = ko.observable(self.availableBuffs()[0]);
     
     self.buffs = ko.observableArray([]);
-    self.itemBuffs = new InventoryViewModel();
+    self.itemBuffs = new InventoryViewModel(itemData);
     
     self.addBuff = function (data, event) {
         if (findWhere(self.buffs(), { name: self.selectedBuff().buffName }) == undefined) {
@@ -2597,10 +2597,8 @@ BuffViewModel.prototype.constructor = BuffViewModel;
 module.exports = BuffViewModel;
 },{"./AbilityModel":1,"./buffs/buffOptionsArray":4,"./buffs/debuffOptionsArray":5,"./herocalc_knockout":19,"./inventory/InventoryViewModel":22,"./util/findWhere":33}],3:[function(require,module,exports){
 var findWhere = require("../util/findWhere");
-var heroData = require("../data/main").heroData;
-var unitData = require("../data/main").unitData;
 
-var BuffModel = function (hero, ability) {
+var BuffModel = function (heroData, unitData, hero, ability) {
     this.buffName = ability;
     if (heroData['npc_dota_hero_' + hero] == undefined) {
         this.hero = hero;
@@ -2619,52 +2617,52 @@ var BuffModel = function (hero, ability) {
 };
 
 module.exports = BuffModel;
-},{"../data/main":6,"../util/findWhere":33}],4:[function(require,module,exports){
+},{"../util/findWhere":33}],4:[function(require,module,exports){
 var BuffModel = require("./BuffModel");
 
 var buffOptionsArray = {};
 
-var init = function () {
+var init = function (heroData) {
     buffOptionsArray.items = [
-        new BuffModel('abaddon', 'abaddon_frostmourne'),
-        new BuffModel('axe', 'axe_culling_blade'),
-        new BuffModel('beastmaster', 'beastmaster_inner_beast'),
-        new BuffModel('bloodseeker', 'bloodseeker_bloodrage'),
-        new BuffModel('bounty_hunter', 'bounty_hunter_track'),
-        new BuffModel('centaur', 'centaur_stampede'),
-        new BuffModel('crystal_maiden', 'crystal_maiden_brilliance_aura'),
-        new BuffModel('dark_seer', 'dark_seer_surge'),
-        new BuffModel('dazzle', 'dazzle_weave'),
-        new BuffModel('drow_ranger', 'drow_ranger_trueshot'),
-        new BuffModel('invoker', 'invoker_alacrity'),
-        new BuffModel('wisp', 'wisp_tether'),
-        new BuffModel('wisp', 'wisp_overcharge'),
-        new BuffModel('kunkka', 'kunkka_ghostship'),
-        new BuffModel('lich', 'lich_frost_armor'),
-        new BuffModel('life_stealer', 'life_stealer_open_wounds'),
-        new BuffModel('luna', 'luna_lunar_blessing'),
-        new BuffModel('lycan', 'lycan_howl'),
-        new BuffModel('magnataur', 'magnataur_empower'),
-        new BuffModel('mirana', 'mirana_leap'),
-        new BuffModel('ogre_magi', 'ogre_magi_bloodlust'),
-        new BuffModel('omniknight', 'omniknight_guardian_angel'),
-        new BuffModel('rubick', 'rubick_null_field'),
-        new BuffModel('skeleton_king', 'skeleton_king_vampiric_aura'),
-        new BuffModel('spirit_breaker', 'spirit_breaker_empowering_haste'),
-        new BuffModel('sven', 'sven_warcry'),
-        new BuffModel('sven', 'sven_gods_strength'),
-        new BuffModel('treant', 'treant_living_armor'),
-        new BuffModel('troll_warlord', 'troll_warlord_battle_trance'),
-        new BuffModel('vengefulspirit', 'vengefulspirit_command_aura'),
-        new BuffModel('npc_dota_neutral_alpha_wolf', 'alpha_wolf_critical_strike'),
-        new BuffModel('npc_dota_neutral_alpha_wolf', 'alpha_wolf_command_aura'),
-        new BuffModel('npc_dota_neutral_polar_furbolg_ursa_warrior', 'centaur_khan_endurance_aura'),
-        new BuffModel('npc_dota_neutral_giant_wolf', 'giant_wolf_critical_strike'),
-        new BuffModel('npc_dota_neutral_kobold_taskmaster', 'kobold_taskmaster_speed_aura'),
-        new BuffModel('npc_dota_neutral_ogre_magi', 'ogre_magi_frost_armor'),
-        new BuffModel('npc_dota_neutral_satyr_hellcaller', 'satyr_hellcaller_unholy_aura'),
-        new BuffModel('npc_dota_neutral_enraged_wildkin', 'enraged_wildkin_toughness_aura'),
-        new BuffModel('npc_dota_necronomicon_archer_1', 'necronomicon_archer_aoe')
+        new BuffModel(heroData, 'abaddon', 'abaddon_frostmourne'),
+        new BuffModel(heroData, 'axe', 'axe_culling_blade'),
+        new BuffModel(heroData, 'beastmaster', 'beastmaster_inner_beast'),
+        new BuffModel(heroData, 'bloodseeker', 'bloodseeker_bloodrage'),
+        new BuffModel(heroData, 'bounty_hunter', 'bounty_hunter_track'),
+        new BuffModel(heroData, 'centaur', 'centaur_stampede'),
+        new BuffModel(heroData, 'crystal_maiden', 'crystal_maiden_brilliance_aura'),
+        new BuffModel(heroData, 'dark_seer', 'dark_seer_surge'),
+        new BuffModel(heroData, 'dazzle', 'dazzle_weave'),
+        new BuffModel(heroData, 'drow_ranger', 'drow_ranger_trueshot'),
+        new BuffModel(heroData, 'invoker', 'invoker_alacrity'),
+        new BuffModel(heroData, 'wisp', 'wisp_tether'),
+        new BuffModel(heroData, 'wisp', 'wisp_overcharge'),
+        new BuffModel(heroData, 'kunkka', 'kunkka_ghostship'),
+        new BuffModel(heroData, 'lich', 'lich_frost_armor'),
+        new BuffModel(heroData, 'life_stealer', 'life_stealer_open_wounds'),
+        new BuffModel(heroData, 'luna', 'luna_lunar_blessing'),
+        new BuffModel(heroData, 'lycan', 'lycan_howl'),
+        new BuffModel(heroData, 'magnataur', 'magnataur_empower'),
+        new BuffModel(heroData, 'mirana', 'mirana_leap'),
+        new BuffModel(heroData, 'ogre_magi', 'ogre_magi_bloodlust'),
+        new BuffModel(heroData, 'omniknight', 'omniknight_guardian_angel'),
+        new BuffModel(heroData, 'rubick', 'rubick_null_field'),
+        new BuffModel(heroData, 'skeleton_king', 'skeleton_king_vampiric_aura'),
+        new BuffModel(heroData, 'spirit_breaker', 'spirit_breaker_empowering_haste'),
+        new BuffModel(heroData, 'sven', 'sven_warcry'),
+        new BuffModel(heroData, 'sven', 'sven_gods_strength'),
+        new BuffModel(heroData, 'treant', 'treant_living_armor'),
+        new BuffModel(heroData, 'troll_warlord', 'troll_warlord_battle_trance'),
+        new BuffModel(heroData, 'vengefulspirit', 'vengefulspirit_command_aura'),
+        new BuffModel(heroData, 'npc_dota_neutral_alpha_wolf', 'alpha_wolf_critical_strike'),
+        new BuffModel(heroData, 'npc_dota_neutral_alpha_wolf', 'alpha_wolf_command_aura'),
+        new BuffModel(heroData, 'npc_dota_neutral_polar_furbolg_ursa_warrior', 'centaur_khan_endurance_aura'),
+        new BuffModel(heroData, 'npc_dota_neutral_giant_wolf', 'giant_wolf_critical_strike'),
+        new BuffModel(heroData, 'npc_dota_neutral_kobold_taskmaster', 'kobold_taskmaster_speed_aura'),
+        new BuffModel(heroData, 'npc_dota_neutral_ogre_magi', 'ogre_magi_frost_armor'),
+        new BuffModel(heroData, 'npc_dota_neutral_satyr_hellcaller', 'satyr_hellcaller_unholy_aura'),
+        new BuffModel(heroData, 'npc_dota_neutral_enraged_wildkin', 'enraged_wildkin_toughness_aura'),
+        new BuffModel(heroData, 'npc_dota_necronomicon_archer_1', 'necronomicon_archer_aoe')
     ];
     return buffOptionsArray.items;
 }
@@ -2677,99 +2675,99 @@ var BuffModel = require("./BuffModel");
 
 var debuffOptionsArray = {};
 
-var init = function () {
+var init = function (heroData) {
     debuffOptionsArray.items = [
-        new BuffModel('abaddon', 'abaddon_frostmourne'),
-        new BuffModel('alchemist', 'alchemist_acid_spray'),
-        new BuffModel('ancient_apparition', 'ancient_apparition_ice_vortex'),
-        new BuffModel('axe', 'axe_battle_hunger'),
-        new BuffModel('bane', 'bane_enfeeble'),
-        new BuffModel('batrider', 'batrider_sticky_napalm'),
-        new BuffModel('beastmaster', 'beastmaster_primal_roar'),
-        new BuffModel('bounty_hunter', 'bounty_hunter_jinada'),
-        new BuffModel('brewmaster', 'brewmaster_thunder_clap'),
-        new BuffModel('brewmaster', 'brewmaster_drunken_haze'),
-        new BuffModel('bristleback', 'bristleback_viscous_nasal_goo'),
-        new BuffModel('broodmother', 'broodmother_incapacitating_bite'),
-        new BuffModel('centaur', 'centaur_stampede'),
-        new BuffModel('chen', 'chen_penitence'),
-        new BuffModel('crystal_maiden', 'crystal_maiden_crystal_nova'),
-        new BuffModel('crystal_maiden', 'crystal_maiden_freezing_field'),
-        new BuffModel('dazzle', 'dazzle_weave'),
-        new BuffModel('drow_ranger', 'drow_ranger_frost_arrows'),
-        new BuffModel('earth_spirit', 'earth_spirit_rolling_boulder'),
-        new BuffModel('elder_titan', 'elder_titan_natural_order'),
-        new BuffModel('elder_titan', 'elder_titan_earth_splitter'),
-        new BuffModel('enchantress', 'enchantress_untouchable'),
-        new BuffModel('enchantress', 'enchantress_enchant'),
-        new BuffModel('faceless_void', 'faceless_void_time_walk'),
-        new BuffModel('huskar', 'huskar_life_break'),
-        new BuffModel('invoker', 'invoker_ghost_walk'),
-        new BuffModel('invoker', 'invoker_ice_wall'),
-        new BuffModel('wisp', 'wisp_tether'),
-        new BuffModel('jakiro', 'jakiro_dual_breath'),
-        new BuffModel('jakiro', 'jakiro_liquid_fire'),
-        new BuffModel('keeper_of_the_light', 'keeper_of_the_light_blinding_light'),
-        new BuffModel('kunkka', 'kunkka_torrent'),
-        new BuffModel('lich', 'lich_frost_nova'),
-        new BuffModel('lich', 'lich_frost_armor'),
-        new BuffModel('lich', 'lich_chain_frost'),
-        new BuffModel('life_stealer', 'life_stealer_open_wounds'),
-        new BuffModel('lion', 'lion_voodoo'),
-        new BuffModel('magnataur', 'magnataur_skewer'),
-        new BuffModel('medusa', 'medusa_stone_gaze'),
-        new BuffModel('meepo', 'meepo_geostrike'),
-        new BuffModel('naga_siren', 'naga_siren_rip_tide'),
-        new BuffModel('night_stalker', 'night_stalker_void'),
-        new BuffModel('night_stalker', 'night_stalker_crippling_fear'),
-        new BuffModel('night_stalker', 'night_stalker_darkness'),
-        new BuffModel('ogre_magi', 'ogre_magi_ignite'),
-        new BuffModel('omniknight', 'omniknight_degen_aura'),
-        new BuffModel('phantom_assassin', 'phantom_assassin_stifling_dagger'),
-        new BuffModel('phantom_lancer', 'phantom_lancer_spirit_lance'),
-        new BuffModel('pudge', 'pudge_rot'),
-        new BuffModel('pugna', 'pugna_decrepify'),
-        new BuffModel('queenofpain', 'queenofpain_shadow_strike'),
-        new BuffModel('riki', 'riki_smoke_screen'),
-        new BuffModel('rubick', 'rubick_fade_bolt'),
-        new BuffModel('sand_king', 'sandking_epicenter'),
-        new BuffModel('nevermore', 'nevermore_dark_lord'),
-        new BuffModel('shadow_shaman', 'shadow_shaman_voodoo'),
-        new BuffModel('skeleton_king', 'skeleton_king_hellfire_blast'),
-        new BuffModel('skeleton_king', 'skeleton_king_reincarnation'),
-        new BuffModel('skywrath_mage', 'skywrath_mage_concussive_shot'),
-        new BuffModel('skywrath_mage', 'skywrath_mage_ancient_seal'),
-        new BuffModel('slardar', 'slardar_slithereen_crush'),
-        new BuffModel('slardar', 'slardar_amplify_damage'),
-        new BuffModel('slark', 'slark_essence_shift'),
-        new BuffModel('sniper', 'sniper_shrapnel'),
-        new BuffModel('spectre', 'spectre_spectral_dagger'),
-        new BuffModel('storm_spirit', 'storm_spirit_overload'),
-        new BuffModel('templar_assassin', 'templar_assassin_meld'),
-        new BuffModel('tidehunter', 'tidehunter_gush'),
-        new BuffModel('tinker', 'tinker_laser'),
-        new BuffModel('treant', 'treant_leech_seed'),
-        new BuffModel('tusk', 'tusk_frozen_sigil'),
-        new BuffModel('undying', 'undying_flesh_golem'),
-        new BuffModel('ursa', 'ursa_earthshock'),
-        new BuffModel('vengefulspirit', 'vengefulspirit_wave_of_terror'),
-        new BuffModel('vengefulspirit', 'vengefulspirit_command_aura'),
-        new BuffModel('venomancer', 'venomancer_venomous_gale'),
-        new BuffModel('venomancer', 'venomancer_poison_sting'),
-        new BuffModel('viper', 'viper_poison_attack'),
-        new BuffModel('viper', 'viper_corrosive_skin'),
-        new BuffModel('viper', 'viper_viper_strike'),
-        new BuffModel('visage', 'visage_grave_chill'),
-        new BuffModel('warlock', 'warlock_upheaval'),
-        new BuffModel('weaver', 'weaver_the_swarm'),
-        new BuffModel('windrunner', 'windrunner_windrun'),
-        new BuffModel('winter_wyvern', 'winter_wyvern_arctic_burn'),
-        new BuffModel('winter_wyvern', 'winter_wyvern_splinter_blast'),
-        new BuffModel('npc_dota_neutral_ghost', 'ghost_frost_attack'),
-        new BuffModel('npc_dota_neutral_polar_furbolg_ursa_warrior', 'polar_furbolg_ursa_warrior_thunder_clap'),
-        new BuffModel('npc_dota_neutral_ogre_magi', 'ogre_magi_frost_armor'),
-        new BuffModel('npc_dota_neutral_satyr_trickster', 'satyr_trickster_purge'),
-        new BuffModel('npc_dota_neutral_enraged_wildkin', 'enraged_wildkin_tornado')
+        new BuffModel(heroData, 'abaddon', 'abaddon_frostmourne'),
+        new BuffModel(heroData, 'alchemist', 'alchemist_acid_spray'),
+        new BuffModel(heroData, 'ancient_apparition', 'ancient_apparition_ice_vortex'),
+        new BuffModel(heroData, 'axe', 'axe_battle_hunger'),
+        new BuffModel(heroData, 'bane', 'bane_enfeeble'),
+        new BuffModel(heroData, 'batrider', 'batrider_sticky_napalm'),
+        new BuffModel(heroData, 'beastmaster', 'beastmaster_primal_roar'),
+        new BuffModel(heroData, 'bounty_hunter', 'bounty_hunter_jinada'),
+        new BuffModel(heroData, 'brewmaster', 'brewmaster_thunder_clap'),
+        new BuffModel(heroData, 'brewmaster', 'brewmaster_drunken_haze'),
+        new BuffModel(heroData, 'bristleback', 'bristleback_viscous_nasal_goo'),
+        new BuffModel(heroData, 'broodmother', 'broodmother_incapacitating_bite'),
+        new BuffModel(heroData, 'centaur', 'centaur_stampede'),
+        new BuffModel(heroData, 'chen', 'chen_penitence'),
+        new BuffModel(heroData, 'crystal_maiden', 'crystal_maiden_crystal_nova'),
+        new BuffModel(heroData, 'crystal_maiden', 'crystal_maiden_freezing_field'),
+        new BuffModel(heroData, 'dazzle', 'dazzle_weave'),
+        new BuffModel(heroData, 'drow_ranger', 'drow_ranger_frost_arrows'),
+        new BuffModel(heroData, 'earth_spirit', 'earth_spirit_rolling_boulder'),
+        new BuffModel(heroData, 'elder_titan', 'elder_titan_natural_order'),
+        new BuffModel(heroData, 'elder_titan', 'elder_titan_earth_splitter'),
+        new BuffModel(heroData, 'enchantress', 'enchantress_untouchable'),
+        new BuffModel(heroData, 'enchantress', 'enchantress_enchant'),
+        new BuffModel(heroData, 'faceless_void', 'faceless_void_time_walk'),
+        new BuffModel(heroData, 'huskar', 'huskar_life_break'),
+        new BuffModel(heroData, 'invoker', 'invoker_ghost_walk'),
+        new BuffModel(heroData, 'invoker', 'invoker_ice_wall'),
+        new BuffModel(heroData, 'wisp', 'wisp_tether'),
+        new BuffModel(heroData, 'jakiro', 'jakiro_dual_breath'),
+        new BuffModel(heroData, 'jakiro', 'jakiro_liquid_fire'),
+        new BuffModel(heroData, 'keeper_of_the_light', 'keeper_of_the_light_blinding_light'),
+        new BuffModel(heroData, 'kunkka', 'kunkka_torrent'),
+        new BuffModel(heroData, 'lich', 'lich_frost_nova'),
+        new BuffModel(heroData, 'lich', 'lich_frost_armor'),
+        new BuffModel(heroData, 'lich', 'lich_chain_frost'),
+        new BuffModel(heroData, 'life_stealer', 'life_stealer_open_wounds'),
+        new BuffModel(heroData, 'lion', 'lion_voodoo'),
+        new BuffModel(heroData, 'magnataur', 'magnataur_skewer'),
+        new BuffModel(heroData, 'medusa', 'medusa_stone_gaze'),
+        new BuffModel(heroData, 'meepo', 'meepo_geostrike'),
+        new BuffModel(heroData, 'naga_siren', 'naga_siren_rip_tide'),
+        new BuffModel(heroData, 'night_stalker', 'night_stalker_void'),
+        new BuffModel(heroData, 'night_stalker', 'night_stalker_crippling_fear'),
+        new BuffModel(heroData, 'night_stalker', 'night_stalker_darkness'),
+        new BuffModel(heroData, 'ogre_magi', 'ogre_magi_ignite'),
+        new BuffModel(heroData, 'omniknight', 'omniknight_degen_aura'),
+        new BuffModel(heroData, 'phantom_assassin', 'phantom_assassin_stifling_dagger'),
+        new BuffModel(heroData, 'phantom_lancer', 'phantom_lancer_spirit_lance'),
+        new BuffModel(heroData, 'pudge', 'pudge_rot'),
+        new BuffModel(heroData, 'pugna', 'pugna_decrepify'),
+        new BuffModel(heroData, 'queenofpain', 'queenofpain_shadow_strike'),
+        new BuffModel(heroData, 'riki', 'riki_smoke_screen'),
+        new BuffModel(heroData, 'rubick', 'rubick_fade_bolt'),
+        new BuffModel(heroData, 'sand_king', 'sandking_epicenter'),
+        new BuffModel(heroData, 'nevermore', 'nevermore_dark_lord'),
+        new BuffModel(heroData, 'shadow_shaman', 'shadow_shaman_voodoo'),
+        new BuffModel(heroData, 'skeleton_king', 'skeleton_king_hellfire_blast'),
+        new BuffModel(heroData, 'skeleton_king', 'skeleton_king_reincarnation'),
+        new BuffModel(heroData, 'skywrath_mage', 'skywrath_mage_concussive_shot'),
+        new BuffModel(heroData, 'skywrath_mage', 'skywrath_mage_ancient_seal'),
+        new BuffModel(heroData, 'slardar', 'slardar_slithereen_crush'),
+        new BuffModel(heroData, 'slardar', 'slardar_amplify_damage'),
+        new BuffModel(heroData, 'slark', 'slark_essence_shift'),
+        new BuffModel(heroData, 'sniper', 'sniper_shrapnel'),
+        new BuffModel(heroData, 'spectre', 'spectre_spectral_dagger'),
+        new BuffModel(heroData, 'storm_spirit', 'storm_spirit_overload'),
+        new BuffModel(heroData, 'templar_assassin', 'templar_assassin_meld'),
+        new BuffModel(heroData, 'tidehunter', 'tidehunter_gush'),
+        new BuffModel(heroData, 'tinker', 'tinker_laser'),
+        new BuffModel(heroData, 'treant', 'treant_leech_seed'),
+        new BuffModel(heroData, 'tusk', 'tusk_frozen_sigil'),
+        new BuffModel(heroData, 'undying', 'undying_flesh_golem'),
+        new BuffModel(heroData, 'ursa', 'ursa_earthshock'),
+        new BuffModel(heroData, 'vengefulspirit', 'vengefulspirit_wave_of_terror'),
+        new BuffModel(heroData, 'vengefulspirit', 'vengefulspirit_command_aura'),
+        new BuffModel(heroData, 'venomancer', 'venomancer_venomous_gale'),
+        new BuffModel(heroData, 'venomancer', 'venomancer_poison_sting'),
+        new BuffModel(heroData, 'viper', 'viper_poison_attack'),
+        new BuffModel(heroData, 'viper', 'viper_corrosive_skin'),
+        new BuffModel(heroData, 'viper', 'viper_viper_strike'),
+        new BuffModel(heroData, 'visage', 'visage_grave_chill'),
+        new BuffModel(heroData, 'warlock', 'warlock_upheaval'),
+        new BuffModel(heroData, 'weaver', 'weaver_the_swarm'),
+        new BuffModel(heroData, 'windrunner', 'windrunner_windrun'),
+        new BuffModel(heroData, 'winter_wyvern', 'winter_wyvern_arctic_burn'),
+        new BuffModel(heroData, 'winter_wyvern', 'winter_wyvern_splinter_blast'),
+        new BuffModel(heroData, 'npc_dota_neutral_ghost', 'ghost_frost_attack'),
+        new BuffModel(heroData, 'npc_dota_neutral_polar_furbolg_ursa_warrior', 'polar_furbolg_ursa_warrior_thunder_clap'),
+        new BuffModel(heroData, 'npc_dota_neutral_ogre_magi', 'ogre_magi_frost_armor'),
+        new BuffModel(heroData, 'npc_dota_neutral_satyr_trickster', 'satyr_trickster_purge'),
+        new BuffModel(heroData, 'npc_dota_neutral_enraged_wildkin', 'enraged_wildkin_tornado')
     ];
     return debuffOptionsArray.items;
 }
@@ -2778,15 +2776,10 @@ debuffOptionsArray.init = init;
 
 module.exports = debuffOptionsArray;
 },{"./BuffModel":3}],6:[function(require,module,exports){
-var HeroCalcData = {
-    heroData: {},
-    itemData: {},
-    unitData: {},
-    heroDataReady: false,
-    itemDataReady: false,
-    unitDataReady: false
-};
+(function (global){
+var HeroCalcData = (typeof window !== "undefined" ? window['HeroCalcData'] : typeof global !== "undefined" ? global['HeroCalcData'] : null) || {};
 var getJSON = require("../util/getJSON");
+var isEmpty = require("../util/isEmpty");
 var extend = function(out) {
   out = out || {};
 
@@ -2808,72 +2801,83 @@ var resourceCounter = 0;
 var onResourceLoaded = function (callback) {
     resourceCounter--;
     if (resourceCounter === 0) {
+        fixHeroData(HeroCalcData.heroData);
         if (callback) callback();
     }
 }
 
+var fixHeroData = function (heroData) {
+    heroData['npc_dota_hero_chen'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_nevermore'].abilities[1].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_nevermore'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_morphling'].abilities[3].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_ogre_magi'].abilities[3].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_techies'].abilities[4].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+    heroData['npc_dota_hero_beastmaster'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
+
+    var index = heroData['npc_dota_hero_lone_druid'].abilities[3].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_HIDDEN');
+    heroData['npc_dota_hero_lone_druid'].abilities[3].behavior.splice(index, 1);
+
+    index = heroData['npc_dota_hero_abaddon'].abilities[2].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE');
+    heroData['npc_dota_hero_abaddon'].abilities[2].behavior.splice(index, 1);
+
+    index = heroData['npc_dota_hero_riki'].abilities[2].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE');
+    heroData['npc_dota_hero_riki'].abilities[2].behavior.splice(index, 1);
+}
+
 var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
-    resourceCounter = 0;
-    if (HERODATA_PATH) resourceCounter++;
-    if (ITEMDATA_PATH) resourceCounter++;
-    if (UNITDATA_PATH) resourceCounter++;
+    console.log('init HeroCalcData', HeroCalcData);
+    resourceCounter = 3;
     
-    if (!HeroCalcData.heroDataReady) {
+    if (!HeroCalcData.heroData || isEmpty(HeroCalcData.heroData)) {
         if (HERODATA_PATH) {
-            getJSON(HERODATA_PATH, function (heroData) {
-                extend(HeroCalcData.heroData, heroData);
-                HeroCalcData.heroDataReady = true;
-                heroData['npc_dota_hero_chen'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_nevermore'].abilities[1].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_nevermore'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_morphling'].abilities[3].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_ogre_magi'].abilities[3].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_techies'].abilities[4].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-                heroData['npc_dota_hero_beastmaster'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
-
-                var index = heroData['npc_dota_hero_lone_druid'].abilities[3].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_HIDDEN');
-                heroData['npc_dota_hero_lone_druid'].abilities[3].behavior.splice(index, 1);
-
-                index = heroData['npc_dota_hero_abaddon'].abilities[2].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE');
-                heroData['npc_dota_hero_abaddon'].abilities[2].behavior.splice(index, 1);
-
-                index = heroData['npc_dota_hero_riki'].abilities[2].behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE');
-                heroData['npc_dota_hero_riki'].abilities[2].behavior.splice(index, 1);
-                
+            getJSON(HERODATA_PATH, function (data) {
+                HeroCalcData.heroData = data;
                 onResourceLoaded(callback);
             });
         }
     }
-    if (!HeroCalcData.itemDataReady) {
+    else {
+        onResourceLoaded(callback);
+    }
+    
+    if (!HeroCalcData.itemData || isEmpty(HeroCalcData.itemData)) {
         if (ITEMDATA_PATH) {
             getJSON(ITEMDATA_PATH, function (data) {
-                extend(HeroCalcData.itemData, data);
-                HeroCalcData.itemDataReady = true;
+                HeroCalcData.itemData = data;
                 onResourceLoaded(callback);
             });
         }
     }
-    if (!HeroCalcData.unitDataReady) {
+    else {
+        onResourceLoaded(callback);
+    }
+    
+    if (!HeroCalcData.unitData || isEmpty(HeroCalcData.unitData)) {
         if (UNITDATA_PATH) {
             getJSON(UNITDATA_PATH, function (data) {
-                extend(HeroCalcData.unitData, data);
-                HeroCalcData.unitDataReady = true;
+                HeroCalcData.unitData = data;
                 onResourceLoaded(callback);
             });
         }
+    }
+    else {
+        onResourceLoaded(callback);
     }
 }
     
 HeroCalcData.init = init;
 
 module.exports = HeroCalcData;
-},{"../util/getJSON":34}],7:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"../util/getJSON":34,"../util/isEmpty":35}],7:[function(require,module,exports){
 'use strict';
 var HeroModel = require("./HeroModel");
 
-var CloneModel = function (h,p) {
+var CloneModel = function (heroData, itemData, h,p) {
     var self = this;
-    HeroModel.call(this, h);
+    HeroModel.call(this, heroData, itemData, h);
     self.parent = p;
     return self;
 }
@@ -2895,10 +2899,9 @@ module.exports = DamageTypeColor;
 var ko = require('../herocalc_knockout');
     
 var DamageTypeColor = require("./DamageTypeColor");
-var itemData = require("../data/main").itemData;
 var extend = require("../util/extend");
 
-var HeroDamageMixin = function (self) {
+var HeroDamageMixin = function (self, itemData) {
     self.critInfo = ko.pureComputed(function () {
         var critSources = self.inventory.getCritSource();
         extend(critSources, self.ability().getCritSource());
@@ -3554,29 +3557,28 @@ var HeroDamageMixin = function (self) {
 }
 
 module.exports = HeroDamageMixin;
-},{"../data/main":6,"../herocalc_knockout":19,"../util/extend":32,"./DamageTypeColor":8}],10:[function(require,module,exports){
+},{"../herocalc_knockout":19,"../util/extend":32,"./DamageTypeColor":8}],10:[function(require,module,exports){
 'use strict';
 var ko = require('../herocalc_knockout');
 
 var AbilityModel = require("../AbilityModel");
 var BuffViewModel = require("../BuffViewModel");
 var InventoryViewModel = require("../inventory/InventoryViewModel");
-var heroData = require("../data/main").heroData;
 var diffProperties = require("./diffProperties");
 var HeroDamageMixin = require("./HeroDamageMixin");
 
 var totalExp = require("./totalExp");
 var nextLevelExp = require("./nextLevelExp");
 
-var HeroModel = function (h) {
+var HeroModel = function (heroData, itemData, h) {
     var self = this;
     self.heroId = ko.observable(h);
     self.selectedHeroLevel = ko.observable(1);
-    self.inventory = new InventoryViewModel(self);
+    self.inventory = new InventoryViewModel(itemData, self);
     self.selectedInventory = ko.observable(-1);
-    self.buffs = new BuffViewModel();
+    self.buffs = new BuffViewModel(itemData);
     self.buffs.hasScepter = self.inventory.hasScepter;
-    self.debuffs = new BuffViewModel();
+    self.debuffs = new BuffViewModel(itemData);
     self.heroData = ko.computed(function () {
       return heroData['npc_dota_hero_' + self.heroId()];
     });
@@ -3963,7 +3965,7 @@ var HeroModel = function (h) {
         return ((1 - (self.inventory.getCritChance() * self.ability().getCritChance())) * 100).toFixed(2);
     });
 
-    HeroDamageMixin(self);
+    HeroDamageMixin(self, itemData);
     
     /*self.critDamage = ko.computed(function () {
         self.critInfo();
@@ -4058,7 +4060,7 @@ HeroModel.prototype.getAbilityLevelMax = function (data) {
 };
 
 module.exports = HeroModel;
-},{"../AbilityModel":1,"../BuffViewModel":2,"../data/main":6,"../herocalc_knockout":19,"../inventory/InventoryViewModel":22,"./HeroDamageMixin":9,"./diffProperties":14,"./nextLevelExp":16,"./totalExp":17}],11:[function(require,module,exports){
+},{"../AbilityModel":1,"../BuffViewModel":2,"../herocalc_knockout":19,"../inventory/InventoryViewModel":22,"./HeroDamageMixin":9,"./diffProperties":14,"./nextLevelExp":16,"./totalExp":17}],11:[function(require,module,exports){
 var HeroOption = function (name, displayname, hero) {
     this.heroName = name;
     this.heroDisplayName = displayname;
@@ -4069,14 +4071,12 @@ module.exports = HeroOption;
 },{}],12:[function(require,module,exports){
 'use strict';
 var HeroModel = require("./HeroModel");
-var heroData = require("../data/main").heroData;
-var itemData = require("../data/main").itemData;
 var illusionData = require("../illusion/illusionData");
 var findWhere = require("../util/findWhere");
 
-var IllusionModel = function (h,p, abilityLevel) {
+var IllusionModel = function (heroData, itemData, h,p, abilityLevel) {
     var self = this;
-    HeroModel.call(this, h);
+    HeroModel.call(this, heroData, itemData, h);
     self.illusionAbilityLevel = ko.observable(abilityLevel);
     self.parent = p;
     
@@ -4209,7 +4209,7 @@ IllusionModel.prototype = Object.create(HeroModel.prototype);
 IllusionModel.prototype.constructor = IllusionModel;
 
 module.exports = IllusionModel;
-},{"../data/main":6,"../illusion/illusionData":20,"../util/findWhere":33,"./HeroModel":10}],13:[function(require,module,exports){
+},{"../illusion/illusionData":20,"../util/findWhere":33,"./HeroModel":10}],13:[function(require,module,exports){
 'use strict';
 var ko = require('../herocalc_knockout');
 
@@ -4217,9 +4217,9 @@ var AbilityModel = require("../AbilityModel");
 var HeroModel = require("./HeroModel");
 var unitData = require("../data/main").unitData;
 
-var UnitModel = function (h,p) {
+var UnitModel = function (heroData, itemData, h, p) {
     var self = this;
-    HeroModel.call(this, 'abaddon');
+    HeroModel.call(this, heroData, itemData, 'abaddon');
     self.parent = p;
     self.unitId = ko.observable(h);
     self.unitLevel = ko.observable(1);
@@ -4546,12 +4546,11 @@ var diffProperties = [
 
 module.exports = diffProperties;
 },{}],15:[function(require,module,exports){
-var heroData = require("../data/main").heroData;
 var HeroOption = require("./HeroOption");
 
 var heroOptionsArray = {};
 
-var init = function () {
+var init = function (heroData) {
     heroOptionsArray.items = [];
     for (var h in heroData) {
         heroOptionsArray.items.push(new HeroOption(h.replace('npc_dota_hero_', ''), heroData[h].displayname));
@@ -4562,7 +4561,7 @@ var init = function () {
 heroOptionsArray.init = init;
 
 module.exports = heroOptionsArray;
-},{"../data/main":6,"./HeroOption":11}],16:[function(require,module,exports){
+},{"./HeroOption":11}],16:[function(require,module,exports){
 var nextLevelExp = [200, 300, 400, 500, 600, 600, 800, 1000, 1000, 600, 2200, 800, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, '&mdash;'];
 
 module.exports = nextLevelExp;
@@ -8171,7 +8170,7 @@ ko.extenders.numeric = function(target, opts) {
 module.exports = ko;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"../lib/knockout.mapping":39,"../lib/knockout.wrap":40}],20:[function(require,module,exports){
+},{"../lib/knockout.mapping":40,"../lib/knockout.wrap":41}],20:[function(require,module,exports){
 var illusionData = {
     chaos_knight_phantasm: {
         hero: 'chaos_knight',
@@ -8457,13 +8456,12 @@ var ko = require('../herocalc_knockout');
 
 var stackableItems = require("./stackableItems");
 var levelItems = require("./levelItems");
-var itemData = require("../data/main").itemData;
 var BasicInventoryViewModel = require("./BasicInventoryViewModel");
 var itemOptionsArray = require("./itemOptionsArray");
 var itemBuffOptions = require("./itemBuffOptions");
 var itemDebuffOptions = require("./itemDebuffOptions");
 
-var InventoryViewModel = function (h) {
+var InventoryViewModel = function (itemData, h) {
     var self = this;
     BasicInventoryViewModel.call(this, h);
     self.hero = h;
@@ -9691,10 +9689,8 @@ InventoryViewModel.prototype = Object.create(BasicInventoryViewModel.prototype);
 InventoryViewModel.prototype.constructor = InventoryViewModel;
 
 module.exports = InventoryViewModel;
-},{"../data/main":6,"../herocalc_knockout":19,"./BasicInventoryViewModel":21,"./itemBuffOptions":24,"./itemDebuffOptions":25,"./itemOptionsArray":26,"./levelItems":28,"./stackableItems":29}],23:[function(require,module,exports){
-var itemData = require("../data/main").itemData;
-
-var ItemInput = function (value, name, debuff) {
+},{"../herocalc_knockout":19,"./BasicInventoryViewModel":21,"./itemBuffOptions":24,"./itemDebuffOptions":25,"./itemOptionsArray":26,"./levelItems":28,"./stackableItems":29}],23:[function(require,module,exports){
+var ItemInput = function (itemData, value, name, debuff) {
     if (itemData['item_' + value].ItemAliases instanceof Array) {
         var itemAlias = itemData['item_' + value].ItemAliases.join(' ');
     }
@@ -9716,15 +9712,14 @@ var ItemInput = function (value, name, debuff) {
 };
 
 module.exports = ItemInput;
-},{"../data/main":6}],24:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/main").itemData;
 var itemBuffs = ['assault', 'ancient_janggo', 'headdress', 'mekansm', 'pipe', 'ring_of_aquila', 'vladmir', 'ring_of_basilius', 'buckler', 'solar_crest'];
 var itemBuffOptions = {};
 
-var init = function () {
+var init = function (itemData) {
     itemBuffOptions.items = itemBuffs.map(function(item) {
-        return new ItemInput(item, itemData['item_' + item].displayname);
+        return new ItemInput(itemData, item, itemData['item_' + item].displayname);
     });
     return itemBuffOptions.items;
 }
@@ -9732,9 +9727,8 @@ var init = function () {
 itemBuffOptions.init = init;
 
 module.exports = itemBuffOptions;
-},{"../data/main":6,"./ItemInput":23}],25:[function(require,module,exports){
+},{"./ItemInput":23}],25:[function(require,module,exports){
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/main").itemData;
 var itemDebuffs = [
     {item: 'assault', debuff: null},
     {item: 'shivas_guard', debuff: null},
@@ -9749,9 +9743,9 @@ var itemDebuffs = [
 ]
 var itemDebuffOptions = {};
 
-var init = function () {
+var init = function (itemData) {
     itemDebuffOptions.items = itemDebuffs.map(function(item) {
-        return new ItemInput(item.item, itemData['item_' + item.item].displayname, item.debuff);
+        return new ItemInput(itemData, item.item, itemData['item_' + item.item].displayname, item.debuff);
     });
     return itemDebuffOptions.items;
 }
@@ -9759,17 +9753,16 @@ var init = function () {
 itemDebuffOptions.init = init;
 
 module.exports = itemDebuffOptions;
-},{"../data/main":6,"./ItemInput":23}],26:[function(require,module,exports){
+},{"./ItemInput":23}],26:[function(require,module,exports){
 var validItems = require("./validItems");
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/main").itemData;
 
 var itemOptionsArray = {};
 
-var init = function () {
+var init = function (itemData) {
     itemOptionsArray.items = [];
     for (var i = 0; i < validItems.length; i++) {
-        itemOptionsArray.items.push(new ItemInput(validItems[i], itemData['item_' + validItems[i]].displayname));
+        itemOptionsArray.items.push(new ItemInput(itemData, validItems[i], itemData['item_' + validItems[i]].displayname));
     }
     return itemOptionsArray.items;
 }
@@ -9777,7 +9770,7 @@ var init = function () {
 itemOptionsArray.init = init;
 
 module.exports = itemOptionsArray;
-},{"../data/main":6,"./ItemInput":23,"./validItems":30}],27:[function(require,module,exports){
+},{"./ItemInput":23,"./validItems":30}],27:[function(require,module,exports){
 module.exports = ['solar_crest', 'heart','smoke_of_deceit','dust','ghost','tranquil_boots','phase_boots','power_treads','buckler','medallion_of_courage','ancient_janggo','mekansm','pipe','veil_of_discord','rod_of_atos','orchid','sheepstick','armlet','invis_sword','ethereal_blade','shivas_guard','manta','mask_of_madness','diffusal_blade','mjollnir','satanic','ring_of_basilius','ring_of_aquila', 'butterfly', 'moon_shard', 'silver_edge','bloodthorn','hurricane_pike'];
 },{}],28:[function(require,module,exports){
 module.exports = ['necronomicon','dagon','diffusal_blade','travel_boots'];
@@ -9801,18 +9794,18 @@ core.Util = require("./util/main");
 
 core.init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
     core.Data.init(HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, function () {
-        core.HeroOptions = require("./hero/heroOptionsArray").init();
-        core.BuffOptions = require("./buffs/buffOptionsArray").init();
-        core.DebuffOptions = require("./buffs/debuffOptionsArray").init();
-        core.ItemOptions = require("./inventory/itemOptionsArray").init();
-        core.ItemBuffOptions = require("./inventory/itemBuffOptions").init();
-        core.ItemDebuffOptions = require("./inventory/itemDebuffOptions").init();
+        core.HeroOptions = require("./hero/heroOptionsArray").init(core.Data.heroData);
+        core.BuffOptions = require("./buffs/buffOptionsArray").init(core.Data.heroData);
+        core.DebuffOptions = require("./buffs/debuffOptionsArray").init(core.Data.heroData);
+        core.ItemOptions = require("./inventory/itemOptionsArray").init(core.Data.itemData);
+        core.ItemBuffOptions = require("./inventory/itemBuffOptions").init(core.Data.itemData);
+        core.ItemDebuffOptions = require("./inventory/itemDebuffOptions").init(core.Data.itemData);
         callback();
     });
 }
 
 module.exports = core;
-},{"./AbilityModel":1,"./BuffViewModel":2,"./buffs/buffOptionsArray":4,"./buffs/debuffOptionsArray":5,"./data/main":6,"./hero/CloneModel":7,"./hero/HeroModel":10,"./hero/IllusionModel":12,"./hero/UnitModel":13,"./hero/heroOptionsArray":15,"./inventory/InventoryViewModel":22,"./inventory/itemBuffOptions":24,"./inventory/itemDebuffOptions":25,"./inventory/itemOptionsArray":26,"./util/main":35}],32:[function(require,module,exports){
+},{"./AbilityModel":1,"./BuffViewModel":2,"./buffs/buffOptionsArray":4,"./buffs/debuffOptionsArray":5,"./data/main":6,"./hero/CloneModel":7,"./hero/HeroModel":10,"./hero/IllusionModel":12,"./hero/UnitModel":13,"./hero/heroOptionsArray":15,"./inventory/InventoryViewModel":22,"./inventory/itemBuffOptions":24,"./inventory/itemDebuffOptions":25,"./inventory/itemOptionsArray":26,"./util/main":36}],32:[function(require,module,exports){
 var extend = function (out) {
     out = out || {};
 
@@ -9877,6 +9870,12 @@ var getJSON = function (url, successCallback, errorCallback) {
 
 module.exports = getJSON;
 },{}],35:[function(require,module,exports){
+var isEmpty = function (obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
+
+module.exports = isEmpty;
+},{}],36:[function(require,module,exports){
 'use strict';
 
 var util = {};
@@ -9888,7 +9887,7 @@ util.uniqueId = require("./uniqueId");
 util.uniques = require("./uniques");
 
 module.exports = util;
-},{"./extend":32,"./findWhere":33,"./getJSON":34,"./union":36,"./uniqueId":37,"./uniques":38}],36:[function(require,module,exports){
+},{"./extend":32,"./findWhere":33,"./getJSON":34,"./union":37,"./uniqueId":38,"./uniques":39}],37:[function(require,module,exports){
 "use strict";
 var uniques = require("./uniques");
 
@@ -9898,7 +9897,7 @@ var union = function (a, b) {
 }
 
 module.exports = union;
-},{"./uniques":38}],37:[function(require,module,exports){
+},{"./uniques":39}],38:[function(require,module,exports){
 "use strict";
 
 var idCounter = 0;
@@ -9908,7 +9907,7 @@ var uniqueId = function (prefix) {
 };
 
 module.exports = uniqueId;
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 "use strict";
 var uniques = function (arr) {
     var a = [];
@@ -9919,7 +9918,7 @@ var uniques = function (arr) {
 }
 
 module.exports = uniques;
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (global){
 (function (factory) {
 	// Module systems magic dance.
@@ -10729,7 +10728,7 @@ module.exports = uniques;
 }));
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 (function (global){
 // Knockout Fast Mapping v0.1
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)

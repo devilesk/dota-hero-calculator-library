@@ -1,13 +1,11 @@
 'use strict';
 var HeroModel = require("./HeroModel");
-var heroData = require("../data/main").heroData;
-var itemData = require("../data/main").itemData;
 var illusionData = require("../illusion/illusionData");
 var findWhere = require("../util/findWhere");
 
-var IllusionModel = function (h,p, abilityLevel) {
+var IllusionModel = function (heroData, itemData, h,p, abilityLevel) {
     var self = this;
-    HeroModel.call(this, h);
+    HeroModel.call(this, heroData, itemData, h);
     self.illusionAbilityLevel = ko.observable(abilityLevel);
     self.parent = p;
     

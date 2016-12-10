@@ -1,6 +1,4 @@
-var itemData = require("../data/main").itemData;
-
-var ItemInput = function (value, name, debuff) {
+var ItemInput = function (itemData, value, name, debuff) {
     if (itemData['item_' + value].ItemAliases instanceof Array) {
         var itemAlias = itemData['item_' + value].ItemAliases.join(' ');
     }

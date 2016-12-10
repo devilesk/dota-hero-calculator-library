@@ -3,11 +3,10 @@ var ko = require('../herocalc_knockout');
 
 var AbilityModel = require("../AbilityModel");
 var HeroModel = require("./HeroModel");
-var unitData = require("../data/main").unitData;
 
-var UnitModel = function (h,p) {
+var UnitModel = function (heroData, itemData, unitData, h, p) {
     var self = this;
-    HeroModel.call(this, 'abaddon');
+    HeroModel.call(this, heroData, itemData, 'abaddon');
     self.parent = p;
     self.unitId = ko.observable(h);
     self.unitLevel = ko.observable(1);

@@ -1,9 +1,9 @@
 'use strict';
 var HeroModel = require("./HeroModel");
 
-var CloneModel = function (h,p) {
+var CloneModel = function (heroData, itemData, h,p) {
     var self = this;
-    HeroModel.call(this, h);
+    HeroModel.call(this, heroData, itemData, h);
     self.parent = p;
     return self;
 }

@@ -1,5 +1,4 @@
 var ItemInput = require("./ItemInput");
-var itemData = require("../data/main").itemData;
 var itemDebuffs = [
     {item: 'assault', debuff: null},
     {item: 'shivas_guard', debuff: null},
@@ -14,9 +13,9 @@ var itemDebuffs = [
 ]
 var itemDebuffOptions = {};
 
-var init = function () {
+var init = function (itemData) {
     itemDebuffOptions.items = itemDebuffs.map(function(item) {
-        return new ItemInput(item.item, itemData['item_' + item.item].displayname, item.debuff);
+        return new ItemInput(itemData, item.item, itemData['item_' + item.item].displayname, item.debuff);
     });
     return itemDebuffOptions.items;
 }
