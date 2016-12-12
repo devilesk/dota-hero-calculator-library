@@ -47,7 +47,6 @@ var fixHeroData = function (heroData) {
 }
 
 var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
-    console.log('init HeroCalcData', HeroCalcData);
     resourceCounter = 3;
     
     if (!HeroCalcData.heroData || isEmpty(HeroCalcData.heroData)) {
