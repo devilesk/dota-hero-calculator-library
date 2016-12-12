@@ -989,7 +989,7 @@ var abilityData = {
             label: 'Instances',
             controlType: 'input'
         },
-        {
+        /*{
             attributeName: 'bonus_strength',
             label: 'Total Damage',
             controlType: 'text',
@@ -997,7 +997,7 @@ var abilityData = {
                 return a;
             },
             returnProperty: 'bonusStrength'
-        },
+        },*/
         {
             attributeName: 'health_regen_per_instance',
             label: 'HP REGEN:',
@@ -1014,7 +1014,7 @@ var abilityData = {
             label: 'Instances',
             controlType: 'input'
         },
-        {
+        /*{
             attributeName: 'bonus_agility',
             label: 'Total Damage',
             controlType: 'text',
@@ -1022,7 +1022,7 @@ var abilityData = {
                 return a;
             },
             returnProperty: 'bonusAgility'
-        },
+        },*/
         {
             attributeName: 'move_speed_per_instance',
             label: '%MOVE SPEED:',
@@ -1049,7 +1049,7 @@ var abilityData = {
             label: 'Instances',
             controlType: 'input'
         },
-        {
+        /*{
             attributeName: 'bonus_intelligence',
             label: 'Total Damage',
             controlType: 'text',
@@ -1057,7 +1057,7 @@ var abilityData = {
                 return a;
             },
             returnProperty: 'bonusInt'
-        },
+        },*/
         {
             attributeName: 'bonus_damage_per_instance',
             label: 'DAMAGE:',

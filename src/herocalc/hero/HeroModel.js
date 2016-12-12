@@ -6,7 +6,7 @@ var BuffViewModel = require("../BuffViewModel");
 var InventoryViewModel = require("../inventory/InventoryViewModel");
 var diffProperties = require("./diffProperties");
 var HeroDamageMixin = require("./HeroDamageMixin");
-
+var TalentController = require("./TalentController");
 var totalExp = require("./totalExp");
 var nextLevelExp = require("./nextLevelExp");
 
@@ -27,6 +27,23 @@ var HeroModel = function (heroData, itemData, h) {
     self.unit = ko.observable(self);
     self.clone = ko.observable(self);
     
+    self.talents = [
+        ko.observable(-1),
+        ko.observable(-1),
+        ko.observable(-1),
+        ko.observable(-1)
+    ];
+    
+    self.selectedTalents = ko.computed(function () {
+        var arr = [];
+        for (var i = 0; i < 4; i++) {
+            if (self.talents[i]() !== -1) {
+                arr.push(self.heroData().talents[i][self.talents[i]()]);
+            }
+        }
+        return arr;
+    });
+    
     self.skillPointHistory = ko.observableArray();
     
     self.ability = ko.computed(function () {
@@ -37,7 +54,8 @@ var HeroModel = function (heroData, itemData, h) {
                 a._abilities[3].level(1);
             break;
             case 'invoker':
-                for (var i = 6; i < 16; i++) {
+                for (var i = 5; i < 16; i++) {
+                    console.log(a._abilities[i]);
                     a._abilities[i].level(1);
                 }
             break;
@@ -49,18 +67,22 @@ var HeroModel = function (heroData, itemData, h) {
 
     self.availableSkillPoints = ko.computed(function () {
         var c = self.selectedHeroLevel();
+        for (var i = 0; i < 4; i++) {
+            if (self.selectedHeroLevel() < i * 5 + 10) self.talents[i](-1);
+        }
+        c -= self.talents.filter(function (talent) { return talent() !== -1 }).length;
         for (var i = 0; i < self.ability().abilities().length; i++) {
             switch(self.ability().abilities()[i].abilitytype) {
                 case 'DOTA_ABILITY_TYPE_ULTIMATE':
                     if (self.heroId() === 'invoker') {
-                        while (
+                        /*while (
                             ((self.ability().abilities()[i].level() == 1) && (parseInt(self.selectedHeroLevel()) < 2)) ||
                             ((self.ability().abilities()[i].level() == 2) && (parseInt(self.selectedHeroLevel()) < 7)) ||
                             ((self.ability().abilities()[i].level() == 3) && (parseInt(self.selectedHeroLevel()) < 11)) ||
                             ((self.ability().abilities()[i].level() == 4) && (parseInt(self.selectedHeroLevel()) < 17))
                         ) {
                             self.ability().levelDownAbility(i, null, null, self);
-                        }
+                        }*/
                     }
                     else if (self.heroId() === 'meepo') {
                         while ((self.ability().abilities()[i].level()-1) * 7 + 3 > parseInt(self.selectedHeroLevel())) {
@@ -137,6 +159,7 @@ var HeroModel = function (heroData, itemData, h) {
                 + self.inventory.getAttributes('str') 
                 + self.ability().getAttributeBonusLevel() * 2
                 + self.ability().getStrength()
+                + TalentController.getStrength(self.selectedTalents())
                 + self.enemy().ability().getStrengthReduction()
                 + self.enemy().ability().getAllStatsReduction()
                 + self.debuffs.getAllStatsReduction()
@@ -164,6 +187,7 @@ var HeroModel = function (heroData, itemData, h) {
         return (self.heroData().statusmana
                 + self.totalInt() * 12
                 + self.inventory.getMana()
+                + TalentController.getMana(self.selectedTalents())
                 + self.ability().getMana()).toFixed(2);
     });
     self.manaregen = ko.pureComputed(function () {
@@ -191,6 +215,7 @@ var HeroModel = function (heroData, itemData, h) {
                 //+ self.inventory.getArmorAura().value
                 //+ self.enemy().inventory.getArmorReduction()
                 + self.ability().getArmor()
+                + TalentController.getArmor(self.selectedTalents())
                 + self.enemy().ability().getArmorReduction()
                 + self.buffs.getArmor()
                 + self.buffs.itemBuffs.getArmor()
@@ -229,7 +254,7 @@ var HeroModel = function (heroData, itemData, h) {
             }, {value:0, excludeList:[]});
             return Math.max(
                 self.enemy().inventory.isSheeped() || self.debuffs.itemBuffs.isSheeped() ? 140 :
-                (self.heroData().movementspeed + self.inventory.getMovementSpeedFlat()+ self.ability().getMovementSpeedFlat()) * 
+                (self.heroData().movementspeed + self.inventory.getMovementSpeedFlat() + self.ability().getMovementSpeedFlat() + TalentController.getMovementSpeedFlat(self.selectedTalents())) * 
                 (1 //+ self.inventory.getMovementSpeedPercent() 
                    + movementSpeedPercent.value
                    + movementSpeedPercentReduction.value
@@ -268,6 +293,7 @@ var HeroModel = function (heroData, itemData, h) {
     self.bonusDamage = ko.pureComputed(function () {
         return ((self.inventory.getBonusDamage().total
                 + self.ability().getBonusDamage().total
+                + TalentController.getBonusDamage(self.selectedTalents()).total
                 + self.buffs.getBonusDamage().total
                 + Math.floor((self.baseDamage()[0] + self.baseDamage()[1]) / 2 
                               * (self.buffs.itemBuffs.getBonusDamagePercent(self.inventory.getBonusDamagePercent()).total
@@ -465,13 +491,13 @@ HeroModel.prototype.getDiffFunction = function (prop) {
 
 HeroModel.prototype.getAbilityLevelMax = function (data) {
     if (data.abilitytype === 'DOTA_ABILITY_TYPE_ATTRIBUTES') {
-        return 10;
+        return 1;
     }
     else if (data.name === 'invoker_quas' || data.name === 'invoker_wex' || data.name === 'invoker_exort') {
         return 7;
     }
     else if (data.name === 'invoker_invoke') {
-        return 4;
+        return 1;
     }
     else if (data.name === 'earth_spirit_stone_caller' || data.name === 'ogre_magi_unrefined_fireblast') {
         return 1;
@@ -498,5 +524,16 @@ HeroModel.prototype.getAbilityLevelMax = function (data) {
         return 4;
     }
 };
+
+HeroModel.prototype.toggleTalent = function (talentTier, talentIndex) {
+    if (this.talents[talentTier]() === talentIndex) {
+        this.talents[talentTier](-1);
+    }
+    else if (this.availableSkillPoints() > 0 || this.talents[talentTier]() == 1 - talentIndex) {
+        if (parseInt(this.selectedHeroLevel()) >= talentTier * 5 + 10) {
+            this.talents[talentTier](talentIndex);
+        }
+    }
+}
 
 module.exports = HeroModel;

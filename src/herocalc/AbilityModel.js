@@ -306,8 +306,8 @@ var AbilityModel = function (a, h) {
                 }
                 else {
                     if (ability.bonusStrength != undefined) {
-                        if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1) || ability.name == 'invoker_quas') {
-                            // pudge_flesh_heap,invoker_quas,morphling_morph_str,morphling_morph_agi,undying_decay
+                        if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1)) {
+                            // pudge_flesh_heap,morphling_morph_str,morphling_morph_agi,undying_decay
                             totalAttribute+=ability.bonusStrength();
                         }
                     }
@@ -343,14 +343,14 @@ var AbilityModel = function (a, h) {
                 }
                 else {
                     if (ability.bonusAgility != undefined) {
-                        if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1) || ability.name == 'invoker_wex') {
-                            // invoker_wex,morphling_morph_agi,morphling_morph_str
+                        if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1)) {
+                            // morphling_morph_agi,morphling_morph_str
                             totalAttribute+=ability.bonusAgility();
                         }
                     }
                     if (ability.bonusAgility2 != undefined) {
                         if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1)) {
-                            // invoker_wex,morphling_morph_agi,morphling_morph_str
+                            // morphling_morph_agi,morphling_morph_str
                             totalAttribute+=ability.bonusAgility2();
                         }
                     }
@@ -378,12 +378,12 @@ var AbilityModel = function (a, h) {
                         }
                     }
                 }
-                else if (ability.bonusInt != undefined) {
+                /*else if (ability.bonusInt != undefined) {
                     if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1) || ability.name == 'invoker_exort') {
                         // invoker_exort
                         totalAttribute+=ability.bonusInt();
                     }
-                }
+                }*/
             }
         }
         return totalAttribute;

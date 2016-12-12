@@ -28,6 +28,7 @@ var onResourceLoaded = function (callback) {
 }
 
 var fixHeroData = function (heroData) {
+    heroData['npc_dota_hero_invoker'].abilities[5].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
     heroData['npc_dota_hero_chen'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
     heroData['npc_dota_hero_nevermore'].abilities[1].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
     heroData['npc_dota_hero_nevermore'].abilities[2].behavior.push('DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE');
