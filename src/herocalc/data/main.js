@@ -1,6 +1,7 @@
 var HeroCalcData = require('./HeroCalcData') || {};
 var getJSON = require("../util/getJSON");
 var isEmpty = require("../util/isEmpty");
+var isString = require("../util/isString");
 var extend = function(out) {
   out = out || {};
 
@@ -51,11 +52,15 @@ var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
     resourceCounter = 3;
     
     if (!HeroCalcData.heroData || isEmpty(HeroCalcData.heroData)) {
-        if (HERODATA_PATH) {
+        if (isString(HERODATA_PATH)) {
             getJSON(HERODATA_PATH, function (data) {
                 HeroCalcData.heroData = data;
                 onResourceLoaded(callback);
             });
+        }
+        else if (!isEmpty(HERODATA_PATH)) {
+            HeroCalcData.heroData = HERODATA_PATH;
+            onResourceLoaded(callback);
         }
     }
     else {
@@ -63,11 +68,15 @@ var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
     }
     
     if (!HeroCalcData.itemData || isEmpty(HeroCalcData.itemData)) {
-        if (ITEMDATA_PATH) {
+        if (isString(ITEMDATA_PATH)) {
             getJSON(ITEMDATA_PATH, function (data) {
                 HeroCalcData.itemData = data;
                 onResourceLoaded(callback);
             });
+        }
+        else if (!isEmpty(ITEMDATA_PATH)) {
+            HeroCalcData.itemData = ITEMDATA_PATH;
+            onResourceLoaded(callback);
         }
     }
     else {
@@ -75,11 +84,15 @@ var init = function (HERODATA_PATH, ITEMDATA_PATH, UNITDATA_PATH, callback) {
     }
     
     if (!HeroCalcData.unitData || isEmpty(HeroCalcData.unitData)) {
-        if (UNITDATA_PATH) {
+        if (isString(UNITDATA_PATH)) {
             getJSON(UNITDATA_PATH, function (data) {
                 HeroCalcData.unitData = data;
                 onResourceLoaded(callback);
             });
+        }
+        else if (!isEmpty(UNITDATA_PATH)) {
+            HeroCalcData.unitData = UNITDATA_PATH;
+            onResourceLoaded(callback);
         }
     }
     else {
