@@ -1,6 +1,6 @@
 {
   "name": "dota-hero-calculator-library",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Dota 2 Hero Calculator Library",
   "main": "src/herocalc/main.js",
   "repository": {
