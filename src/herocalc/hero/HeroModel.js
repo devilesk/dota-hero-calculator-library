@@ -124,7 +124,23 @@ var HeroModel = function (heroData, itemData, h) {
         return (self.heroData().attributebaseagility * .14 + self.heroData().armorphysical).toFixed(2);
     });
     self.respawnTime = ko.pureComputed(function () {
-        return 5 + 3.8 * self.selectedHeroLevel();
+        var level = self.selectedHeroLevel();
+        var reduction = TalentController.getRespawnReduction(self.selectedTalents());
+        if (level >= 1 && level <= 5) {
+            return (level - 1) * 2 + 8 - reduction;
+        }
+        else if (level >= 6 && level <= 11) {
+            return (level - 6) * 2 + 26 - reduction;
+        }
+        else if (level >= 12 && level <= 17) {
+            return (level - 12) * 2 + 46 - reduction;
+        }
+        else if (level >= 18 && level <= 24) {
+            return (level - 18) * 4 + 66 - reduction;
+        }
+        else if (level == 25) {
+            return 100 - reduction;
+        }
     });
     self.totalAttribute = function (a) {
         if (a === 'agi') return parseFloat(self.totalAgi());
@@ -138,6 +154,7 @@ var HeroModel = function (heroData, itemData, h) {
                 + self.inventory.getAttributes('agi') 
                 + self.ability().getAttributeBonusLevel() * 2
                 + self.ability().getAgility()
+                + TalentController.getAgility(self.selectedTalents())
                 + self.enemy().ability().getAllStatsReduction()
                 + self.debuffs.getAllStatsReduction()
                ).toFixed(2);
@@ -149,6 +166,7 @@ var HeroModel = function (heroData, itemData, h) {
                 + self.inventory.getAttributes('int') 
                 + self.ability().getAttributeBonusLevel() * 2
                 + self.ability().getIntelligence()
+                + TalentController.getIntelligence(self.selectedTalents())
                 + self.enemy().ability().getAllStatsReduction()
                 + self.debuffs.getAllStatsReduction() + self.intStolen()
                ).toFixed(2);
@@ -168,7 +186,9 @@ var HeroModel = function (heroData, itemData, h) {
     self.health = ko.pureComputed(function () {
         return (self.heroData().statushealth + Math.floor(self.totalStr()) * 20 
                 + self.inventory.getHealth()
-                + self.ability().getHealth()).toFixed(2);
+                + self.ability().getHealth()
+                + TalentController.getHealth(self.selectedTalents())
+                ).toFixed(2);
     });
     self.healthregen = ko.pureComputed(function () {
         var healthRegenAura = [self.inventory.getHealthRegenAura, self.buffs.itemBuffs.getHealthRegenAura].reduce(function (memo, fn) {
@@ -179,6 +199,7 @@ var HeroModel = function (heroData, itemData, h) {
         return (self.heroData().statushealthregen + self.totalStr() * .03 
                 + self.inventory.getHealthRegen() 
                 + self.ability().getHealthRegen()
+                + TalentController.getHealthRegen(self.selectedTalents())
                 + self.buffs.getHealthRegen()
                 + healthRegenAura.value
                 ).toFixed(2);
@@ -193,7 +214,9 @@ var HeroModel = function (heroData, itemData, h) {
     self.manaregen = ko.pureComputed(function () {
         return ((self.heroData().statusmanaregen 
                 + self.totalInt() * .04 
-                + self.ability().getManaRegen()) 
+                + self.ability().getManaRegen()
+                + TalentController.getManaRegen(self.selectedTalents())
+                ) 
                 * (1 + self.inventory.getManaRegenPercent()) 
                 + (self.heroId() === 'crystal_maiden' ? self.ability().getManaRegenArcaneAura() * 2 : self.buffs.getManaRegenArcaneAura())
                 + self.inventory.getManaRegenBloodstone()
@@ -333,6 +356,7 @@ var HeroModel = function (heroData, itemData, h) {
         return (1 - self.heroData().magicalresistance / 100) 
                 * self.inventory.getMagicResist()
                 * self.ability().getMagicResist()
+                * TalentController.getMagicResist(self.selectedTalents())
                 * self.buffs.getMagicResist()
                 * self.inventory.getMagicResistReductionSelf()
                 * self.enemy().inventory.getMagicResistReduction()
@@ -367,6 +391,7 @@ var HeroModel = function (heroData, itemData, h) {
                 + attackSpeedReduction.value
                 //+ self.enemy().inventory.getAttackSpeedReduction() 
                 + self.ability().getAttackSpeed() 
+                + TalentController.getAttackSpeed(self.selectedTalents()) 
                 + self.enemy().ability().getAttackSpeedReduction() 
                 + self.buffs.getAttackSpeed() 
                 + self.debuffs.getAttackSpeedReduction()
@@ -392,7 +417,17 @@ var HeroModel = function (heroData, itemData, h) {
             return (e * 100).toFixed(2);
         }
         else {
-            return ((1-(self.inventory.getEvasion() * self.ability().getEvasion() * self.ability().getEvasionBacktrack() * self.buffs.itemBuffs.getEvasion())) * 100).toFixed(2);
+            return (
+                (
+                    1 - (
+                        self.inventory.getEvasion()
+                        * self.ability().getEvasion()
+                        * self.ability().getEvasionBacktrack()
+                        * TalentController.getEvasion(self.selectedTalents())
+                        * self.buffs.itemBuffs.getEvasion()
+                    )
+                ) * 100
+            ).toFixed(2);
         }
     });
     self.ehpPhysical = ko.pureComputed(function () {
@@ -447,7 +482,10 @@ var HeroModel = function (heroData, itemData, h) {
     });
     self.totalattackrange = ko.pureComputed(function () {
         var attacktype = self.heroData().attacktype;
-        return self.heroData().attackrange + self.ability().getAttackRange() + self.inventory.getAttackRange(attacktype).value;
+        return self.heroData().attackrange
+             + self.ability().getAttackRange()
+             + TalentController.getAttackRange(self.selectedTalents())
+             + self.inventory.getAttackRange(attacktype).value;
     });
     self.visionrangeday = ko.pureComputed(function () {
         return (self.heroData().visiondaytimerange) * (1 + self.enemy().ability().getVisionRangePctReduction() + self.debuffs.getVisionRangePctReduction());
@@ -456,7 +494,10 @@ var HeroModel = function (heroData, itemData, h) {
         return (self.heroData().visionnighttimerange + self.inventory.getVisionRangeNight() + self.ability().getVisionRangeNight()) * (1 + self.enemy().ability().getVisionRangePctReduction() + self.debuffs.getVisionRangePctReduction());
     });
     self.lifesteal = ko.pureComputed(function () {
-        var total = self.inventory.getLifesteal() + self.ability().getLifesteal() + self.buffs.getLifesteal();
+        var total = self.inventory.getLifesteal()
+                  + self.ability().getLifesteal()
+                  + TalentController.getLifesteal(self.selectedTalents())
+                  + self.buffs.getLifesteal();
         if (self.heroData().attacktype == 'DOTA_UNIT_CAP_MELEE_ATTACK') {
             var lifestealAura = [self.inventory.getLifestealAura, self.buffs.itemBuffs.getLifestealAura].reduce(function (memo, fn) {
                 var obj = fn(memo.excludeList);
