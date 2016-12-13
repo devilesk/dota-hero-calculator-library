@@ -53,6 +53,9 @@ var HeroModel = function (heroData, itemData, h) {
             case 'ogre_magi':
                 a._abilities[3].level(1);
             break;
+            case 'monkey_king':
+                a._abilities[5].level(1);
+            break;
             case 'invoker':
                 for (var i = 5; i < 16; i++) {
                     console.log(a._abilities[i]);
@@ -540,7 +543,7 @@ HeroModel.prototype.getAbilityLevelMax = function (data) {
     else if (data.name === 'invoker_invoke') {
         return 1;
     }
-    else if (data.name === 'earth_spirit_stone_caller' || data.name === 'ogre_magi_unrefined_fireblast') {
+    else if (data.name === 'earth_spirit_stone_caller' || data.name === 'ogre_magi_unrefined_fireblast' || data.name === 'monkey_king_mischief') {
         return 1;
     }
     else if (data.abilitytype === 'DOTA_ABILITY_TYPE_ULTIMATE' || data.name === 'keeper_of_the_light_recall' ||

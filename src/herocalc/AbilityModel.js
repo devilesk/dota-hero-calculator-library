@@ -2311,6 +2311,9 @@ AbilityModel.prototype.levelUpAbility = function (index, data, event, hero) {
             case 'lone_druid_true_form':
                 self.abilities()[index() - 1].level(self.abilities()[index()].level());
             break;
+            case 'monkey_king_tree_dance':
+                self.abilities()[index() + 1].level(self.abilities()[index()].level());
+            break;
         }
     }
 };
@@ -2351,6 +2354,9 @@ AbilityModel.prototype.levelDownAbility = function (index, data, event, hero) {
             break;
             case 'lone_druid_true_form':
                 self.abilities()[i - 1].level(self.abilities()[i].level());
+            break;
+            case 'monkey_king_tree_dance':
+                self.abilities()[i + 1].level(self.abilities()[i].level());
             break;
         }
     }
