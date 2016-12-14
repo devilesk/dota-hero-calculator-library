@@ -2448,16 +2448,8 @@ var abilityData = {
             controlType: 'input'
         },
         {
+            attributeName: 'shrapnel_damage',
             label: 'DAMAGE:',
-            ignoreTooltip: true,
-            controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
-                return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
-            }
-        },
-        {
-            attributeName: 'building_damage',
-            label: 'BUILDING DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
             fn: function (v, a, parent, index, abilityModel, ability) {
