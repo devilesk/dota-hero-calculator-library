@@ -224,7 +224,7 @@ var AbilityModel = function (a, h) {
     }
 
     self.getAbilityPropertyValue = function (ability, property) {
-        return parseFloat(ability[property]()[ability.level()-1]);
+        return parseFloat(ko.utils.unwrapObservable(ability[property])[ability.level()-1]);
     }
     
     self.getAttributeBonusLevel = function () {
