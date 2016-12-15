@@ -1669,7 +1669,7 @@ var abilityData = {
             controlType: 'text',
             fn: function (v, a, parent, index, abilityModel, ability) {
                 var ability = ability;
-                var damage = ability.damage()[ability.level()-1];
+                var damage = ko.utils.unwrapObservable(ability.damage)[ability.level()-1];
                 var arrow_max_stunrange = abilityModel.getAbilityAttributeValue(ability.attributes, 'arrow_max_stunrange',0);
                 var scale = Math.min(v, arrow_max_stunrange) / arrow_max_stunrange;
                 var bonus_damage = Math.floor(a * scale / 2.8) * 2.8;
