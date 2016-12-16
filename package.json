@@ -16,7 +16,8 @@
     "clean:build": "rm -rf dist/*",
     "build": "npm run clean:build && npm run browserify:dev && npm run browserify:prod",
     "browserify:dev": "browserify -d -x 'knockout' -x 'jquery' --standalone HeroCalc src/herocalc/main.js | exorcist dist/herocalc.js.map > dist/herocalc.js",
-    "browserify:prod": "browserify -d -x 'knockout' -x 'jquery' -p [minifyify --map herocalc.min.js.map --output dist/herocalc.min.js.map] --standalone HeroCalc src/herocalc/main.js > dist/herocalc.min.js"
+    "browserify:prod": "browserify -d -x 'knockout' -x 'jquery' -p [minifyify --map herocalc.min.js.map --output dist/herocalc.min.js.map] --standalone HeroCalc src/herocalc/main.js > dist/herocalc.min.js",
+    "test": "mocha"
   },
   "homepage": "https://github.com/devilesk/dota-hero-calculator-library#readme",
   "devDependencies": {
@@ -25,9 +26,12 @@
     "exorcist": "^0.4.0",
     "jquery": "^3.1.0",
     "knockout": "^3.4.0",
-    "minifyify": "^7.3.3"
+    "minifyify": "^7.3.3",
+    "mocha": "^3.2.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dota-datafiles": "^0.1.0"
+  },
   "browserify": {
     "transform": [
       "browserify-shim"
@@ -36,6 +40,6 @@
   "browserify-shim": {
     "knockout": "global:ko",
     "jquery": "global:$",
-    "./HeroCalcData": "global:HeroCalcData"
+    "./src/herocalc/data/HeroCalcData": "global:HeroCalcData"
   }
 }

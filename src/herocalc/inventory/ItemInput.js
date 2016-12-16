@@ -1,3 +1,5 @@
+var ko = require('knockout');
+
 var ItemInput = function (itemData, value, name, debuff) {
     if (itemData['item_' + value].ItemAliases instanceof Array) {
         var itemAlias = itemData['item_' + value].ItemAliases.join(' ');

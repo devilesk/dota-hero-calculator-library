@@ -58,7 +58,6 @@ var HeroModel = function (heroData, itemData, h) {
             break;
             case 'invoker':
                 for (var i = 5; i < 16; i++) {
-                    console.log(a._abilities[i]);
                     a._abilities[i].level(1);
                 }
             break;

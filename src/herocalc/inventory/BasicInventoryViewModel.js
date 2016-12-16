@@ -1,3 +1,4 @@
+var ko = require("knockout");
 var stackableItems = require("./stackableItems");
 var levelItems = require("./levelItems");
 var itemsWithActive = require("./itemsWithActive");

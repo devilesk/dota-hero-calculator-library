@@ -1171,7 +1171,6 @@ var AbilityModel = function (a, h) {
                         }
                     }/*
                     if (ability.bonusDamageBackstab != undefined) {
-                        console.log('bonusDamageBackstab');
                         // damage_multiplier
                         totalAttribute2+=ability.bonusDamageBackstab();
                         sources.push({
