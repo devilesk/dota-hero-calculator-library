@@ -1623,6 +1623,81 @@ var AbilityModel = function (a, h) {
         }
         return totalAttribute;
     });
+
+    self.getSpellAmp = ko.computed(function () {
+        var totalAttribute = 0;
+        /*for (var i = 0; i < self.abilities().length; i++) {
+            var ability = self._abilities[i];
+            if (ability.level() > 0 && (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1))) {
+                if (!(ability.name in self.abilityData)) {
+                    for (var j = 0; j < self._abilities[i].attributes.length; j++) {
+                        var attribute = self._abilities[i].attributes[j];
+                        switch(attribute.name) {
+                            // keeper_of_the_light_chakra_magic
+                            case 'cooldown_reduction':
+                                totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
+                            break;
+                        }
+                    }
+                }
+            }
+        }*/
+        return totalAttribute;
+    });
+    
+    self.getCooldownReductionFlat = ko.computed(function () {
+        var totalAttribute = 0;
+        for (var i = 0; i < self.abilities().length; i++) {
+            var ability = self._abilities[i];
+            if (ability.level() > 0 && (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1))) {
+                if (!(ability.name in self.abilityData)) {
+                    for (var j = 0; j < self._abilities[i].attributes.length; j++) {
+                        var attribute = self._abilities[i].attributes[j];
+                        switch(attribute.name) {
+                            // keeper_of_the_light_chakra_magic
+                            case 'cooldown_reduction':
+                                totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return totalAttribute;
+    });
+
+    self.getCooldownReductionPercent = ko.computed(function () {
+        var totalAttribute = 1;
+        return totalAttribute;
+    });
+
+    self.getCooldownIncreaseFlat = ko.computed(function () {
+        var totalAttribute = 0;
+        for (var i = 0; i < self.abilities().length; i++) {
+            var ability = self._abilities[i];
+            if (ability.level() > 0 && (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1))) {
+                if (!(ability.name in self.abilityData)) {
+                    for (var j = 0; j < self._abilities[i].attributes.length; j++) {
+                        var attribute = self._abilities[i].attributes[j];
+                        switch(attribute.name) {
+                            // faceless_void_time_dilation
+                            case 'duration':
+                                if (ability.name == 'faceless_void_time_dilation') {
+                                    totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
+                                }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return totalAttribute;
+    });
+
+    self.getCooldownIncreasePercent = ko.computed(function () {
+        var totalAttribute = 1;
+        return totalAttribute;
+    });
     
     self.getMagicResist = ko.computed(function () {
         var totalAttribute = 1;

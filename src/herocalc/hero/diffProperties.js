@@ -10,6 +10,8 @@ var diffProperties = [
     'totalArmorPhysicalReduction',
     'totalMovementSpeed',
     'totalTurnRate',
+    'spellAmp',
+    'cooldownReductionPercent',
     'baseDamage',
     'bonusDamage',
     'bonusDamageReduction',

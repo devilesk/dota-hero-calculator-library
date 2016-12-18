@@ -1046,6 +1046,74 @@ var InventoryViewModel = function (itemData, h) {
         }
         return {value: totalAttribute, excludeList: excludeList};
     };
+    self.getSpellAmp = ko.computed(function () {
+        var totalAttribute = 0;
+        for (var i = 0; i < self.items().length; i++) {
+            var item = self.items()[i].item;
+            var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
+            if (!self.items()[i].enabled()) continue;
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
+                switch(attribute.name) {
+                    case 'spell_amp':
+                        totalAttribute += parseInt(attribute.value[0]);
+                    break;
+                }
+            }
+        }
+        return totalAttribute;
+    });
+    self.getCooldownReductionFlat = ko.computed(function () {
+        var totalAttribute = 0;
+        /*for (var i = 0; i < self.items().length; i++) {
+            var item = self.items()[i].item;
+            var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
+            if (!self.items()[i].enabled()) continue;
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
+                switch(attribute.name) {
+                    case 'bonus_night_vision':
+                        if (item != 'moon_shard' || !isActive) {
+                            totalAttribute += parseInt(attribute.value[0]);
+                        }
+                    break;
+                }
+            }
+        }*/
+        return totalAttribute;
+    });
+    self.getCooldownReductionPercent = function (aList) {        
+        var totalAttribute = 1,
+            attributeList = aList || [];
+        for (var i = 0; i < self.items().length; i++) {
+            var item = self.items()[i].item;
+            var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
+            if (!self.items()[i].enabled()) continue;
+            for (var j = 0;j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
+                if (attributeList.find(function (a) { return attribute.name == a.name; })) continue;
+                switch(attribute.name) {
+                    // octarine_core
+                    case 'bonus_cooldown':
+                        attributeList.push({'name':attribute.name, 'value': parseInt(attribute.value[0])});
+                    break;
+                }
+            }
+        }
+        
+        totalAttribute = attributeList.reduce(function (memo, attribute) {
+            return memo *= (1 - attribute.value / 100);
+        }, 1);
+        return {value: totalAttribute, attributes: attributeList};
+    };
+    self.getCooldownIncreaseFlat = ko.computed(function () {
+        var totalAttribute = 0;
+        return totalAttribute;
+    });
+    self.getCooldownIncreasePercent = function () {
+        var totalAttribute = 1;
+        return totalAttribute;
+    };
     self.getMagicResist = function () {
         var totalAttribute = 1;
         for (var i = 0; i < self.items().length; i++) {

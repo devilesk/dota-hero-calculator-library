@@ -260,6 +260,37 @@ var HeroModel = function (heroData, itemData, h) {
             return -((0.06 * -self.totalArmorPhysical()) / (1 + 0.06 * -self.totalArmorPhysical()) * 100).toFixed(2);
         }
     });
+    self.spellAmp = ko.pureComputed(function () {
+        return (self.totalInt() / 16
+                + self.inventory.getSpellAmp()
+                + self.ability().getSpellAmp()
+                + TalentController.getSpellAmp(self.selectedTalents())
+                + self.buffs.getSpellAmp()
+                ).toFixed(2);
+    });
+    self.cooldownReductionFlat = ko.pureComputed(function () {
+        return self.inventory.getCooldownReductionFlat()
+                + self.ability().getCooldownReductionFlat()
+                + TalentController.getCooldownReductionFlat(self.selectedTalents())
+                + self.buffs.getCooldownReductionFlat()
+                - self.enemy().inventory.getCooldownIncreaseFlat()
+                - self.enemy().ability().getCooldownIncreaseFlat()
+                - self.debuffs.getCooldownIncreaseFlat()
+                - self.debuffs.itemBuffs.getCooldownIncreaseFlat();
+    });
+    self.cooldownReductionProduct = ko.pureComputed(function () {
+        return self.inventory.getCooldownReductionPercent().value
+                * self.ability().getCooldownReductionPercent()
+                * TalentController.getCooldownReductionPercent(self.selectedTalents())
+                * self.buffs.getCooldownReductionPercent()
+                * self.enemy().inventory.getCooldownIncreasePercent()
+                * self.enemy().ability().getCooldownIncreasePercent()
+                * self.debuffs.getCooldownIncreasePercent()
+                * self.debuffs.itemBuffs.getCooldownIncreasePercent();
+    });
+    self.cooldownReductionPercent = ko.pureComputed(function () {
+        return ((1 - self.cooldownReductionProduct()) * 100).toFixed(2);
+    });
     self.totalMovementSpeed = ko.pureComputed(function () {
         var MIN_MOVESPEED = 100;
         var ms = (self.ability().setMovementSpeed() > 0 ? self.ability().setMovementSpeed() : self.buffs.setMovementSpeed());

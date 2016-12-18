@@ -65,6 +65,38 @@ module.exports = {
         }
         return totalAttribute;
     },
+    getSpellAmp: function (talents) {
+        var totalAttribute = 0;
+        for (var i = 0; i < talents.length; i++) {
+            var ability = talents[i];
+            if (ability.name.startsWith('special_bonus_spell_amplify_')) {
+                totalAttribute += ability.attributes[0].value[0];
+            }
+        }
+        return totalAttribute;
+    },
+    getCooldownReductionFlat: function (talents) {
+        var totalAttribute = 0;
+        return totalAttribute;
+    },
+    getCooldownReductionPercent: function (talents) {
+        var totalAttribute = 1;
+        for (var i = 0; i < talents.length; i++) {
+            var ability = talents[i];
+            if (ability.name.startsWith('special_bonus_cooldown_reduction_')) {
+                totalAttribute *= (1 - ability.attributes[0].value[0]/100);
+            }
+        }
+        return totalAttribute;
+    },
+    getCooldownIncreaseFlat: function (talents) {
+        var totalAttribute = 0;
+        return totalAttribute;
+    },
+    getCooldownIncreasePercent: function (talents) {
+        var totalAttribute = 1;
+        return totalAttribute;
+    },
     getMovementSpeedFlat: function (talents) {
         var totalAttribute = 0;
         for (var i = 0; i < talents.length; i++) {

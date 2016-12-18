@@ -7,11 +7,6 @@ special_bonus_cast_range_175	+175 Cast Range
 special_bonus_cast_range_200	+200 Cast Range
 special_bonus_cast_range_250	+250 Cast Range
 special_bonus_cast_range_300	+300 Cast Range
-special_bonus_cooldown_reduction_10	10% Cooldown Reduction
-special_bonus_cooldown_reduction_12	12% Cooldown Reduction
-special_bonus_cooldown_reduction_15	15% Cooldown Reduction
-special_bonus_cooldown_reduction_20	20% Cooldown Reduction
-special_bonus_cooldown_reduction_25	25% Cooldown Reduction
 special_bonus_exp_boost_10	+10% XP Gain
 special_bonus_exp_boost_15	+15% XP Gain
 special_bonus_exp_boost_20	+20% XP Gain
@@ -22,15 +17,6 @@ special_bonus_gold_income_15	+90 Gold/Min
 special_bonus_gold_income_20	+120 Gold/Min
 special_bonus_gold_income_25	+150 Gold/Min
 special_bonus_gold_income_50	+300 Gold/Min
-special_bonus_spell_amplify_4	+4% Spell Amplification
-special_bonus_spell_amplify_5	+5% Spell Amplification
-special_bonus_spell_amplify_6	+6% Spell Amplification
-special_bonus_spell_amplify_8	+8% Spell Amplification
-special_bonus_spell_amplify_10	+10% Spell Amplification
-special_bonus_spell_amplify_12	+12% Spell Amplification
-special_bonus_spell_amplify_15	+15% Spell Amplification
-special_bonus_spell_amplify_20	+20% Spell Amplification
-special_bonus_spell_amplify_25	+25% Spell Amplification
 special_bonus_spell_lifesteal_20	20% Spell Lifesteal
 special_bonus_spell_lifesteal_70	70% Spell Lifesteal
 special_bonus_unique_abaddon	+200 Aphotic Shield Health
