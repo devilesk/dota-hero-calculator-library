@@ -3,6 +3,7 @@ var itemDebuffs = [
     {item: 'assault', debuff: null},
     {item: 'shivas_guard', debuff: null},
     {item: 'desolator', debuff: null},
+    {item: 'blight_stone', debuff: null},
     {item: 'medallion_of_courage', debuff: null},
     {item: 'radiance', debuff: null},
     {item: 'sheepstick', debuff: null},

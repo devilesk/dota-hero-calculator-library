@@ -24,7 +24,22 @@ var onResourceLoaded = function (callback) {
     resourceCounter--;
     if (resourceCounter === 0) {
         fixHeroData(HeroCalcData.heroData);
+        modifyItemData(HeroCalcData.itemData);
         if (callback) callback();
+    }
+}
+
+var modifyItemData = function (itemData) {
+    itemData["item_bottle_doubledamage"] = {
+        displayname: "Double Damage",
+        name: "item_bottle_doubledamage",
+        attributes: [{
+            "name": "bottle_doubledamage", 
+            "tooltip": "%BONUS ATTACK DAMAGE:", 
+            "value": [
+                100
+            ]
+        }]
     }
 }
 

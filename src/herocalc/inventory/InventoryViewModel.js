@@ -613,7 +613,8 @@ var InventoryViewModel = function (itemData, h) {
     };
     self.getArmorReduction = function (e) {
         var totalAttribute = 0,
-            excludeList = e || [];
+            excludeList = e || [],
+            selfExcludeList = [];
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
             var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
@@ -621,6 +622,8 @@ var InventoryViewModel = function (itemData, h) {
             for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
                 var attribute = itemData['item_' + item].attributes[j];
                 if (excludeList.indexOf(attribute.name) > -1 || excludeList.indexOf(item + '_' + attribute.name) > -1) continue;
+                // self exclusion check only for hero items, not buff items
+                if (self.hero && (selfExcludeList.indexOf(attribute.name) > -1 || selfExcludeList.indexOf(item + '_' + attribute.name) > -1)) continue;
                 switch(attribute.name) {
                     case 'armor_reduction':
                         if (isActive || (item != 'medallion_of_courage' && item != 'solar_crest')) {
@@ -634,7 +637,9 @@ var InventoryViewModel = function (itemData, h) {
                     break;
                     case 'corruption_armor':
                         totalAttribute += parseInt(attribute.value[0]);
-                        excludeList.push(attribute.name);
+                        // allow blight_stone and desolator corruption_armor stacking from different sources, but not from same source
+                        excludeList.push(item + '_' + attribute.name);
+                        selfExcludeList.push(attribute.name);
                     break;
                 }
             }
@@ -893,6 +898,17 @@ var InventoryViewModel = function (itemData, h) {
                         // else {
                             // sources[item].count += 1;
                         // }
+                    break;
+                    case 'bottle_doubledamage':
+                        if (sources[item] == undefined) {
+                            totalAttribute += parseInt(attribute.value[0]) / 100;
+                            sources[item] = {
+                                'damage': parseInt(attribute.value[0]) / 100,
+                                'damageType': 'physical',
+                                'count':1,
+                                'displayname': itemData['item_' + item].displayname
+                            }
+                        }
                     break;
                 }
             }
