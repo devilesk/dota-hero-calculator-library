@@ -17,6 +17,10 @@ var itemDebuffOptions = {};
 var init = function (itemData) {
     itemDebuffOptions.items = itemDebuffs.map(function(item) {
         return new ItemInput(itemData, item.item, itemData['item_' + item.item].displayname, item.debuff);
+    }).sort(function (a, b) {
+        if (a.displayname() < b.displayname()) return -1;
+        if (a.displayname() > b.displayname()) return 1;
+        return 0;
     });
     return itemDebuffOptions.items;
 }
