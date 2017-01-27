@@ -55,12 +55,11 @@ var InventoryViewModel = function (itemData, h) {
             }
             else if (levelItems.indexOf(item) != -1) {
                 switch(item) {
+                    case 'travel_boots':
                     case 'diffusal_blade':
-                        c += itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 700;
-                    break;
                     case 'necronomicon':
                     case 'dagon':
-                        c += itemData['item_' + item].itemcost + (self.items()[i].size - 1) * 1250;
+                        c += itemData['item_' + item].itemcost + (self.items()[i].size - 1) * itemData['item_recipe_' + item].itemcost;
                     break;
                     default:
                         c += itemData['item_' + item].itemcost;
