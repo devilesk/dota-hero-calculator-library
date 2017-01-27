@@ -3,6 +3,7 @@ var ko = require('../herocalc_knockout');
     
 var DamageTypeColor = require("./DamageTypeColor");
 var extend = require("../util/extend");
+var TalentController = require("./TalentController");
 
 var HeroDamageMixin = function (self, itemData) {
     self.critInfo = ko.pureComputed(function () {
@@ -256,7 +257,8 @@ var HeroDamageMixin = function (self, itemData) {
     self.damageTotalInfo = ko.pureComputed(function () {
         var bonusDamageArray = [
             self.ability().getBonusDamage().sources,
-            self.buffs.getBonusDamage().sources
+            self.buffs.getBonusDamage().sources,
+            TalentController.getBonusDamage(self.selectedTalents()).sources
         ],
         bonusDamagePctArray = [
             self.ability().getBonusDamagePercent().sources,
