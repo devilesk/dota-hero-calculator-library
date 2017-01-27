@@ -298,6 +298,11 @@ var HeroModel = function (heroData, itemData, h) {
             return ms;
         }
         else {
+            var movementSpeedFlat = [self.inventory.getMovementSpeedFlat, self.buffs.itemBuffs.getMovementSpeedFlat].reduce(function (memo, fn) {
+                var obj = fn(memo.excludeList);
+                obj.value += memo.value;
+                return obj;
+            }, {value:0, excludeList:[]});
             var movementSpeedPercent = [self.inventory.getMovementSpeedPercent, self.buffs.itemBuffs.getMovementSpeedPercent].reduce(function (memo, fn) {
                 var obj = fn(memo.excludeList);
                 obj.value += memo.value;
@@ -310,7 +315,7 @@ var HeroModel = function (heroData, itemData, h) {
             }, {value:0, excludeList:[]});
             return Math.max(
                 self.enemy().inventory.isSheeped() || self.debuffs.itemBuffs.isSheeped() ? 140 :
-                (self.heroData().movementspeed + self.inventory.getMovementSpeedFlat() + self.ability().getMovementSpeedFlat() + TalentController.getMovementSpeedFlat(self.selectedTalents())) * 
+                (self.heroData().movementspeed + movementSpeedFlat.value + self.ability().getMovementSpeedFlat() + TalentController.getMovementSpeedFlat(self.selectedTalents())) * 
                 (1 //+ self.inventory.getMovementSpeedPercent() 
                    + movementSpeedPercent.value
                    + movementSpeedPercentReduction.value

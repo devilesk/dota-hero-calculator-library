@@ -662,11 +662,13 @@ var InventoryViewModel = function (itemData, h) {
         }
         return totalAttribute;
     };
-    self.getMovementSpeedFlat = function () {
+    self.getMovementSpeedFlat = function (e) {
         var totalAttribute = 0,
+        excludeList = e || [],
         hasBoots = false,
         hasEuls = false,
         hasWindLace = false,
+        hasDrums = false,
         bootItems = ['boots','phase_boots','arcane_boots','travel_boots','power_treads','tranquil_boots','guardian_greaves'];
         for (var i = 0; i < self.items().length; i++) {
             var item = self.items()[i].item;
@@ -674,6 +676,7 @@ var InventoryViewModel = function (itemData, h) {
             if (!self.items()[i].enabled()) continue;
             for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
                 var attribute = itemData['item_' + item].attributes[j];
+                if (excludeList.indexOf(attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'bonus_movement_speed':
                         if (!hasBoots && bootItems.indexOf(item) >= 0) {
@@ -708,16 +711,22 @@ var InventoryViewModel = function (itemData, h) {
                             hasWindLace = true;
                         }
                     break;
+                    case 'bonus_aura_movement_speed':
+                        if (!hasDrums && item == 'ancient_janggo') {
+                            totalAttribute += parseInt(attribute.value[0]);
+                            hasDrums = true;
+                            excludeList.push(attribute.name);
+                        }
+                    break;
                 }
             }
         }
-        return totalAttribute;
+        return {value: totalAttribute, excludeList: excludeList};
     };
     self.getMovementSpeedPercent = function (e) {
         var totalAttribute = 0,
             excludeList = e || [],
             hasYasha = false,
-            hasDrums = false,
             hasDrumsActive = false,
             hasPhaseActive = false,
             hasShadowBladeActive = false,
@@ -736,13 +745,6 @@ var InventoryViewModel = function (itemData, h) {
                         if (!hasYasha && yashaItems.indexOf(item) >= 0) {
                             totalAttribute += parseInt(attribute.value[0]);
                             hasYasha = true;
-                        }
-                    break;
-                    case 'bonus_aura_movement_speed_pct':
-                        if (!hasDrums && item == 'ancient_janggo') {
-                            totalAttribute += parseInt(attribute.value[0]);
-                            hasDrums = true;
-                            excludeList.push(attribute.name);
                         }
                     break;
                     case 'phase_movement_speed':
