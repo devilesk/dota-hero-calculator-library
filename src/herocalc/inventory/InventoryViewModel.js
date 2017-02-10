@@ -456,6 +456,7 @@ var InventoryViewModel = function (itemData, h) {
                 if (excludeList.indexOf(item + attribute.name) > -1) continue;
                 switch(attribute.name) {
                     case 'aura_health_regen':
+                    case 'hp_regen_aura':
                         totalAttribute += parseInt(attribute.value[0]);
                         excludeList.push(item + attribute.name);
                     break;
@@ -958,20 +959,10 @@ var InventoryViewModel = function (itemData, h) {
                     case 'bonus_speed':
                         totalAttribute += parseInt(attribute.value[0]);
                     break;
-                    case 'aura_attack_speed':
-                        if (item != 'shivas_guard') { totalAttribute += parseInt(attribute.value[0]); };
-                    break;
-                    // ancient_janggo
-                    case 'bonus_aura_attack_speed_pct':
+                    // helm_of_the_dominator
+                    case 'attack_speed':
                         totalAttribute += parseInt(attribute.value[0]);
                         excludeList.push(attribute.name);
-                    break;
-                    // ancient_janggo
-                    case 'bonus_attack_speed_pct':
-                        if (isActive) {
-                            totalAttribute += parseInt(attribute.value[0]);
-                            excludeList.push(attribute.name);
-                        }
                     break;
                     case 'unholy_bonus_attack_speed':
                         if (isActive) { totalAttribute += parseInt(attribute.value[0]); };
@@ -984,6 +975,41 @@ var InventoryViewModel = function (itemData, h) {
         }
         return {value: totalAttribute, excludeList: excludeList};
     };
+    
+    self.getAttackSpeedAura = function (e) {
+        var totalAttribute = 0,
+            excludeList = e || [];
+        for (var i = 0; i < self.items().length; i++) {
+            var item = self.items()[i].item;
+            var isActive = self.activeItems.indexOf(self.items()[i]) >= 0 ? true : false;
+            if (!self.items()[i].enabled()) continue;
+            for (var j = 0; j < itemData['item_' + item].attributes.length; j++) {
+                var attribute = itemData['item_' + item].attributes[j];
+                if (excludeList.indexOf(item + attribute.name) > -1) continue;
+                switch(attribute.name) {
+                    // helm_of_the_dominator
+                    case 'attack_speed_aura':
+                        totalAttribute += parseInt(attribute.value[0]);
+                        excludeList.push(item + attribute.name);
+                    break;
+                    // assault_cuirass
+                    case 'aura_attack_speed':
+                        if (item != 'shivas_guard') { totalAttribute += parseInt(attribute.value[0]); };
+                        excludeList.push(item + attribute.name);
+                    break;
+                    // ancient_janggo
+                    case 'bonus_attack_speed_pct':
+                        if (isActive) {
+                            totalAttribute += parseInt(attribute.value[0]);
+                            excludeList.push(attribute.name);
+                        }
+                    break;
+                }
+            }
+        }
+        return {value: totalAttribute, excludeList: excludeList};
+    };
+    
     self.getAttackSpeedReduction = function (e) {
         var totalAttribute = 0,
             excludeList = e || [];

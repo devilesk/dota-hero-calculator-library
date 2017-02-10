@@ -243,7 +243,7 @@ var HeroModel = function (heroData, itemData, h) {
                 + TalentController.getArmor(self.selectedTalents())
                 + self.enemy().ability().getArmorReduction()
                 + self.buffs.getArmor()
-                + self.buffs.itemBuffs.getArmor()
+                //+ self.buffs.itemBuffs.getArmor()
                 + self.debuffs.getArmorReduction()
                 //+ self.buffs.itemBuffs.getArmorAura().value
                 + armorAura.value
@@ -413,11 +413,16 @@ var HeroModel = function (heroData, itemData, h) {
         return self.heroData().attackrate;
     });
     self.ias = ko.pureComputed(function () {
-        var attackSpeed = [self.inventory.getAttackSpeed, self.buffs.itemBuffs.getAttackSpeed].reduce(function (memo, fn) {
+        var attackSpeed = [self.inventory.getAttackSpeed].reduce(function (memo, fn) {
             var obj = fn(memo.excludeList);
             obj.value += memo.value;
             return obj;
         }, {value:0, excludeList:[]});
+        var attackSpeedAura = [self.inventory.getAttackSpeedAura, self.buffs.itemBuffs.getAttackSpeedAura].reduce(function (memo, fn) {
+            var obj = fn(memo.excludeList);
+            obj.value += memo.value;
+            return obj;
+        }, {value: 0, excludeList: []});
         var attackSpeedReduction = [self.enemy().inventory.getAttackSpeedReduction, self.debuffs.itemBuffs.getAttackSpeedReduction].reduce(function (memo, fn) {
             var obj = fn(memo.excludeList);
             obj.value += memo.value;
@@ -426,6 +431,7 @@ var HeroModel = function (heroData, itemData, h) {
         var val = parseFloat(self.totalAgi()) 
                 //+ self.inventory.getAttackSpeed() 
                 + attackSpeed.value
+                + attackSpeedAura.value
                 + attackSpeedReduction.value
                 //+ self.enemy().inventory.getAttackSpeedReduction() 
                 + self.ability().getAttackSpeed() 

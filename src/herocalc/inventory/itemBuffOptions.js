@@ -1,5 +1,5 @@
 var ItemInput = require("./ItemInput");
-var itemBuffs = ['assault', 'ancient_janggo', 'headdress', 'mekansm', 'pipe', 'ring_of_aquila', 'vladmir', 'ring_of_basilius', 'buckler', 'solar_crest', 'bottle_doubledamage'];
+var itemBuffs = ['assault', 'ancient_janggo', 'headdress', 'mekansm', 'pipe', 'ring_of_aquila', 'vladmir', 'ring_of_basilius', 'buckler', 'solar_crest', 'bottle_doubledamage', 'helm_of_the_dominator'];
 var itemBuffOptions = {};
 
 var init = function (itemData) {
