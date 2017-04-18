@@ -30,7 +30,7 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
-    "dota-datafiles": "^0.5.0"
+    "dota-datafiles": "^0.8.0"
   },
   "browserify": {
     "transform": [
