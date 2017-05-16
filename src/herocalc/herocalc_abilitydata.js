@@ -3166,23 +3166,13 @@ var abilityData = {
         },
         {
             attributeName: 'bonus_armor',
-            label: 'ARMOR:',
+            label: 'DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
             fn: function (v, a, parent, index, abilityModel, ability) {
-                return v*a;
+                return -v*a;
             },
-            returnProperty: 'armor'
-        },
-        {
-            attributeName: 'bonus_resist',
-            label: '%RESIST:',
-            ignoreTooltip: true,
-            controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
-                return v*a;
-            },
-            returnProperty: 'magicResist'
+            returnProperty: 'damageReduction'
         }
     ],
     'warlock_shadow_word': [

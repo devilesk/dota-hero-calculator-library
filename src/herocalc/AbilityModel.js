@@ -1330,7 +1330,7 @@ var AbilityModel = function (a, h) {
                     }
                 }
                 else if (ability.damageReduction != undefined) {
-                    // wisp_overcharge,bristleback_bristleback,spectre_dispersion,medusa_mana_shield,ursa_enrage
+                    // wisp_overcharge,bristleback_bristleback,spectre_dispersion,medusa_mana_shield,ursa_enrage,visage_gravekeepers_cloak
                     totalAttribute *= (1 + ability.damageReduction()/100);
                 }
             }
