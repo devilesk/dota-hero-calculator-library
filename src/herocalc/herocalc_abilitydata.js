@@ -3165,7 +3165,7 @@ var abilityData = {
             controlType: 'input'
         },
         {
-            attributeName: 'bonus_armor',
+            attributeName: 'damage_reduction',
             label: 'DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
