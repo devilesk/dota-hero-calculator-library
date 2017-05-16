@@ -198,7 +198,7 @@ var HeroModel = function (heroData, itemData, h) {
             obj.value += memo.value;
             return obj;
         }, {value: 0, excludeList: []});
-        return (self.heroData().statushealthregen + self.totalStr() * .03 
+        return (self.heroData().statushealthregen + self.totalStr() * .06 
                 + self.inventory.getHealthRegen() 
                 + self.ability().getHealthRegen()
                 + TalentController.getHealthRegen(self.selectedTalents())
@@ -208,7 +208,7 @@ var HeroModel = function (heroData, itemData, h) {
     });
     self.mana = ko.pureComputed(function () {
         return (self.heroData().statusmana
-                + self.totalInt() * 12
+                + self.totalInt() * 11
                 + self.inventory.getMana()
                 + TalentController.getMana(self.selectedTalents())
                 + self.ability().getMana()).toFixed(2);
@@ -261,7 +261,7 @@ var HeroModel = function (heroData, itemData, h) {
         }
     });
     self.spellAmp = ko.pureComputed(function () {
-        return (self.totalInt() / 16
+        return (self.totalInt() / 14
                 + self.inventory.getSpellAmp()
                 + self.ability().getSpellAmp()
                 + TalentController.getSpellAmp(self.selectedTalents())
