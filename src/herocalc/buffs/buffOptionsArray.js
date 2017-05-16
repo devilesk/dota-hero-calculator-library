@@ -37,7 +37,6 @@ var init = function (heroData, unitData) {
         new BuffModel(heroData, unitData, 'npc_dota_neutral_alpha_wolf', 'alpha_wolf_critical_strike'),
         new BuffModel(heroData, unitData, 'npc_dota_neutral_alpha_wolf', 'alpha_wolf_command_aura'),
         new BuffModel(heroData, unitData, 'npc_dota_neutral_polar_furbolg_ursa_warrior', 'centaur_khan_endurance_aura'),
-        new BuffModel(heroData, unitData, 'npc_dota_neutral_giant_wolf', 'giant_wolf_critical_strike'),
         new BuffModel(heroData, unitData, 'npc_dota_neutral_kobold_taskmaster', 'kobold_taskmaster_speed_aura'),
         new BuffModel(heroData, unitData, 'npc_dota_neutral_ogre_magi', 'ogre_magi_frost_armor'),
         new BuffModel(heroData, unitData, 'npc_dota_neutral_satyr_hellcaller', 'satyr_hellcaller_unholy_aura'),
