@@ -295,12 +295,12 @@ var AbilityModel = function (a, h) {
                     if (ability.isActive() || (ability.behavior.indexOf('DOTA_ABILITY_BEHAVIOR_PASSIVE') != -1)) {
                         for (var j = 0; j < self._abilities[i].attributes.length; j++) {
                             var attribute = self._abilities[i].attributes[j];
-                            /*switch(attribute.name) {
-                                // invoker_quas
-                                case 'bonus_strength':
+                            switch(attribute.name) {
+                                // sven_gods_strength
+                                case 'gods_strength_bonus_str':
                                     totalAttribute += parseInt(attribute.value[ability.level()-1]);
                                 break;
-                            }*/
+                            }
                         }
                     }
                 }
