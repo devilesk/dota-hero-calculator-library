@@ -8,7 +8,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -16,7 +16,7 @@ var abilityData = {
             attributeName: 'armor_reduction',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'armorReduction'
@@ -31,7 +31,7 @@ var abilityData = {
             attributeName: 'max_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/5;
             }
         },
@@ -39,7 +39,7 @@ var abilityData = {
             attributeName: 'max_stun',
             label: 'Total Stun',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/5;
             }
         }
@@ -53,7 +53,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -61,7 +61,7 @@ var abilityData = {
             attributeName: 'stun_duration',
             label: 'Total Stun',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             }
         }
@@ -75,7 +75,7 @@ var abilityData = {
             attributeName: 'dot_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')+v*a;
             }
         }
@@ -89,7 +89,7 @@ var abilityData = {
             attributeName: 'mana_void_damage_per_mana',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -104,7 +104,7 @@ var abilityData = {
             label: 'Movement Speed Bonus',
             controlType: 'text',
             noLevel: true,
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'movementSpeedPct'
@@ -114,7 +114,7 @@ var abilityData = {
             label: 'Movement Speed Bonus',
             controlType: 'text',
             noLevel: true,
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -128,7 +128,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -147,7 +147,7 @@ var abilityData = {
             label: 'Total Damage',
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (parent.inventory.hasScepter()) {
                     return v[0]*abilityModel.getAbilityAttributeValue(ability.attributes, 'fiend_grip_damage_scepter',ability.level());
                 }
@@ -162,7 +162,7 @@ var abilityData = {
             controlType: 'text',
             controls: [0,1],
             noLevel: true,
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (parent.inventory.hasScepter()) {
                     return v[0]*v[1]*abilityModel.getAbilityAttributeValue(ability.attributes, 'fiend_grip_mana_drain_scepter',ability.level())/100;
                 }
@@ -181,7 +181,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Bonus Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusDamage'
@@ -190,7 +190,7 @@ var abilityData = {
             attributeName: 'movement_speed_pct',
             label: 'Enemy Movement Speed Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -199,7 +199,7 @@ var abilityData = {
             attributeName: 'turn_rate_pct',
             label: 'Enemy Turn Rate Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'turnRateReduction'
@@ -214,7 +214,7 @@ var abilityData = {
             attributeName: 'damage_per_second',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -229,7 +229,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage') + v*a/100;
             }
         }
@@ -243,7 +243,7 @@ var abilityData = {
             attributeName: 'armor_per_stack',
             label: 'Enemy Armor Reduction',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'armorReduction'
@@ -253,7 +253,7 @@ var abilityData = {
             label: '%SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -(abilityModel.getAbilityAttributeValue(ability.attributes, 'base_move_slow',0)+v*a);
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -268,7 +268,7 @@ var abilityData = {
             attributeName: 'quill_stack_damage',
             label: 'DAMAGE',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var total = abilityModel.getAbilityAttributeValue(ability.attributes, 'quill_base_damage',ability.level())+v*a,
                 damage_cap = abilityModel.getAbilityAttributeValue(ability.attributes, 'max_damage',0);
                 if (total > damage_cap) {
@@ -293,7 +293,7 @@ var abilityData = {
             label: '%DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var ability = abilityModel.abilities().find(function(b) {
                     return b.name == 'bristleback_bristleback';
                 });
@@ -318,7 +318,7 @@ var abilityData = {
             label: 'BONUS DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v < 1) {
                     return 0;
                 }
@@ -332,7 +332,7 @@ var abilityData = {
             label: '%MOVEMENT:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v < 1) {
                     return 0;
                 }
@@ -352,7 +352,7 @@ var abilityData = {
             attributeName: 'strength_pct',
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'return_damage',ability.level()) + v*a/100;
             }
         }
@@ -367,7 +367,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -375,7 +375,7 @@ var abilityData = {
             attributeName: 'slow_movement_speed',
             label: 'Enemy Movement Speed Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -391,7 +391,7 @@ var abilityData = {
             label: 'BASE DAMAGE GAIN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             },
             returnProperty: 'baseDamage'
@@ -401,7 +401,7 @@ var abilityData = {
             label: 'HEALTH GAIN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             },
             returnProperty: 'bonusHealth'
@@ -415,7 +415,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -429,7 +429,7 @@ var abilityData = {
             attributeName: 'damage_per_second',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -442,7 +442,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -457,7 +457,7 @@ var abilityData = {
             label: 'ARMOR',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'armor'
@@ -467,7 +467,7 @@ var abilityData = {
             label: 'ARMOR REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'armorReduction'
@@ -482,7 +482,7 @@ var abilityData = {
             attributeName: 'heal_percent',
             label: 'Total Armor',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             }
         }
@@ -495,7 +495,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damagevalue = 0.25 * (130 + 40 * ability.level()) * (1/20),
                 mult = (v*4)*((v*4)+1)/2;
                 return damagevalue * mult;
@@ -511,7 +511,7 @@ var abilityData = {
             attributeName: 'damage_per_second',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -519,7 +519,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPct'
@@ -529,7 +529,7 @@ var abilityData = {
             label: 'HP REGEN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'healthregen'
@@ -544,7 +544,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (parent.inventory.hasScepter()) {
                     return v*abilityModel.getAbilityAttributeValue(ability.attributes, 'damage_scepter',ability.level());
                 }
@@ -563,7 +563,7 @@ var abilityData = {
             attributeName: 'bonus_attack_range',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackrange'
@@ -572,7 +572,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedFlat'
@@ -590,7 +590,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             display: 'buff',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             },
             returnProperty: 'bonusDamagePrecisionAura'
@@ -605,7 +605,7 @@ var abilityData = {
             attributeName: 'move_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return -a;
                 }
@@ -625,7 +625,7 @@ var abilityData = {
             attributeName: 'totem_damage_percentage',
             label: 'DAMAGE',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -645,7 +645,7 @@ var abilityData = {
             attributeName: 'echo_slam_echo_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -665,7 +665,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*abilityModel.getAbilityAttributeValue(ability.attributes, 'damage_heroes',ability.level()) + v[1]*a;
             },
             returnProperty: 'bonusDamage'
@@ -676,7 +676,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*abilityModel.getAbilityAttributeValue(ability.attributes, 'move_pct_heroes',ability.level()) + v[1]*a;
             },
             returnProperty: 'movementSpeedPct'
@@ -691,7 +691,7 @@ var abilityData = {
             attributeName: 'damage_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             }
         },
@@ -699,7 +699,7 @@ var abilityData = {
             attributeName: 'slow_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -715,7 +715,7 @@ var abilityData = {
             label: 'HEAL:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'wisp_count',ability.level())*v*a;
             }
         }
@@ -730,7 +730,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -738,7 +738,7 @@ var abilityData = {
             attributeName: 'stun_duration',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -758,7 +758,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*v[1]*a/100;
             }
         }
@@ -772,7 +772,7 @@ var abilityData = {
             attributeName: 'far_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -780,27 +780,18 @@ var abilityData = {
             attributeName: 'near_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
     ],
     'faceless_void_time_lock': [
         {
-            label: 'In Chronosphere',
-            controlType: 'checkbox'
-        },
-        {
             attributeName: 'bonus_damage',
             label: '%MOVESPEED AS DAMAGE',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
-                if (v) {
-                    return a*2;
-                }
-                else {
-                    return a;
-                }
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
+                return a;
             },
             returnProperty: 'bashBonusDamage'
         },
@@ -808,7 +799,7 @@ var abilityData = {
             attributeName: 'duration',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             }
         },
@@ -816,7 +807,7 @@ var abilityData = {
             attributeName: 'chance_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bash'
@@ -831,14 +822,14 @@ var abilityData = {
             attributeName: 'rockets_per_second',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             }
         },
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -852,7 +843,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -866,7 +857,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -880,14 +871,14 @@ var abilityData = {
             attributeName: 'health_cost',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -902,7 +893,7 @@ var abilityData = {
             label: 'Health at given %HP:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return parent.health()*v/100;
             }
         },
@@ -910,7 +901,7 @@ var abilityData = {
             attributeName: 'hp_threshold_max',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             }
         },
@@ -919,7 +910,7 @@ var abilityData = {
             label: 'MAGIC RESISTANCE BONUS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var v = Math.min(v, 100);
                 v = Math.max(v, 10);
                 var hp_threshold_max = abilityModel.getAbilityAttributeValue(ability.attributes, 'hp_threshold_max',0);
@@ -935,7 +926,7 @@ var abilityData = {
             label: 'ATTACK SPEED BONUS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var v = Math.min(v, 100);
                 v = Math.max(v, 10);
                 var hp_threshold_max = abilityModel.getAbilityAttributeValue(ability.attributes, 'hp_threshold_max',0);
@@ -957,7 +948,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -970,7 +961,7 @@ var abilityData = {
             label: 'DAMAGE TAKEN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -978,7 +969,7 @@ var abilityData = {
             attributeName: 'movespeed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -993,7 +984,7 @@ var abilityData = {
             attributeName: 'bonus_strength',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusStrength'
@@ -1003,7 +994,7 @@ var abilityData = {
             label: 'HP REGEN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'healthregen'
@@ -1018,7 +1009,7 @@ var abilityData = {
             attributeName: 'bonus_agility',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusAgility'
@@ -1028,7 +1019,7 @@ var abilityData = {
             label: '%MOVE SPEED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'movementSpeedPct'
@@ -1038,7 +1029,7 @@ var abilityData = {
             label: '%ATTACK SPEED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'attackspeed'
@@ -1053,7 +1044,7 @@ var abilityData = {
             attributeName: 'bonus_intelligence',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusInt'
@@ -1063,7 +1054,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusDamage'
@@ -1078,7 +1069,7 @@ var abilityData = {
             attributeName: 'enemy_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v == 0) {
                     return 0;
                 }
@@ -1096,7 +1087,7 @@ var abilityData = {
             label: 'Total Damage',
             controlType: 'text',
             display: 'ability',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v == 0) {
                     return 0;
                 }
@@ -1114,7 +1105,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v == 0) {
                     return 0;
                 }
@@ -1130,7 +1121,7 @@ var abilityData = {
             attributeName: 'bonus_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v == 0) {
                     return 0;
                 }
@@ -1148,7 +1139,7 @@ var abilityData = {
             attributeName: 'slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v == 0) {
                     return 0;
                 }
@@ -1173,7 +1164,7 @@ var abilityData = {
             controlType: 'text',
             display: 'ability',
             controls: [1,2],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v[0] == 0) {
                     return 0;
                 }
@@ -1189,7 +1180,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*2 + 
                 abilityModel.getAbilityAttributeValue(ability.attributes, 'burn_damage',ability.level())*v;
             }
@@ -1198,7 +1189,7 @@ var abilityData = {
             attributeName: 'slow_movement_speed_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1208,7 +1199,7 @@ var abilityData = {
             label: '%ATTACK SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -1223,7 +1214,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1231,7 +1222,7 @@ var abilityData = {
             attributeName: 'slow_attack_speed_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -1246,7 +1237,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -1259,7 +1250,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -1279,7 +1270,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*v[1]*a/100;
             }
         }
@@ -1293,7 +1284,7 @@ var abilityData = {
             label: 'MIN DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'omni_slash_damage',1)*v;
             }
         },
@@ -1301,7 +1292,7 @@ var abilityData = {
             label: 'MAX DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'omni_slash_damage',2)*v;
             }
         }
@@ -1316,7 +1307,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -1336,7 +1327,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]/100*v[1]*a/100;
             }
         }
@@ -1351,7 +1342,7 @@ var abilityData = {
             label: 'Total Damage:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusDamage'
@@ -1366,7 +1357,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1375,7 +1366,7 @@ var abilityData = {
             label: 'MANA COST:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -1389,7 +1380,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1397,7 +1388,7 @@ var abilityData = {
             attributeName: 'slow_movement_speed',
             label: 'Enemy Movement Speed Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1406,7 +1397,7 @@ var abilityData = {
             attributeName: 'slow_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -1421,7 +1412,7 @@ var abilityData = {
             attributeName: 'hp_leech_percent',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             },
             returnProperty: 'bonusDamage'
@@ -1436,7 +1427,7 @@ var abilityData = {
             attributeName: 'heal_percent',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'lifesteal'
@@ -1447,7 +1438,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             noLevel: true,
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'slow_steps',v+1);
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1462,7 +1453,7 @@ var abilityData = {
             attributeName: 'fiery_soul_move_speed_bonus',
             label: 'Enemy Movement Speed Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'movementSpeedPct'
@@ -1471,7 +1462,7 @@ var abilityData = {
             attributeName: 'fiery_soul_attack_speed_bonus',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'attackspeed'
@@ -1487,7 +1478,7 @@ var abilityData = {
             label: 'MANA DRAINED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -1502,7 +1493,7 @@ var abilityData = {
             label: 'BOUNCE DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var result = [];
                 for (var i = 1; i < 6; i++) {
                     result.push((v*Math.pow(a/100,i)).toFixed(2))
@@ -1520,7 +1511,7 @@ var abilityData = {
             attributeName: 'beams',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var lucentBeamAbility = abilityModel.abilities().find(function(b) {
                     return b.name == 'luna_lucent_beam';
                 });
@@ -1541,7 +1532,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             display: 'none',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var snake_jumps = abilityModel.getAbilityAttributeValue(ability.attributes, 'snake_jumps',ability.level());
                 var snake_scale = abilityModel.getAbilityAttributeValue(ability.attributes, 'snake_scale',0);
                 var damage = [];
@@ -1557,7 +1548,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[1].join(' / ');
             }
         },
@@ -1567,7 +1558,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[1].slice(0, v[0]).reduce(function (memo, o) { return memo + o }, 0);
             }
         },
@@ -1577,7 +1568,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[1].reduce(function (memo, o) { return memo + o }, 0);
             }
         }
@@ -1592,7 +1583,7 @@ var abilityData = {
             label: 'MANA USED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return (v/a).toFixed(2);
             }
         },
@@ -1601,7 +1592,7 @@ var abilityData = {
             label: '%DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'damageReduction'
@@ -1615,7 +1606,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -1629,7 +1620,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         },
@@ -1639,7 +1630,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             noLevel: true,
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'slow',ability.level())*v;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1655,7 +1646,7 @@ var abilityData = {
             label: 'STUN DURATION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var arrow_min_stun = abilityModel.getAbilityAttributeValue(ability.attributes, 'arrow_min_stun',0);
                 var arrow_max_stunrange = abilityModel.getAbilityAttributeValue(ability.attributes, 'arrow_max_stunrange',0);
                 var scale = Math.min(v, arrow_max_stunrange) / arrow_max_stunrange;
@@ -1667,7 +1658,7 @@ var abilityData = {
             label: 'TOTAL DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var ability = ability;
                 var damage = ko.utils.unwrapObservable(ability.damage)[ability.level()-1];
                 var arrow_max_stunrange = abilityModel.getAbilityAttributeValue(ability.attributes, 'arrow_max_stunrange',0);
@@ -1687,7 +1678,7 @@ var abilityData = {
             label: 'AGI SHIFT GAIN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusAgility'
@@ -1697,7 +1688,7 @@ var abilityData = {
             label: 'STR SHIFT LOSS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'bonusStrength'
@@ -1706,7 +1697,7 @@ var abilityData = {
             attributeName: 'bonus_attributes',
             label: 'SHIFT TIME:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusAgility2'
@@ -1716,7 +1707,7 @@ var abilityData = {
             label: 'SHIFT TIME:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1725,7 +1716,7 @@ var abilityData = {
             label: 'SHIFT MANA COST:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a*abilityModel.getAbilityAttributeValue(ability.attributes, 'morph_cooldown',ability.level());
             }
         }
@@ -1740,7 +1731,7 @@ var abilityData = {
             label: 'STR SHIFT GAIN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusStrength'
@@ -1750,7 +1741,7 @@ var abilityData = {
             label: 'AGI SHIFT LOSS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'bonusAgility'
@@ -1759,7 +1750,7 @@ var abilityData = {
             attributeName: 'bonus_attributes',
             label: 'SHIFT TIME:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusStrength2'
@@ -1769,7 +1760,7 @@ var abilityData = {
             label: 'SHIFT TIME:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1778,7 +1769,7 @@ var abilityData = {
             label: 'SHIFT MANA COST:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a*abilityModel.getAbilityAttributeValue(ability.attributes, 'morph_cooldown',ability.level());
             }
         }
@@ -1792,7 +1783,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -1812,7 +1803,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*v[1]*a/100;
             }
         }
@@ -1831,7 +1822,7 @@ var abilityData = {
             label: 'Total Damage',
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var hero_multiplier = abilityModel.getAbilityAttributeValue(ability.attributes, 'hero_multiplier',0)
                 return (v[0]+v[1]*hero_multiplier)*a;
             },
@@ -1842,7 +1833,7 @@ var abilityData = {
             label: 'Total Damage',
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var hero_multiplier = abilityModel.getAbilityAttributeValue(ability.attributes, 'hero_multiplier',0)
                 return (v[0]+v[1]*hero_multiplier)*a;
             },
@@ -1859,7 +1850,7 @@ var abilityData = {
             label: '%CHANCE TO MISS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return abilityModel.getAbilityAttributeValue(ability.attributes, 'miss_rate_night',ability.level());
                 }
@@ -1879,7 +1870,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed_night',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -1893,7 +1884,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed_pct_night',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -1913,7 +1904,7 @@ var abilityData = {
             attributeName: 'mana_pool_damage_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             },
             returnProperty: 'bonusDamageOrb'
@@ -1928,7 +1919,7 @@ var abilityData = {
             attributeName: 'burn_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -1936,7 +1927,7 @@ var abilityData = {
             attributeName: 'slow_movement_speed_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1950,7 +1941,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         },
@@ -1958,7 +1949,7 @@ var abilityData = {
             attributeName: 'rot_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -1973,7 +1964,7 @@ var abilityData = {
             attributeName: 'flesh_heap_strength_buff_amount',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusStrength'
@@ -1982,7 +1973,7 @@ var abilityData = {
             attributeName: 'flesh_heap_magic_resist',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'magicResist'
@@ -1997,7 +1988,7 @@ var abilityData = {
             attributeName: 'dismember_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2012,7 +2003,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2020,7 +2011,7 @@ var abilityData = {
             attributeName: 'mana_regen',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'manaregenreduction'
@@ -2036,7 +2027,7 @@ var abilityData = {
             label: 'HEALTH DRAINED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2050,7 +2041,7 @@ var abilityData = {
             attributeName: 'movement_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2060,7 +2051,7 @@ var abilityData = {
             label: 'Total Damage:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var duration_damage = abilityModel.getAbilityAttributeValue(ability.attributes, 'duration_damage',ability.level());
                 var ticks = Math.floor(v/3);
                 return a + duration_damage * ticks;
@@ -2077,7 +2068,7 @@ var abilityData = {
             label: 'MIN DISTANCE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return 200;
             }
         },
@@ -2086,7 +2077,7 @@ var abilityData = {
             label: 'MAX DISTANCE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return 200 + a;
             }
         },
@@ -2095,7 +2086,7 @@ var abilityData = {
             label: 'Instance Damage',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var max_radius = a + 200;
                 var scale = (Math.min(Math.max(v, 200), max_radius) - 200) / (max_radius - 200);
                 var damage_min = abilityModel.getAbilityAttributeValue(ability.attributes, 'damage_min',ability.level());
@@ -2114,7 +2105,7 @@ var abilityData = {
             label: 'Damage Drained:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var tick_duration = Math.floor(v * 4) + 1;
                 var ticks = Math.min(a * 4 + 1, tick_duration);
                 var drain_rate = abilityModel.getAbilityAttributeValue(ability.attributes, 'drain_rate',ability.level());
@@ -2128,7 +2119,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             display: 'hidden',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var tick_duration = Math.floor(v * 4) + 1;
                 var ticks = Math.min(a * 4 + 1, tick_duration);
                 var drain_rate = abilityModel.getAbilityAttributeValue(ability.attributes, 'drain_rate',ability.level());
@@ -2146,7 +2137,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2160,7 +2151,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a * (1 - v*abilityModel.getAbilityAttributeValue(ability.attributes, 'jump_damage_reduction_pct',ability.level())/100);
             }
         },
@@ -2168,7 +2159,7 @@ var abilityData = {
             attributeName: 'hero_attack_damage_reduction',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'bonusDamageReduction'
@@ -2182,7 +2173,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -2197,7 +2188,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2205,7 +2196,7 @@ var abilityData = {
             attributeName: 'epicenter_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2215,7 +2206,7 @@ var abilityData = {
             label: '%ATTACK SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -2230,7 +2221,7 @@ var abilityData = {
             attributeName: 'stack_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var stackmult = [1,2,4,8];
                 if (v > 4) {
                     return a * stackmult[3] + 50 * (v - 4);
@@ -2254,8 +2245,14 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
-                return v*a;
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
+                var talent = TalentController.getTalentById(parent.selectedTalents(), 'special_bonus_unique_nevermore_1');
+                if (talent) {
+                    return v * (a + attributes[0].value[0]);
+                }
+                else {
+                    return v * a;
+                }
             },
             returnProperty: 'bonusDamage'
         }
@@ -2270,7 +2267,7 @@ var abilityData = {
             label: 'Damage:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         },
@@ -2283,7 +2280,7 @@ var abilityData = {
             label: 'Damage/Heal:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v*a/100;
             }
         },
@@ -2293,7 +2290,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return damage*v[0] + damage*v[1]*a/100;
             }
@@ -2303,7 +2300,7 @@ var abilityData = {
             label: '%DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'baseDamageReductionPct'
@@ -2312,7 +2309,7 @@ var abilityData = {
             attributeName: 'requiem_reduction_ms',
             label: '%DAMAGE REDUCTION:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2326,7 +2323,7 @@ var abilityData = {
         {
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -2340,7 +2337,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return Math.floor(v)*a;
             }
         },
@@ -2348,7 +2345,7 @@ var abilityData = {
             attributeName: 'movespeed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2363,7 +2360,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2377,7 +2374,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2392,7 +2389,7 @@ var abilityData = {
             label: 'Total Damage',
             controlType: 'text',
             display: 'ability',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'bonusAgility'
@@ -2401,7 +2398,7 @@ var abilityData = {
             attributeName: 'stat_loss',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'bonusAllStatsReduction'
@@ -2417,7 +2414,7 @@ var abilityData = {
             label: 'TOTAL HEALTH REGENERATED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*parent.health()*a/100;
             }
         },
@@ -2426,7 +2423,7 @@ var abilityData = {
             label: 'HEALTH GAINED PER SECOND:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return parent.health()*a/100;
             },
             returnProperty: 'healthregen'
@@ -2436,7 +2433,7 @@ var abilityData = {
             label: '%MOVE SPEED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPct'
@@ -2452,7 +2449,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2460,7 +2457,7 @@ var abilityData = {
             attributeName: 'slow_movement_speed',
             label: 'Enemy Movement Speed Slow',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2475,7 +2472,7 @@ var abilityData = {
             attributeName: 'bonus_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -2495,7 +2492,7 @@ var abilityData = {
             attributeName: 'damage_reflection_pct',
             label: 'DAMAGE REFLECTED:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'damageReduction'
@@ -2505,7 +2502,7 @@ var abilityData = {
             label: 'DAMAGE REFLECTED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             }
         }
@@ -2525,7 +2522,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0, 1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')/100*v[1];
             }
         },
@@ -2535,7 +2532,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [0, 1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var distance_intervals = Math.floor(v[1]/100);
                 var travel_cost_base = abilityModel.getAbilityAttributeValue(ability.attributes, 'ball_lightning_travel_cost_base',0);
                 return a + distance_intervals * travel_cost_base;
@@ -2547,7 +2544,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [0, 1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var distance_intervals = Math.floor(v[1]/100);
                 var travel_cost_percent = abilityModel.getAbilityAttributeValue(ability.attributes, 'ball_lightning_travel_cost_percent',0);
                 return a + distance_intervals * travel_cost_percent;
@@ -2559,7 +2556,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0, 1, 2, 3],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[2] + ' + ' + (v[3]/100 * v[0]) + ' (' + v[3] + '% of max) = ' + (v[2] + v[3]/100 * v[0]);
             }
         }
@@ -2574,7 +2571,7 @@ var abilityData = {
             label: '%MOVE SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var max_slow = abilityModel.getAbilityAttributeValue(ability.attributes, 'movement_speed_max_tooltip',0);
                 var slow_per_tick = (max_slow - a)/40;
                 return -(a + slow_per_tick * Math.min(Math.max(0, v), 4) * 10);
@@ -2591,7 +2588,7 @@ var abilityData = {
             attributeName: 'bonus_armor',
             label: 'Total Armor Bonus',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'armor'
@@ -2600,7 +2597,7 @@ var abilityData = {
             attributeName: 'bonus_hp_regen',
             label: 'Total HP Regen Bonus',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'healthregen'
@@ -2616,7 +2613,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var interval = abilityModel.getAbilityAttributeValue(ability.attributes, 'damage_interval',0);
                 var ticks = Math.floor(v / interval);
                 return a*interval*ticks;
@@ -2627,7 +2624,7 @@ var abilityData = {
             label: 'MANA COST:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var interval = abilityModel.getAbilityAttributeValue(ability.attributes, 'damage_interval',0);
                 var ticks = Math.floor(v / interval);
                 return a*interval*ticks;
@@ -2641,7 +2638,7 @@ var abilityData = {
             attributeName: 'slow',
             label: 'MANA COST:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var ticks = 20 - Math.floor(Math.min(Math.max(v-1, 0), 99) / 5);
                 return -a*ticks;
             },
@@ -2657,7 +2654,7 @@ var abilityData = {
             attributeName: 'damage',
             label: '%MOVESPEED AS DAMAGE',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -2671,7 +2668,7 @@ var abilityData = {
             attributeName: 'bonus_movespeed_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (v) {
                     return a;
                 }
@@ -2685,7 +2682,7 @@ var abilityData = {
             attributeName: 'chance_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a
             },
             returnProperty: 'bash'
@@ -2700,7 +2697,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2709,7 +2706,7 @@ var abilityData = {
             label: 'AFTER REDUCTIONS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var phys_reduction = parent.enemy().totalArmorPhysicalReduction(),
                     magic_reduction = parent.enemy().totalMagicResistance();
                 return (v * a * (1 - phys_reduction / 100) * (1 - magic_reduction / 100)).toFixed(2);
@@ -2722,7 +2719,7 @@ var abilityData = {
             label: 'FULL DAMAGE AFTER REDUCTIONS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var phys_reduction = parent.enemy().totalArmorPhysicalReduction(),
                     magic_reduction = parent.enemy().totalMagicResistance();
                 return (a * (1 - phys_reduction / 100) * (1 - magic_reduction / 100)).toFixed(2);
@@ -2733,7 +2730,7 @@ var abilityData = {
             label: 'PARTIAL DAMAGE AFTER REDUCTIONS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var phys_reduction = parent.enemy().totalArmorPhysicalReduction(),
                     magic_reduction = parent.enemy().totalMagicResistance();
                 return (a * (1 - phys_reduction / 100) * (1 - magic_reduction / 100)).toFixed(2);
@@ -2744,7 +2741,7 @@ var abilityData = {
             label: 'RESPAWN TIME:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return (parent.respawnTime() / 2).toFixed(0) + ' seconds';
             }
         }
@@ -2758,7 +2755,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2767,7 +2764,7 @@ var abilityData = {
             label: 'AFTER REDUCTIONS:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var magic_reduction = parent.enemy().totalMagicResistance();
                 return (v * a * (1 - magic_reduction / 100)).toFixed(2);
             }
@@ -2783,7 +2780,7 @@ var abilityData = {
             label: 'TOTAL DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -2798,7 +2795,7 @@ var abilityData = {
             label: 'DAMAGE/HEAL:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -2806,7 +2803,7 @@ var abilityData = {
             attributeName: 'movement_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -2822,7 +2819,7 @@ var abilityData = {
             label: 'ATTACK SPEED:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             },
             returnProperty: 'attackspeed'
@@ -2838,7 +2835,7 @@ var abilityData = {
             label: 'STRENGTH STOLEN:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 if (parent.inventory.hasScepter()) {
                     var str_steal_scepter = abilityModel.getAbilityAttributeValue(ability.attributes, 'str_steal_scepter',0);
                     return v*str_steal_scepter;
@@ -2860,7 +2857,7 @@ var abilityData = {
             label: 'DAMAGE/HEAL:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -2875,7 +2872,7 @@ var abilityData = {
             label: '%MOVE SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var min_speed_slow = abilityModel.getAbilityAttributeValue(ability.attributes, 'min_speed_slow', 0);
                 var radius = abilityModel.getAbilityAttributeValue(ability.attributes, 'radius', 0);
                 var full_power_radius = abilityModel.getAbilityAttributeValue(ability.attributes, 'full_power_radius', 0);
@@ -2890,7 +2887,7 @@ var abilityData = {
             label: '%DAMAGE AMP:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var min_damage_amp = abilityModel.getAbilityAttributeValue(ability.attributes, 'min_damage_amp', 0);
                 var radius = abilityModel.getAbilityAttributeValue(ability.attributes, 'radius', 0);
                 var full_power_radius = abilityModel.getAbilityAttributeValue(ability.attributes, 'full_power_radius', 0);
@@ -2918,7 +2915,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [1, 2],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*v[1]*a/100;
             }
         },
@@ -2928,7 +2925,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [1, 3],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]*v[1]*a/100;
             }
         },
@@ -2938,7 +2935,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [4, 5],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v[0]+v[1];
             }
         }
@@ -2952,7 +2949,7 @@ var abilityData = {
             attributeName: 'damage_per_stack',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var enrageAbility = abilityModel.abilities().find(function(b) {
                     return b.name == 'ursa_enrage';
                 });
@@ -2970,7 +2967,7 @@ var abilityData = {
             attributeName: 'damage_reduction',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -a;
             },
             returnProperty: 'damageReduction'
@@ -2985,7 +2982,7 @@ var abilityData = {
             attributeName: 'tick_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityAttributeValue(ability.attributes, 'strike_damage',ability.level()) + Math.floor(v/3)*a;
             }
         },
@@ -2993,7 +2990,7 @@ var abilityData = {
             attributeName: 'movement_slow',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -3008,7 +3005,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3016,7 +3013,7 @@ var abilityData = {
             attributeName: 'movement_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -3031,7 +3028,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -3045,7 +3042,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3053,7 +3050,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -3062,7 +3059,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -3077,7 +3074,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3085,7 +3082,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -3094,7 +3091,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -3103,7 +3100,7 @@ var abilityData = {
             attributeName: 'bonus_magic_resistance',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'magicResist'
@@ -3118,7 +3115,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3126,7 +3123,7 @@ var abilityData = {
             attributeName: 'bonus_movement_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'movementSpeedPctReduction'
@@ -3135,7 +3132,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeedreduction'
@@ -3151,7 +3148,7 @@ var abilityData = {
             label: 'Total Damage:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var soul_base_damage = abilityModel.getAbilityAttributeValue(ability.attributes, 'soul_base_damage',0);
                 var stack_limit = abilityModel.getAbilityAttributeValue(ability.attributes, 'stack_limit', ability.level());
                 stack_limit = Math.max(Math.min(v, stack_limit), 0);
@@ -3169,7 +3166,7 @@ var abilityData = {
             label: 'DAMAGE REDUCTION:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'damageReduction'
@@ -3184,7 +3181,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -3199,7 +3196,7 @@ var abilityData = {
             label: '%MOVE SLOW:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var max_slow = abilityModel.getAbilityAttributeValue(ability.attributes, 'max_slow',0);
                 var slow_per_tick = max_slow / (a - 0.5) / 2;
                 var ticks = Math.max(Math.floor(v * 2) - 1, 0);
@@ -3217,7 +3214,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3225,7 +3222,7 @@ var abilityData = {
             attributeName: 'armor_reduction',
             label: 'DAMAGE:',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return -v*a;
             },
             returnProperty: 'armorReduction'
@@ -3240,7 +3237,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*v;
             }
         }
@@ -3260,7 +3257,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'text',
             controls: [0,1],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var base_heal = abilityModel.getAbilityAttributeValue(ability.attributes, 'heal_additive',ability.level());
                 return (base_heal + v[1] * a/100) * v[0];
             }
@@ -3275,7 +3272,7 @@ var abilityData = {
             attributeName: 'hero_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3283,7 +3280,7 @@ var abilityData = {
             attributeName: 'creep_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -3298,7 +3295,7 @@ var abilityData = {
             label: 'HP DRAINED:',
             ignoreTooltip: true, 
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3311,7 +3308,7 @@ var abilityData = {
             label: 'MP DRAINED:',
             ignoreTooltip: true, 
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         },
@@ -3319,7 +3316,7 @@ var abilityData = {
             attributeName: 'bonus_attack_speed',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'attackspeed'
@@ -3328,7 +3325,7 @@ var abilityData = {
             attributeName: 'bonus_damage_pct',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return a;
             },
             returnProperty: 'damageReduction'
@@ -3343,7 +3340,7 @@ var abilityData = {
             attributeName: 'hero_damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var bounces = abilityModel.getAbilityAttributeValue(ability.attributes, 'bounces',ability.level());
                 return Math.min(Math.max(v, 0), bounces)*a;
             }
@@ -3357,7 +3354,7 @@ var abilityData = {
             label: 'CREEP DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var bounces = abilityModel.getAbilityAttributeValue(ability.attributes, 'bounces',ability.level());
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return Math.min(Math.max(v, 0), bounces)*damage;
@@ -3373,7 +3370,7 @@ var abilityData = {
             attributeName: 'heal',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var interval = abilityModel.getAbilityAttributeValue(ability.attributes, 'heal_interval',ability.level());
                 var heal_per_tick = a * interval;
                 var ticks = Math.max(Math.floor(v / interval) - 1, 0);
@@ -3385,7 +3382,7 @@ var abilityData = {
             label: 'MANA COST:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var interval = abilityModel.getAbilityAttributeValue(ability.attributes, 'heal_interval',ability.level());
                 var mana_per_tick = a * interval;
                 var ticks = Math.max(Math.floor(v / interval) - 1, 0);
@@ -3411,7 +3408,7 @@ var abilityData = {
             label: 'Dot Damage after 3s:',
             ignoreTooltip: true,
             controlType: 'method',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return 3*damage;
             }
@@ -3422,7 +3419,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [0, 3],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 var d = v.reduce(function (memo, o) { return memo + o }, 0);
                 return Math.max(d, 0) * a/100;
@@ -3433,7 +3430,7 @@ var abilityData = {
             label: 'Dot Damage after 7s:',
             ignoreTooltip: true,
             controlType: 'method',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return 7*damage;
             }
@@ -3444,7 +3441,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [0, 1, 4, 5],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 var d = v.reduce(function (memo, o) { return memo + o }, 0);
                 return Math.max(d, 0) * a/100;
@@ -3455,7 +3452,7 @@ var abilityData = {
             label: 'Dot Damage after 11s:',
             ignoreTooltip: true,
             controlType: 'method',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return 11*damage;
             }
@@ -3466,7 +3463,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [0, 1, 2, 4, 6, 7],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 var d = v.reduce(function (memo, o) { return memo + o }, 0);
                 return Math.max(d, 0) * a/100;
@@ -3478,7 +3475,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [4, 6, 8],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v.reduce(function (memo, o) { return memo + o }, 0);
             }
         },
@@ -3488,7 +3485,7 @@ var abilityData = {
             ignoreTooltip: true,
             controlType: 'method',
             controls: [9],
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var duration = abilityModel.getAbilityAttributeValue(ability.attributes, 'duration_tooltip',0);
                 var damage = abilityModel.getAbilityPropertyValue(ability, 'damage');
                 return damage * duration + v[0];
@@ -3502,7 +3499,7 @@ var abilityData = {
             attributeName: 'bonus_damage',
             label: 'DOT Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var duration = abilityModel.getAbilityAttributeValue(ability.attributes, 'duration_tooltip',0);
                 return abilityModel.getAbilityPropertyValue(ability, 'damage')*Math.min(Math.max(v, 0), duration);
             }
@@ -3517,7 +3514,7 @@ var abilityData = {
             attributeName: 'damage',
             label: 'Total Damage',
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a;
             }
         }
@@ -3532,7 +3529,7 @@ var abilityData = {
             label: 'DAMAGE:',
             ignoreTooltip: true,
             controlType: 'text',
-            fn: function (v, a, parent, index, abilityModel, ability) {
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 return v*a/100;
             }
         }
