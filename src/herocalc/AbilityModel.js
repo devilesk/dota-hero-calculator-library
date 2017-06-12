@@ -1,7 +1,7 @@
 'use strict';
 var ko = require('./herocalc_knockout');
 var abilityData = require("./herocalc_abilitydata");
-var TalentController = require("./TalentController");
+var TalentController = require("./hero/TalentController");
 
 var AbilityModel = function (a, h) {
     var self = this;

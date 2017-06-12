@@ -2248,7 +2248,7 @@ var abilityData = {
             fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
                 var talent = TalentController.getTalentById(parent.selectedTalents(), 'special_bonus_unique_nevermore_1');
                 if (talent) {
-                    return v * (a + attributes[0].value[0]);
+                    return v * (a + talent.attributes[0].value[0]);
                 }
                 else {
                     return v * a;
