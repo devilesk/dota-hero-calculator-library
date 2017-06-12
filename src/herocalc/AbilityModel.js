@@ -1,6 +1,7 @@
 'use strict';
 var ko = require('./herocalc_knockout');
 var abilityData = require("./herocalc_abilitydata");
+var TalentController = require("./TalentController");
 
 var AbilityModel = function (a, h) {
     var self = this;
@@ -197,7 +198,7 @@ var AbilityModel = function (a, h) {
                 inputValue = v_list;
             }
             
-            var returnVal = fn.call(this, inputValue, attributeValue(), parent, index, abilityModel, _ability);
+            var returnVal = fn.call(this, inputValue, attributeValue(), parent, index, abilityModel, _ability, TalentController);
             if (returnProperty != undefined) {
                 _ability[returnProperty](returnVal);
             }
