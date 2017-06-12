@@ -1,4 +1,12 @@
 module.exports = {
+    getTalentById: function (talents, talentId) {
+        for (var i = 0; i < talents.length; i++) {
+            var ability = talents[i];
+            if (ability.name == talentId) {
+                return ability;
+            }
+        }
+    },
     getBonusDamage: function (talents) {
         var totalAttribute = 0;
         var sources = {};
