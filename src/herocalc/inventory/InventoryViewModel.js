@@ -1236,6 +1236,12 @@ var InventoryViewModel = function (itemData, h) {
                             totalAttribute += parseInt(attribute.value[0]);
                         }
                     break;
+                    // moon_shard
+                    case 'consumed_bonus_night_vision':
+                        if (item == 'moon_shard' && isActive) {
+                            totalAttribute += parseInt(attribute.value[0]);
+                        }
+                    break;
                 }
             }
         }
