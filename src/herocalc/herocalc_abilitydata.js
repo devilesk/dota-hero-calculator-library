@@ -1521,6 +1521,40 @@ var abilityData = {
             }
         }
     ],
+    'lycan_howl': [
+        {
+            label: 'Is Night',
+            controlType: 'checkbox'
+        },
+        {
+            attributeName: 'hero_bonus_damage',
+            label: '%CHANCE TO MISS:',
+            controlType: 'text',
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
+                if (v) {
+                    return a*2;
+                }
+                else {
+                    return a;
+                }
+            },
+            returnProperty: 'bonusDamage'
+        },
+        {
+            attributeName: 'hero_bonus_hp',
+            label: '%CHANCE TO MISS:',
+            controlType: 'text',
+            fn: function (v, a, parent, index, abilityModel, ability, TalentController) {
+                if (v) {
+                    return a*2;
+                }
+                else {
+                    return a;
+                }
+            },
+            returnProperty: 'bonusHealth'
+        }
+    ],
     'medusa_mystic_snake': [
         {
             label: 'Jump Count',

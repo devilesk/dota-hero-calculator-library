@@ -506,7 +506,7 @@ var AbilityModel = function (a, h) {
                     }
                 }
                 else if (ability.bonusHealth != undefined) {
-                    // clinkz_death_pact
+                    // clinkz_death_pact,lycan_howl
                     totalAttribute+=ability.bonusHealth();
                 }
             }
@@ -539,10 +539,10 @@ var AbilityModel = function (a, h) {
                             case 'heath_regen':
                             // omniknight_guardian_angel,treant_living_armor,satyr_hellcaller_unholy_aura
                             case 'health_regen':
-                                totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
-                            break;
                             // legion_commander_press_the_attack
                             case 'hp_regen':
+                            // lycan_feral_impulse
+                            case 'bonus_hp_regen':
                                 totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
                             break;
                         }
@@ -1045,15 +1045,6 @@ var AbilityModel = function (a, h) {
                                     }
                                 }
                             break;
-                            // lycan_howl
-                            case 'hero_bonus_damage':
-                                totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level());
-                                sources[ability.name] = {
-                                    'damage': self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level()),
-                                    'damageType': 'physical',
-                                    'displayname': ability.displayname
-                                }
-                            break;
                         }
                     }
                     if (ability.name == 'storm_spirit_overload') {
@@ -1066,7 +1057,7 @@ var AbilityModel = function (a, h) {
                     }
                 }
                 else if (ability.bonusDamage != undefined && ability.bonusDamage() != 0) {
-                    // nevermore_necromastery,ursa_fury_swipes,ursa_enrage,invoker_alacrity,invoker_exort,elder_titan_ancestral_spirit,spectre_desolate,razor_static_link
+                    // nevermore_necromastery,ursa_fury_swipes,ursa_enrage,invoker_alacrity,invoker_exort,elder_titan_ancestral_spirit,spectre_desolate,razor_static_link,lycan_howl
                     totalAttribute+=ability.bonusDamage();
                     sources[ability.name] = {
                         'damage': ability.bonusDamage(),
@@ -1103,6 +1094,17 @@ var AbilityModel = function (a, h) {
                             // magnataur_empower,vengefulspirit_command_aura,alpha_wolf_command_aura
                             case 'bonus_damage_pct':
                                 if (ability.name == 'magnataur_empower' || ability.name == 'vengefulspirit_command_aura' || ability.name == 'alpha_wolf_command_aura') {
+                                    totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level())/100;
+                                    sources[ability.name] = {
+                                        'damage': self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level())/100,
+                                        'damageType': 'physical',
+                                        'displayname': ability.displayname
+                                    }
+                                }
+                            break;
+                            // lycan_feral_impulse
+                            case 'bonus_damage':
+                                if (ability.name == 'lycan_feral_impulse') {
                                     totalAttribute += self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level())/100;
                                     sources[ability.name] = {
                                         'damage': self.getAbilityAttributeValue(self._abilities[i].attributes, attribute.name, ability.level())/100,
