@@ -1648,6 +1648,11 @@ var AbilityModel = function (a, h) {
         return totalAttribute;
     });
     
+    self.getUniqueCooldownReductionFlat = function (ability) {
+        var cooldownMap = TalentController.getUniqueCooldownReductionFlat(self.hero.selectedTalents());
+        return cooldownMap[ability] || 0;
+    }
+    
     self.getCooldownReductionFlat = ko.computed(function () {
         var totalAttribute = 0;
         for (var i = 0; i < self.abilities().length; i++) {

@@ -1,3 +1,6 @@
+var cooldownTalents = require('./cooldownTalents');
+var talentAbilityMap = require('./talentAbilityMap');
+
 module.exports = {
     getTalentById: function (talents, talentId) {
         for (var i = 0; i < talents.length; i++) {
@@ -79,6 +82,19 @@ module.exports = {
             var ability = talents[i];
             if (ability.name.startsWith('special_bonus_spell_amplify_')) {
                 totalAttribute += ability.attributes[0].value[0];
+            }
+        }
+        return totalAttribute;
+    },
+    getUniqueCooldownReductionFlat: function (talents) {
+        var totalAttribute = {};
+        for (var i = 0; i < talents.length; i++) {
+            var talent = talents[i];
+            if (cooldownTalents.indexOf(talent.name) != -1) {
+                var abilities = [].concat(talentAbilityMap[talent.name]);
+                abilities.forEach(function (ability) {
+                    totalAttribute[ability] = talent.attributes[0].value[0];
+                });
             }
         }
         return totalAttribute;
