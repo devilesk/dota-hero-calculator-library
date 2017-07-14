@@ -13,6 +13,7 @@
     "url": "https://github.com/devilesk/dota-hero-calculator-library/issues"
   },
   "scripts": {
+    "data": "cp -r node_modules/dota-datafiles/dist/. src/herocalc/data/",
     "clean:build": "rm -rf dist/*",
     "build": "npm run clean:build && npm run browserify:dev && npm run browserify:prod",
     "browserify:dev": "browserify -d -x 'knockout' -x 'jquery' --standalone HeroCalc src/herocalc/main.js | exorcist dist/herocalc.js.map > dist/herocalc.js",
